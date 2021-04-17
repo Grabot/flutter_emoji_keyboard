@@ -27,13 +27,37 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+
+  final TextEditingController _controller = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    _controller.addListener(() {
+      final String text = _controller.text.toLowerCase();
+      _controller.value = _controller.value.copyWith(
+        text: text,
+        selection:
+        TextSelection(baseOffset: text.length, extentOffset: text.length),
+        composing: TextRange.empty,
+      );
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: Container()
+      body: Container(
+        alignment: Alignment.center,
+        padding: const EdgeInsets.all(6),
+        child: TextFormField(
+          controller: _controller,
+          decoration: const InputDecoration(border: OutlineInputBorder()),
+        ),
+      ),
     );
   }
 }
