@@ -11,14 +11,18 @@ import 'package:emoji_keyboard/emoji/travel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import 'emoji_grid.dart';
+
 class EmojiPage extends StatefulWidget {
 
   EmojiPage({
     Key key,
-    this.bromotionController
+    this.bromotionController,
+    this.emojiScrollShowBottomBar
   }): super(key: key);
 
   final TextEditingController bromotionController;
+  final Function(bool) emojiScrollShowBottomBar;
 
   @override
   _EmojiPageState createState() => _EmojiPageState();
@@ -36,7 +40,7 @@ class _EmojiPageState extends State<EmojiPage> {
   List symbols;
   List flags;
 
-  ScrollController scrollController;
+  PageController pageController;
   TextEditingController bromotionController;
 
   void textInputHandler(String text) => print(text);
@@ -58,7 +62,7 @@ class _EmojiPageState extends State<EmojiPage> {
 
     this.bromotionController = widget.bromotionController;
 
-    scrollController = new ScrollController();
+    pageController = new PageController();
 
     super.initState();
   }
@@ -124,43 +128,45 @@ class _EmojiPageState extends State<EmojiPage> {
         "isAvailable", {"emojis": this.flags});
   }
 
-  GridView emojiGrid(List emojis) {
-    return GridView.builder(
-        shrinkWrap: true,
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 8,
-        ),
-        itemCount: emojis.length,
-        itemBuilder: (BuildContext ctx, index) {
-          return TextButton(
-              onPressed: () {
-                print("pressed ${emojis[index]}");
-              },
-              child: Text(
-                  emojis[index],
-                  style: TextStyle(
-                      fontSize: 25
-                  )
-              )
-          );
-        }
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Container(
       height: 250,
       child: PageView(
+        controller: pageController,
         children: [
-          emojiGrid(smileys),
-          emojiGrid(animals),
-          emojiGrid(foods),
-          emojiGrid(activities),
-          emojiGrid(travel),
-          emojiGrid(objects),
-          emojiGrid(symbols),
-          emojiGrid(flags)
+          EmojiGrid(
+              emojis: smileys,
+              emojiScrollShowBottomBar: widget.emojiScrollShowBottomBar
+          ),
+          EmojiGrid(
+              emojis: animals,
+              emojiScrollShowBottomBar: widget.emojiScrollShowBottomBar
+          ),
+          EmojiGrid(
+              emojis: foods,
+              emojiScrollShowBottomBar: widget.emojiScrollShowBottomBar
+          ),
+          EmojiGrid(
+              emojis: activities,
+              emojiScrollShowBottomBar: widget.emojiScrollShowBottomBar
+          ),
+          EmojiGrid(
+              emojis: travel,
+              emojiScrollShowBottomBar: widget.emojiScrollShowBottomBar
+          ),
+          EmojiGrid(
+              emojis: objects,
+              emojiScrollShowBottomBar: widget.emojiScrollShowBottomBar
+          ),
+          EmojiGrid(
+              emojis: symbols,
+              emojiScrollShowBottomBar: widget.emojiScrollShowBottomBar
+          ),
+          EmojiGrid(
+              emojis: flags,
+              emojiScrollShowBottomBar: widget.emojiScrollShowBottomBar
+          )
         ]
       ),
     );
