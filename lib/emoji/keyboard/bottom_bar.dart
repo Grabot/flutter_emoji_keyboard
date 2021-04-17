@@ -4,10 +4,12 @@ import 'package:flutter/material.dart';
 class BottomBar extends StatefulWidget {
 
   final TextEditingController bromotionController;
+  final Function emojiSearch;
 
   BottomBar({
     Key key,
     this.bromotionController,
+    this.emojiSearch
   }):super(key:key);
 
   @override
@@ -113,7 +115,7 @@ class BottomBarState extends State<BottomBar> {
                         height: MediaQuery.of(context).size.width / 8,
                         child: TextButton(
                             onPressed: () {
-                              print("pressed search");
+                              widget.emojiSearch();
                             },
                             child: Icon(Icons.search)
                         )

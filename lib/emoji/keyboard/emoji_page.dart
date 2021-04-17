@@ -19,11 +19,13 @@ class EmojiPage extends StatefulWidget {
 
   EmojiPage({
     Key key,
+    this.emojiKeyboardHeight,
     this.bromotionController,
     this.emojiScrollShowBottomBar,
     this.switchedPage
   }): super(key: key);
 
+  final double emojiKeyboardHeight;
   final TextEditingController bromotionController;
   final Function(bool) emojiScrollShowBottomBar;
   final Function(int) switchedPage;
@@ -206,7 +208,7 @@ class EmojiPageState extends State<EmojiPage> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 250,
+      height: widget.emojiKeyboardHeight-50,
       child: PageView(
         controller: pageController,
         children: [

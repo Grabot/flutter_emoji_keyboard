@@ -31,6 +31,8 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
 
+  double emojiKeyboardHeight = 300;
+
   bool showEmojiKeyboard;
   final TextEditingController controller = TextEditingController();
 
@@ -88,14 +90,10 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
           ),
           Align(
-          alignment: Alignment.bottomCenter,
-          child: Container(
-            height: showEmojiKeyboard ? 300 : 0,
-            width: MediaQuery.of(context).size.width,
+            alignment: Alignment.bottomCenter,
             child: EmojiKeyboard(
               bromotionController: controller,
-              emojiKeyboardHeight: 300,
-              )
+              emojiKeyboardHeight: emojiKeyboardHeight,
             ),
           ),
         ]
