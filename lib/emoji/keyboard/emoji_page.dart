@@ -9,6 +9,7 @@ import 'package:emoji_keyboard/emoji/smileys.dart';
 import 'package:emoji_keyboard/emoji/symbols.dart';
 import 'package:emoji_keyboard/emoji/travel.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -19,17 +20,19 @@ class EmojiPage extends StatefulWidget {
   EmojiPage({
     Key key,
     this.bromotionController,
-    this.emojiScrollShowBottomBar
+    this.emojiScrollShowBottomBar,
+    this.switchedPage
   }): super(key: key);
 
   final TextEditingController bromotionController;
   final Function(bool) emojiScrollShowBottomBar;
+  final Function(int) switchedPage;
 
   @override
-  _EmojiPageState createState() => _EmojiPageState();
+  EmojiPageState createState() => EmojiPageState();
 }
 
-class _EmojiPageState extends State<EmojiPage> {
+class EmojiPageState extends State<EmojiPage> {
   static const platform = const MethodChannel("nl.emojikeyboard.emoji/available");
   static String recentEmojisKey = "recentEmojis";
 
@@ -77,7 +80,8 @@ class _EmojiPageState extends State<EmojiPage> {
 
     this.bromotionController = widget.bromotionController;
 
-    pageController = new PageController();
+    pageController = new PageController(initialPage: 1);
+    pageController.addListener(() => pageScrollListener());
 
     super.initState();
   }
@@ -149,6 +153,18 @@ class _EmojiPageState extends State<EmojiPage> {
         "isAvailable", {"emojis": this.flags});
   }
 
+  void navigateCategory(int categoryNumber) {
+    pageController.animateToPage(categoryNumber, duration: Duration(milliseconds: 500), curve: Curves.ease);
+  }
+
+  pageScrollListener() {
+    if (pageController.hasClients) {
+      if (pageController.position.userScrollDirection == ScrollDirection.reverse || pageController.position.userScrollDirection == ScrollDirection.forward) {
+        widget.switchedPage(pageController.page.round());
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -158,39 +174,48 @@ class _EmojiPageState extends State<EmojiPage> {
         children: [
           EmojiGrid(
               emojis: recent,
-              emojiScrollShowBottomBar: widget.emojiScrollShowBottomBar
+              emojiScrollShowBottomBar: widget.emojiScrollShowBottomBar,
+              bromotionController: widget.bromotionController
           ),
           EmojiGrid(
               emojis: smileys,
-              emojiScrollShowBottomBar: widget.emojiScrollShowBottomBar
+              emojiScrollShowBottomBar: widget.emojiScrollShowBottomBar,
+              bromotionController: widget.bromotionController
           ),
           EmojiGrid(
               emojis: animals,
-              emojiScrollShowBottomBar: widget.emojiScrollShowBottomBar
+              emojiScrollShowBottomBar: widget.emojiScrollShowBottomBar,
+              bromotionController: widget.bromotionController
           ),
           EmojiGrid(
               emojis: foods,
-              emojiScrollShowBottomBar: widget.emojiScrollShowBottomBar
+              emojiScrollShowBottomBar: widget.emojiScrollShowBottomBar,
+              bromotionController: widget.bromotionController
           ),
           EmojiGrid(
               emojis: activities,
-              emojiScrollShowBottomBar: widget.emojiScrollShowBottomBar
+              emojiScrollShowBottomBar: widget.emojiScrollShowBottomBar,
+              bromotionController: widget.bromotionController
           ),
           EmojiGrid(
               emojis: travel,
-              emojiScrollShowBottomBar: widget.emojiScrollShowBottomBar
+              emojiScrollShowBottomBar: widget.emojiScrollShowBottomBar,
+              bromotionController: widget.bromotionController
           ),
           EmojiGrid(
               emojis: objects,
-              emojiScrollShowBottomBar: widget.emojiScrollShowBottomBar
+              emojiScrollShowBottomBar: widget.emojiScrollShowBottomBar,
+              bromotionController: widget.bromotionController
           ),
           EmojiGrid(
               emojis: symbols,
-              emojiScrollShowBottomBar: widget.emojiScrollShowBottomBar
+              emojiScrollShowBottomBar: widget.emojiScrollShowBottomBar,
+              bromotionController: widget.bromotionController
           ),
           EmojiGrid(
               emojis: flags,
-              emojiScrollShowBottomBar: widget.emojiScrollShowBottomBar
+              emojiScrollShowBottomBar: widget.emojiScrollShowBottomBar,
+              bromotionController: widget.bromotionController
           )
         ]
       ),

@@ -29,6 +29,19 @@ class CategoryBarState extends State<CategoryBar> {
 
   void onCategorySelect(int category) {
     widget.categoryHandler(category);
+    if (categorySelected != category) {
+      setState(() {
+        categorySelected = category;
+      });
+    }
+  }
+
+  void updateCategoryBar(int categoryNumber) {
+    if (categoryNumber != categorySelected) {
+      setState(() {
+        categorySelected = categoryNumber;
+      });
+    }
   }
 
   @override

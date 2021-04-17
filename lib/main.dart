@@ -94,7 +94,7 @@ class _MyHomePageState extends State<MyHomePage> {
             width: MediaQuery.of(context).size.width,
             child: EmojiKeyboard(
               bromotionController: controller,
-              emojiKeyboardHeight: 300
+              emojiKeyboardHeight: 300,
               )
             ),
           ),

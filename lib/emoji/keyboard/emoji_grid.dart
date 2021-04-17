@@ -6,11 +6,13 @@ class EmojiGrid extends StatefulWidget {
 
   final List emojis;
   final Function(bool) emojiScrollShowBottomBar;
+  final TextEditingController bromotionController;
 
   EmojiGrid({
     Key key,
     this.emojis,
-    this.emojiScrollShowBottomBar
+    this.emojiScrollShowBottomBar,
+    this.bromotionController,
   }) : super(key: key);
 
   @override
@@ -22,10 +24,12 @@ class _EmojiGridState extends State<EmojiGrid> {
 
   List emojis;
   ScrollController scrollController;
+  TextEditingController bromotionController;
 
   @override
   void initState() {
     this.emojis = widget.emojis;
+    this.bromotionController = widget.bromotionController;
 
     scrollController = new ScrollController();
     scrollController.addListener(() => keyboardScrollListener());
@@ -51,10 +55,28 @@ class _EmojiGridState extends State<EmojiGrid> {
     }
   }
 
+  void insertText(String myText) {
+    addRecentEmoji(myText);
+    widget.emojiScrollShowBottomBar(true);
+    final text = bromotionController.text;
+    final textSelection = bromotionController.selection;
+    final newText = text.replaceRange(
+      textSelection.start,
+      textSelection.end,
+      myText,
+    );
+    final myTextLength = myText.length;
+    bromotionController.text = newText;
+    bromotionController.selection = textSelection.copyWith(
+      baseOffset: textSelection.start + myTextLength,
+      extentOffset: textSelection.start + myTextLength,
+    );
+  }
+
   void pressedEmoji(String emoji) {
     widget.emojiScrollShowBottomBar(true);
     addRecentEmoji(emoji);
-    print("pressed $emoji");
+    insertText(emoji);
   }
 
   void addRecentEmoji(String emoji) async {

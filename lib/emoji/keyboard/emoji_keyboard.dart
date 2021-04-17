@@ -22,7 +22,9 @@ class EmojiKeyboard extends StatefulWidget {
 
 class EmojiBoard extends State<EmojiKeyboard> {
 
+  final GlobalKey<CategoryBarState> categoryBarStateKey = GlobalKey<CategoryBarState>();
   final GlobalKey<BottomBarState> bottomBarStateKey = GlobalKey<BottomBarState>();
+  final GlobalKey<EmojiPageState> emojiPageStateKey = GlobalKey<EmojiPageState>();
 
   double emojiKeyboardHeight;
   TextEditingController bromotionController;
@@ -38,7 +40,7 @@ class EmojiBoard extends State<EmojiKeyboard> {
   }
 
   void categoryHandler(int categoryNumber) {
-    print("pressed category $categoryNumber");
+    emojiPageStateKey.currentState.navigateCategory(categoryNumber);
   }
 
   void emojiScrollShowBottomBar(bool emojiScrollShowBottomBar) {
@@ -46,6 +48,10 @@ class EmojiBoard extends State<EmojiKeyboard> {
       this.showBottomBar = emojiScrollShowBottomBar;
       bottomBarStateKey.currentState.emojiScrollShowBottomBar(this.showBottomBar);
     }
+  }
+
+  void switchedPage(int pageNumber) {
+    categoryBarStateKey.currentState.updateCategoryBar(pageNumber);
   }
 
   // TODO: @Skools pass height through widgets
@@ -57,13 +63,16 @@ class EmojiBoard extends State<EmojiKeyboard> {
       child: Column(
           children: [
           CategoryBar(
+            key: categoryBarStateKey,
             categoryHandler: categoryHandler
           ),
           Stack(
             children: [
               EmojiPage(
+                key: emojiPageStateKey,
                 bromotionController: bromotionController,
-                emojiScrollShowBottomBar: emojiScrollShowBottomBar
+                emojiScrollShowBottomBar: emojiScrollShowBottomBar,
+                switchedPage: switchedPage
               ),
               BottomBar(
                 key: bottomBarStateKey,
