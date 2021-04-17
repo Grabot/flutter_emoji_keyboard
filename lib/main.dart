@@ -1,4 +1,7 @@
+import 'package:back_button_interceptor/back_button_interceptor.dart';
 import 'package:flutter/material.dart';
+
+import 'emoji/keyboard/emoji_keyboard.dart';
 
 void main() {
   runApp(MyApp());
@@ -28,20 +31,39 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
 
-  final TextEditingController _controller = TextEditingController();
+  bool showEmojiKeyboard;
+  final TextEditingController controller = TextEditingController();
 
   @override
   void initState() {
+    showEmojiKeyboard = false;
+    BackButtonInterceptor.add(myInterceptor);
     super.initState();
-    _controller.addListener(() {
-      final String text = _controller.text.toLowerCase();
-      _controller.value = _controller.value.copyWith(
-        text: text,
-        selection:
-        TextSelection(baseOffset: text.length, extentOffset: text.length),
-        composing: TextRange.empty,
-      );
-    });
+  }
+
+  @override
+  void dispose() {
+    BackButtonInterceptor.remove(myInterceptor);
+    super.dispose();
+  }
+
+  bool myInterceptor(bool stopDefaultButtonEvent, RouteInfo info) {
+    if (showEmojiKeyboard) {
+      setState(() {
+        showEmojiKeyboard = false;
+      });
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  void onTapEmojiField() {
+    if (!showEmojiKeyboard) {
+      setState(() {
+        showEmojiKeyboard = true;
+      });
+    }
   }
 
   @override
@@ -50,13 +72,33 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: Container(
-        alignment: Alignment.center,
-        padding: const EdgeInsets.all(6),
-        child: TextFormField(
-          controller: _controller,
-          decoration: const InputDecoration(border: OutlineInputBorder()),
-        ),
+      body: Stack(
+        children: [
+        Container(
+          alignment: Alignment.topCenter,
+          padding: const EdgeInsets.all(6),
+          child: TextFormField(
+            onTap: () {
+              onTapEmojiField();
+            },
+            controller: controller,
+            decoration: const InputDecoration(border: OutlineInputBorder()),
+            readOnly: true,
+            showCursor: true,
+            ),
+          ),
+          Align(
+          alignment: Alignment.bottomCenter,
+          child: Container(
+            height: showEmojiKeyboard ? 400 : 0,
+            width: MediaQuery.of(context).size.width,
+            child: EmojiKeyboard(
+              bromotionController: controller,
+              emojiKeyboardHeight: 400
+              ),
+            ),
+          ),
+        ]
       ),
     );
   }
