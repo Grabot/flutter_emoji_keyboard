@@ -151,17 +151,20 @@ class _EmojiPageState extends State<EmojiPage> {
 
   @override
   Widget build(BuildContext context) {
-    return PageView(
-      children: [
-        emojiGrid(smileys),
-        emojiGrid(animals),
-        emojiGrid(foods),
-        emojiGrid(activities),
-        emojiGrid(travel),
-        emojiGrid(objects),
-        emojiGrid(symbols),
-        emojiGrid(flags)
-      ]
+    return Container(
+      height: 250,
+      child: PageView(
+        children: [
+          emojiGrid(smileys),
+          emojiGrid(animals),
+          emojiGrid(foods),
+          emojiGrid(activities),
+          emojiGrid(travel),
+          emojiGrid(objects),
+          emojiGrid(symbols),
+          emojiGrid(flags)
+        ]
+      ),
     );
   }
 

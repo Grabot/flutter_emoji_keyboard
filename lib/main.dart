@@ -90,11 +90,11 @@ class _MyHomePageState extends State<MyHomePage> {
           Align(
           alignment: Alignment.bottomCenter,
           child: Container(
-            height: showEmojiKeyboard ? 250 : 0,
+            height: showEmojiKeyboard ? 300 : 0,
             width: MediaQuery.of(context).size.width,
             child: EmojiKeyboard(
               bromotionController: controller,
-              emojiKeyboardHeight: 250
+              emojiKeyboardHeight: 300
               )
             ),
           ),

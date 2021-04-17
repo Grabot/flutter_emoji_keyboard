@@ -1,3 +1,4 @@
+import 'package:emoji_keyboard/emoji/keyboard/category_bar.dart';
 import 'package:emoji_keyboard/emoji/smileys.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -32,6 +33,10 @@ class EmojiBoard extends State<EmojiKeyboard> {
     super.initState();
   }
 
+  void categoryHandler(int categoryNumber) {
+    print("pressed category $categoryNumber");
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -39,11 +44,11 @@ class EmojiBoard extends State<EmojiKeyboard> {
       color: Colors.grey,
       child: Column(
           children: [
-            SizedBox(
-              height: emojiKeyboardHeight,
-              child: EmojiPage(
-                bromotionController: bromotionController
-              )
+          CategoryBar(
+            categoryHandler: categoryHandler
+          ),
+          EmojiPage(
+              bromotionController: bromotionController
             )
           ]
       ),
