@@ -76,6 +76,7 @@ class EmojiBoard extends State<EmojiKeyboard> {
               ),
               BottomBar(
                 key: bottomBarStateKey,
+                bromotionController: bromotionController,
               ),
             ]
           )
