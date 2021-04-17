@@ -71,6 +71,8 @@ class EmojiPageState extends State<EmojiPage> {
         for (var val in value) {
           recentUsed.add(val.toString());
         }
+        pageController.animateToPage(0, duration: Duration(milliseconds: 500), curve: Curves.ease);
+        widget.switchedPage(0);
         setState(() {
           recent = recentUsed;
         });
@@ -84,6 +86,24 @@ class EmojiPageState extends State<EmojiPage> {
     pageController.addListener(() => pageScrollListener());
 
     super.initState();
+  }
+
+  void addRecentEmoji(String emoji) async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    List<String> currentRecent = preferences.getStringList(recentEmojisKey);
+    if (currentRecent == null || currentRecent == []) {
+      print("creating an empthy list for recent");
+      currentRecent = [];
+    } else {
+      // If the emoji is already in the list, then remove it so it is added in the front.
+      currentRecent.removeWhere((item) => item == emoji);
+    }
+    print("setting a new recent emoji $emoji");
+    currentRecent.insert(0, emoji.toString());
+    preferences.setStringList(recentEmojisKey, recent);
+    setState(() {
+      recent = currentRecent;
+    });
   }
 
   Future getRecentEmoji() async {
@@ -165,6 +185,24 @@ class EmojiPageState extends State<EmojiPage> {
     }
   }
 
+  void insertText(String myText) {
+    addRecentEmoji(myText);
+    widget.emojiScrollShowBottomBar(true);
+    final text = bromotionController.text;
+    final textSelection = bromotionController.selection;
+    final newText = text.replaceRange(
+      textSelection.start,
+      textSelection.end,
+      myText,
+    );
+    final myTextLength = myText.length;
+    bromotionController.text = newText;
+    bromotionController.selection = textSelection.copyWith(
+      baseOffset: textSelection.start + myTextLength,
+      extentOffset: textSelection.start + myTextLength,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -175,47 +213,47 @@ class EmojiPageState extends State<EmojiPage> {
           EmojiGrid(
               emojis: recent,
               emojiScrollShowBottomBar: widget.emojiScrollShowBottomBar,
-              bromotionController: widget.bromotionController
+              insertText: insertText
           ),
           EmojiGrid(
               emojis: smileys,
               emojiScrollShowBottomBar: widget.emojiScrollShowBottomBar,
-              bromotionController: widget.bromotionController
+              insertText: insertText
           ),
           EmojiGrid(
               emojis: animals,
               emojiScrollShowBottomBar: widget.emojiScrollShowBottomBar,
-              bromotionController: widget.bromotionController
+              insertText: insertText
           ),
           EmojiGrid(
               emojis: foods,
               emojiScrollShowBottomBar: widget.emojiScrollShowBottomBar,
-              bromotionController: widget.bromotionController
+              insertText: insertText
           ),
           EmojiGrid(
               emojis: activities,
               emojiScrollShowBottomBar: widget.emojiScrollShowBottomBar,
-              bromotionController: widget.bromotionController
+              insertText: insertText
           ),
           EmojiGrid(
               emojis: travel,
               emojiScrollShowBottomBar: widget.emojiScrollShowBottomBar,
-              bromotionController: widget.bromotionController
+              insertText: insertText
           ),
           EmojiGrid(
               emojis: objects,
               emojiScrollShowBottomBar: widget.emojiScrollShowBottomBar,
-              bromotionController: widget.bromotionController
+              insertText: insertText
           ),
           EmojiGrid(
               emojis: symbols,
               emojiScrollShowBottomBar: widget.emojiScrollShowBottomBar,
-              bromotionController: widget.bromotionController
+              insertText: insertText
           ),
           EmojiGrid(
               emojis: flags,
               emojiScrollShowBottomBar: widget.emojiScrollShowBottomBar,
-              bromotionController: widget.bromotionController
+              insertText: insertText
           )
         ]
       ),
