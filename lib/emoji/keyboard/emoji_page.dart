@@ -10,6 +10,7 @@ import 'package:emoji_keyboard/emoji/symbols.dart';
 import 'package:emoji_keyboard/emoji/travel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'emoji_grid.dart';
 
@@ -30,7 +31,9 @@ class EmojiPage extends StatefulWidget {
 
 class _EmojiPageState extends State<EmojiPage> {
   static const platform = const MethodChannel("nl.emojikeyboard.emoji/available");
+  static String recentEmojisKey = "recentEmojis";
 
+  List<String> recent;
   List smileys;
   List animals;
   List foods;
@@ -58,6 +61,18 @@ class _EmojiPageState extends State<EmojiPage> {
     this.symbols = getEmojis(symbolsList);
     this.flags = getEmojis(flagsList);
 
+    recent = [];
+    getRecentEmoji().then((value) {
+      List<String> recentUsed = [];
+      if (value != null && value != []) {
+        for (var val in value) {
+          recentUsed.add(val.toString());
+        }
+        setState(() {
+          recent = recentUsed;
+        });
+      }
+    });
     isAvailable();
 
     this.bromotionController = widget.bromotionController;
@@ -65,6 +80,12 @@ class _EmojiPageState extends State<EmojiPage> {
     pageController = new PageController();
 
     super.initState();
+  }
+
+  Future getRecentEmoji() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    List<String> recent = preferences.getStringList(recentEmojisKey);
+    return recent;
   }
 
   List<String> getEmojis(emojiList) {
@@ -135,6 +156,10 @@ class _EmojiPageState extends State<EmojiPage> {
       child: PageView(
         controller: pageController,
         children: [
+          EmojiGrid(
+              emojis: recent,
+              emojiScrollShowBottomBar: widget.emojiScrollShowBottomBar
+          ),
           EmojiGrid(
               emojis: smileys,
               emojiScrollShowBottomBar: widget.emojiScrollShowBottomBar

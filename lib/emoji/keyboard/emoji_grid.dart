@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class EmojiGrid extends StatefulWidget {
 
@@ -17,6 +18,7 @@ class EmojiGrid extends StatefulWidget {
 }
 
 class _EmojiGridState extends State<EmojiGrid> {
+  static String recentEmojisKey = "recentEmojis";
 
   List emojis;
   ScrollController scrollController;
@@ -51,7 +53,23 @@ class _EmojiGridState extends State<EmojiGrid> {
 
   void pressedEmoji(String emoji) {
     widget.emojiScrollShowBottomBar(true);
+    addRecentEmoji(emoji);
     print("pressed $emoji");
+  }
+
+  void addRecentEmoji(String emoji) async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    List<String> recent = preferences.getStringList(recentEmojisKey);
+    if (recent == null || recent == []) {
+      recent = [];
+    } else {
+      // If the emoji is already in the list, then remove it so it is added in the front.
+      recent.removeWhere((item) => item == emoji);
+    }
+    setState(() {
+      recent.insert(0, emoji.toString());
+      preferences.setStringList(recentEmojisKey, recent);
+    });
   }
 
   @override
