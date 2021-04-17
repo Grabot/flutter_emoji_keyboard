@@ -1,5 +1,5 @@
+import 'package:emoji_keyboard/emoji/keyboard/bottom_bar.dart';
 import 'package:emoji_keyboard/emoji/keyboard/category_bar.dart';
-import 'package:emoji_keyboard/emoji/smileys.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -37,6 +37,7 @@ class EmojiBoard extends State<EmojiKeyboard> {
     print("pressed category $categoryNumber");
   }
 
+  // TODO: @Skools pass height through widgets
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -47,10 +48,28 @@ class EmojiBoard extends State<EmojiKeyboard> {
           CategoryBar(
             categoryHandler: categoryHandler
           ),
-          EmojiPage(
-              bromotionController: bromotionController
-            )
-          ]
+          Stack(
+            children: [
+              EmojiPage(
+                bromotionController: bromotionController
+              ),
+              Positioned(
+                bottom: 0.0,
+                right: 0.0,
+                left: 0.0,
+                child: AnimatedContainer(
+                  curve: Curves.fastOutSlowIn,
+                  height: 40,
+                  width: MediaQuery.of(context).size.width,
+                  duration: new Duration(seconds: 1),
+                  child: BottomBar(
+
+                  ),
+                )
+              ),
+            ]
+          )
+        ]
       ),
     );
   }

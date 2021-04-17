@@ -11,8 +11,6 @@ import 'package:emoji_keyboard/emoji/travel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import 'emoji_key.dart';
-
 class EmojiPage extends StatefulWidget {
 
   EmojiPage({
