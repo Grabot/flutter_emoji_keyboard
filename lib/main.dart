@@ -1,5 +1,4 @@
 import 'package:back_button_interceptor/back_button_interceptor.dart';
-import 'package:emoji_picker/emoji_picker.dart';
 import 'package:flutter/material.dart';
 
 import 'emoji/keyboard/emoji_keyboard.dart';
@@ -91,11 +90,11 @@ class _MyHomePageState extends State<MyHomePage> {
           Align(
           alignment: Alignment.bottomCenter,
           child: Container(
-            height: showEmojiKeyboard ? 300 : 0,
+            height: showEmojiKeyboard ? 250 : 0,
             width: MediaQuery.of(context).size.width,
             child: EmojiKeyboard(
               bromotionController: controller,
-              emojiKeyboardHeight: 300
+              emojiKeyboardHeight: 250
               )
             ),
           ),

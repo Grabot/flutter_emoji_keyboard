@@ -32,14 +32,6 @@ class EmojiBoard extends State<EmojiKeyboard> {
     super.initState();
   }
 
-  List<String> getEmojis(emojiList) {
-    List<String> onlyEmoji = [];
-    for (List<String> emoji in emojiList) {
-      onlyEmoji.add(emoji[1]);
-    }
-    return onlyEmoji;
-  }
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -50,7 +42,6 @@ class EmojiBoard extends State<EmojiKeyboard> {
             SizedBox(
               height: emojiKeyboardHeight,
               child: EmojiPage(
-                emojis: getEmojis(smileysList),
                 bromotionController: bromotionController
               )
             )
