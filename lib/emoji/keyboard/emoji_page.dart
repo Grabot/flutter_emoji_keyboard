@@ -22,13 +22,17 @@ class EmojiPage extends StatefulWidget {
     this.emojiKeyboardHeight,
     this.bromotionController,
     this.emojiScrollShowBottomBar,
-    this.switchedPage
+    this.insertText,
+    this.switchedPage,
+    this.recent
   }): super(key: key);
 
   final double emojiKeyboardHeight;
   final TextEditingController bromotionController;
   final Function(bool) emojiScrollShowBottomBar;
+  final Function(String) insertText;
   final Function(int) switchedPage;
+  final List<String> recent;
 
   @override
   EmojiPageState createState() => EmojiPageState();
@@ -38,7 +42,7 @@ class EmojiPageState extends State<EmojiPage> {
   static const platform = const MethodChannel("nl.emojikeyboard.emoji/available");
   static String recentEmojisKey = "recentEmojis";
 
-  List<String> recent;
+  // List<String> recent;
   List smileys;
   List animals;
   List foods;
@@ -66,20 +70,20 @@ class EmojiPageState extends State<EmojiPage> {
     this.symbols = getEmojis(symbolsList);
     this.flags = getEmojis(flagsList);
 
-    recent = [];
-    getRecentEmoji().then((value) {
-      List<String> recentUsed = [];
-      if (value != null && value != []) {
-        for (var val in value) {
-          recentUsed.add(val.toString());
-        }
-        pageController.animateToPage(0, duration: Duration(milliseconds: 500), curve: Curves.ease);
-        widget.switchedPage(0);
-        setState(() {
-          recent = recentUsed;
-        });
-      }
-    });
+    // recent = [];
+    // getRecentEmoji().then((value) {
+    //   List<String> recentUsed = [];
+    //   if (value != null && value != []) {
+    //     for (var val in value) {
+    //       recentUsed.add(val.toString());
+    //     }
+    //     pageController.animateToPage(0, duration: Duration(milliseconds: 500), curve: Curves.ease);
+    //     widget.switchedPage(0);
+    //     setState(() {
+    //       recent = recentUsed;
+    //     });
+    //   }
+    // });
     isAvailable();
 
     this.bromotionController = widget.bromotionController;
@@ -88,36 +92,6 @@ class EmojiPageState extends State<EmojiPage> {
     pageController.addListener(() => pageScrollListener());
 
     super.initState();
-  }
-
-  void addRecentEmoji(String emoji) async {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    getRecentEmoji().then((value) {
-      List<String> recentUsed = [];
-      if (value != null && value != []) {
-        for (var val in value) {
-          recentUsed.add(val.toString());
-        }
-        if (recentUsed == null || recentUsed == []) {
-          print("creating an empthy list for recent");
-          recentUsed = [];
-        } else {
-          // If the emoji is already in the list, then remove it so it is added in the front.
-          recentUsed.removeWhere((item) => item == emoji);
-        }
-        recentUsed.insert(0, emoji.toString());
-        preferences.setStringList(recentEmojisKey, recent);
-        setState(() {
-          recent = recentUsed;
-        });
-      }
-    });
-  }
-
-  Future getRecentEmoji() async {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    List<String> recent = preferences.getStringList(recentEmojisKey);
-    return recent;
   }
 
   List<String> getEmojis(emojiList) {
@@ -193,24 +167,6 @@ class EmojiPageState extends State<EmojiPage> {
     }
   }
 
-  void insertText(String myText) {
-    addRecentEmoji(myText);
-    widget.emojiScrollShowBottomBar(true);
-    final text = bromotionController.text;
-    final textSelection = bromotionController.selection;
-    final newText = text.replaceRange(
-      textSelection.start,
-      textSelection.end,
-      myText,
-    );
-    final myTextLength = myText.length;
-    bromotionController.text = newText;
-    bromotionController.selection = textSelection.copyWith(
-      baseOffset: textSelection.start + myTextLength,
-      extentOffset: textSelection.start + myTextLength,
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -219,49 +175,49 @@ class EmojiPageState extends State<EmojiPage> {
         controller: pageController,
         children: [
           EmojiGrid(
-              emojis: recent,
+              emojis: widget.recent,
               emojiScrollShowBottomBar: widget.emojiScrollShowBottomBar,
-              insertText: insertText
+              insertText: widget.insertText
           ),
           EmojiGrid(
               emojis: smileys,
               emojiScrollShowBottomBar: widget.emojiScrollShowBottomBar,
-              insertText: insertText
+              insertText: widget.insertText
           ),
           EmojiGrid(
               emojis: animals,
               emojiScrollShowBottomBar: widget.emojiScrollShowBottomBar,
-              insertText: insertText
+              insertText: widget.insertText
           ),
           EmojiGrid(
               emojis: foods,
               emojiScrollShowBottomBar: widget.emojiScrollShowBottomBar,
-              insertText: insertText
+              insertText: widget.insertText
           ),
           EmojiGrid(
               emojis: activities,
               emojiScrollShowBottomBar: widget.emojiScrollShowBottomBar,
-              insertText: insertText
+              insertText: widget.insertText
           ),
           EmojiGrid(
               emojis: travel,
               emojiScrollShowBottomBar: widget.emojiScrollShowBottomBar,
-              insertText: insertText
+              insertText: widget.insertText
           ),
           EmojiGrid(
               emojis: objects,
               emojiScrollShowBottomBar: widget.emojiScrollShowBottomBar,
-              insertText: insertText
+              insertText: widget.insertText
           ),
           EmojiGrid(
               emojis: symbols,
               emojiScrollShowBottomBar: widget.emojiScrollShowBottomBar,
-              insertText: insertText
+              insertText: widget.insertText
           ),
           EmojiGrid(
               emojis: flags,
               emojiScrollShowBottomBar: widget.emojiScrollShowBottomBar,
-              insertText: insertText
+              insertText: widget.insertText
           )
         ]
       ),

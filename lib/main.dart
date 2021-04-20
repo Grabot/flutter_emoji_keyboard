@@ -52,7 +52,6 @@ class _MyHomePageState extends State<MyHomePage> {
   bool myInterceptor(bool stopDefaultButtonEvent, RouteInfo info) {
     if (showEmojiKeyboard) {
       setState(() {
-        print("does it set the state here!?!?");
         showEmojiKeyboard = false;
       });
       return true;

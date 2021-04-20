@@ -9,7 +9,7 @@ class BottomBar extends StatefulWidget {
   BottomBar({
     Key key,
     this.bromotionController,
-    this.emojiSearch
+    this.emojiSearch,
   }):super(key:key);
 
   @override

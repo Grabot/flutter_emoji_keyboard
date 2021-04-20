@@ -2,6 +2,7 @@ import 'package:emoji_keyboard/emoji/keyboard/bottom_bar.dart';
 import 'package:emoji_keyboard/emoji/keyboard/category_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:keyboard_visibility/keyboard_visibility.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:back_button_interceptor/back_button_interceptor.dart';
 import 'emoji_page.dart';
@@ -33,11 +34,13 @@ class EmojiBoard extends State<EmojiKeyboard> {
   FocusNode focusSearchEmoji;
   final TextEditingController searchController = TextEditingController();
   List<String> searchedEmojis;
+  TextSelection rememberPosition;
 
   double emojiKeyboardHeight;
   TextEditingController bromotionController;
   bool showBottomBar;
   bool searchMode;
+  List<String> recent;
 
   @override
   void initState() {
@@ -46,6 +49,30 @@ class EmojiBoard extends State<EmojiKeyboard> {
     this.showBottomBar = true;
     this.searchMode = false;
     this.searchedEmojis = [];
+
+    this.recent = [];
+    getRecentEmoji().then((value) {
+      List<String> recentUsed = [];
+      if (value != null && value != []) {
+        for (var val in value) {
+          recentUsed.add(val.toString());
+        }
+        setState(() {
+          recent = recentUsed;
+        });
+        categoryHandler(0);
+        switchedPage(0);
+      }
+    });
+
+    KeyboardVisibilityNotification().addNewListener(
+      onHide: () {
+        if (searchMode) {
+          setState(() {
+            searchMode = false;
+          });
+        }
+      });
 
     this.focusSearchEmoji = FocusNode();
     BackButtonInterceptor.add(myInterceptor);
@@ -92,6 +119,7 @@ class EmojiBoard extends State<EmojiKeyboard> {
     setState(() {
       this.searchMode = true;
     });
+    rememberPosition = bromotionController.selection;
     focusSearchEmoji.requestFocus();
   }
 
@@ -134,6 +162,67 @@ class EmojiBoard extends State<EmojiKeyboard> {
     return recent;
   }
 
+  void addRecentEmoji(String emoji) async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    getRecentEmoji().then((value) {
+      List<String> recentUsed = [];
+      if (value != null && value != []) {
+        for (var val in value) {
+          recentUsed.add(val.toString());
+        }
+        if (recentUsed == null || recentUsed == []) {
+          print("creating an empthy list for recent");
+          recentUsed = [];
+        } else {
+          // If the emoji is already in the list, then remove it so it is added in the front.
+          recentUsed.removeWhere((item) => item == emoji);
+        }
+        recentUsed.insert(0, emoji.toString());
+        preferences.setStringList(recentEmojisKey, recent);
+        setState(() {
+          recent = recentUsed;
+        });
+      }
+    });
+  }
+
+  void insertTextSearch(String myText) {
+    final text = bromotionController.text;
+    final textSelection = rememberPosition;
+    final newText = text.replaceRange(
+      textSelection.start,
+      textSelection.end,
+      myText,
+    );
+    final myTextLength = myText.length;
+    bromotionController.text = newText;
+    bromotionController.selection = textSelection.copyWith(
+      baseOffset: textSelection.start + myTextLength,
+      extentOffset: textSelection.start + myTextLength,
+    );
+    setState(() {
+      searchMode = false;
+    });
+  }
+
+  void insertText(String myText) {
+    addRecentEmoji(myText);
+    emojiScrollShowBottomBar(true);
+    final text = bromotionController.text;
+    final textSelection = bromotionController.selection;
+    final newText = text.replaceRange(
+      textSelection.start,
+      textSelection.end,
+      myText,
+    );
+    final myTextLength = myText.length;
+    bromotionController.text = newText;
+    bromotionController.selection = textSelection.copyWith(
+      baseOffset: textSelection.start + myTextLength,
+      extentOffset: textSelection.start + myTextLength,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -156,12 +245,14 @@ class EmojiBoard extends State<EmojiKeyboard> {
                         emojiKeyboardHeight: emojiKeyboardHeight,
                         bromotionController: bromotionController,
                         emojiScrollShowBottomBar: emojiScrollShowBottomBar,
+                        insertText: insertText,
+                        recent: recent,
                         switchedPage: switchedPage
                       ),
                       BottomBar(
                         key: bottomBarStateKey,
                         bromotionController: bromotionController,
-                        emojiSearch: emojiSearch
+                        emojiSearch: emojiSearch,
                       ),
                     ]
                   )
@@ -169,12 +260,11 @@ class EmojiBoard extends State<EmojiKeyboard> {
               ),
             ),
             searchMode ? Container(
-              color: Colors.yellow,
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Container(
-                    height: MediaQuery.of(context).size.width / 6, // 6 items to fill screen
+                    height: MediaQuery.of(context).size.width / 8, // 8 items to fill screen
                     child: ListView.builder(
                       scrollDirection: Axis.horizontal,
                       // Let the ListView know how many items it needs to build.
@@ -184,12 +274,12 @@ class EmojiBoard extends State<EmojiKeyboard> {
                       itemBuilder: (context, index) {
                         return TextButton(
                             onPressed: () {
-                              print("did a press thing ${searchedEmojis[index]}");
+                              insertTextSearch(searchedEmojis[index]);
                             },
                             child: Text(
                                 searchedEmojis[index],
                                 style: TextStyle(
-                                    fontSize: 40
+                                    fontSize: 25
                                 )
                             )
                         );
