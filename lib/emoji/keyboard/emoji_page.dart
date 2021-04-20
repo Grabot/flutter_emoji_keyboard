@@ -92,19 +92,25 @@ class EmojiPageState extends State<EmojiPage> {
 
   void addRecentEmoji(String emoji) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
-    List<String> currentRecent = preferences.getStringList(recentEmojisKey);
-    if (currentRecent == null || currentRecent == []) {
-      print("creating an empthy list for recent");
-      currentRecent = [];
-    } else {
-      // If the emoji is already in the list, then remove it so it is added in the front.
-      currentRecent.removeWhere((item) => item == emoji);
-    }
-    print("setting a new recent emoji $emoji");
-    currentRecent.insert(0, emoji.toString());
-    preferences.setStringList(recentEmojisKey, recent);
-    setState(() {
-      recent = currentRecent;
+    getRecentEmoji().then((value) {
+      List<String> recentUsed = [];
+      if (value != null && value != []) {
+        for (var val in value) {
+          recentUsed.add(val.toString());
+        }
+        if (recentUsed == null || recentUsed == []) {
+          print("creating an empthy list for recent");
+          recentUsed = [];
+        } else {
+          // If the emoji is already in the list, then remove it so it is added in the front.
+          recentUsed.removeWhere((item) => item == emoji);
+        }
+        recentUsed.insert(0, emoji.toString());
+        preferences.setStringList(recentEmojisKey, recent);
+        setState(() {
+          recent = recentUsed;
+        });
+      }
     });
   }
 

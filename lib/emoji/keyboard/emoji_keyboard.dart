@@ -3,19 +3,22 @@ import 'package:emoji_keyboard/emoji/keyboard/category_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
+import 'package:back_button_interceptor/back_button_interceptor.dart';
 import 'emoji_page.dart';
+import 'emoji_searching.dart';
 
 
 class EmojiKeyboard extends StatefulWidget {
 
   final TextEditingController bromotionController;
   final double emojiKeyboardHeight;
+  final bool showEmojiKeyboard;
 
   EmojiKeyboard({
     Key key,
     this.bromotionController,
-    this.emojiKeyboardHeight
+    this.emojiKeyboardHeight,
+    this.showEmojiKeyboard
   }) : super(key: key);
 
   EmojiBoard createState() => EmojiBoard();
@@ -29,7 +32,7 @@ class EmojiBoard extends State<EmojiKeyboard> {
 
   FocusNode focusSearchEmoji;
   final TextEditingController searchController = TextEditingController();
-  List searchedEmojis;
+  List<String> searchedEmojis;
 
   double emojiKeyboardHeight;
   TextEditingController bromotionController;
@@ -45,13 +48,26 @@ class EmojiBoard extends State<EmojiKeyboard> {
     this.searchedEmojis = [];
 
     this.focusSearchEmoji = FocusNode();
+    BackButtonInterceptor.add(myInterceptor);
 
     super.initState();
+  }
+
+  bool myInterceptor(bool stopDefaultButtonEvent, RouteInfo info) {
+    if (searchMode) {
+      setState(() {
+        searchMode = false;
+      });
+      return true;
+    } else {
+      return false;
+    }
   }
 
   @override
   void dispose() {
     focusSearchEmoji.dispose();
+    BackButtonInterceptor.remove(myInterceptor);
     super.dispose();
   }
 
@@ -81,19 +97,35 @@ class EmojiBoard extends State<EmojiKeyboard> {
 
   setInitialSearchEmojis() {
     getRecentEmoji().then((value) {
-      List<String> recentUsed = [];
+      List<SearchedEmoji> recommendedEmojis = [];
       if (value != null && value != []) {
         for (var val in value) {
-          recentUsed.add(val.toString());
-          if (recentUsed.length >= 10) {
+          recommendedEmojis.add(SearchedEmoji(
+              name: null,
+              emoji: val.toString(),
+              tier: 1));
+          if (recommendedEmojis.length >= 10) {
             break;
           }
         }
+        List<String> finalEmojis = [];
+        recommendedEmojis.forEach((element) {
+          finalEmojis.add(element.emoji.toString());
+        });
         setState(() {
-          searchedEmojis = recentUsed;
+          searchedEmojis = finalEmojis;
         });
       }
     });
+  }
+
+  updateEmojiSearch(String text) {
+    List finalEmojis = searchEmojis(text);
+    if (finalEmojis != null && finalEmojis != []) {
+      setState(() {
+        searchedEmojis = finalEmojis.toList();
+      });
+    }
   }
 
   Future getRecentEmoji() async {
@@ -104,66 +136,78 @@ class EmojiBoard extends State<EmojiKeyboard> {
 
   @override
   Widget build(BuildContext context) {
-    return searchMode ? Container(
-      height: 160.0,
-      alignment: Alignment.bottomCenter,
-      child: Column(
-        children:
-        [
-          Container(
-            height: 160.0,
-            child: ListView.builder(
-            scrollDirection: Axis.horizontal,
-            itemCount: searchedEmojis.length,
-            itemBuilder: (BuildContext ctx, index) {
-              return TextButton(
-                  onPressed: () {
-                    print(searchedEmojis[index]);
-                  },
-                  child: Text(
-                      searchedEmojis[index],
-                      style: TextStyle(
-                          fontSize: 25
-                      )
-                  )
-              );
-            }
-           ),
-          ),
-          TextFormField(
-            focusNode: focusSearchEmoji,
-            controller: searchController,
-            decoration: const InputDecoration(border: OutlineInputBorder()),
-        ),
-      ]
-      )
-    ) : Container(
-      height: emojiKeyboardHeight,
-      color: Colors.grey,
-      child: Column(
+    return Container(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
-          CategoryBar(
-            key: categoryBarStateKey,
-            categoryHandler: categoryHandler
-          ),
-          Stack(
-            children: [
-              EmojiPage(
-                key: emojiPageStateKey,
-                emojiKeyboardHeight: emojiKeyboardHeight,
-                bromotionController: bromotionController,
-                emojiScrollShowBottomBar: emojiScrollShowBottomBar,
-                switchedPage: switchedPage
+            Container(
+              height: widget.showEmojiKeyboard && !searchMode ? emojiKeyboardHeight : 0,
+              color: Colors.grey,
+              child: Column(
+                  children: [
+                  CategoryBar(
+                    key: categoryBarStateKey,
+                    categoryHandler: categoryHandler
+                  ),
+                  Stack(
+                    children: [
+                      EmojiPage(
+                        key: emojiPageStateKey,
+                        emojiKeyboardHeight: emojiKeyboardHeight,
+                        bromotionController: bromotionController,
+                        emojiScrollShowBottomBar: emojiScrollShowBottomBar,
+                        switchedPage: switchedPage
+                      ),
+                      BottomBar(
+                        key: bottomBarStateKey,
+                        bromotionController: bromotionController,
+                        emojiSearch: emojiSearch
+                      ),
+                    ]
+                  )
+                ]
               ),
-              BottomBar(
-                key: bottomBarStateKey,
-                bromotionController: bromotionController,
-                emojiSearch: emojiSearch
+            ),
+            searchMode ? Container(
+              color: Colors.yellow,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Container(
+                    height: MediaQuery.of(context).size.width / 6, // 6 items to fill screen
+                    child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      // Let the ListView know how many items it needs to build.
+                      itemCount: searchedEmojis.length,
+                      // Provide a builder function. This is where the magic happens.
+                      // Convert each item into a widget based on the type of item it is.
+                      itemBuilder: (context, index) {
+                        return TextButton(
+                            onPressed: () {
+                              print("did a press thing ${searchedEmojis[index]}");
+                            },
+                            child: Text(
+                                searchedEmojis[index],
+                                style: TextStyle(
+                                    fontSize: 40
+                                )
+                            )
+                        );
+                      },
+                    ),
+                  ),
+                  TextFormField(
+                    focusNode: focusSearchEmoji,
+                    onChanged: (text) {
+                      updateEmojiSearch(text);
+                    },
+                    decoration: const InputDecoration(border: OutlineInputBorder()),
+                  ),
+                ],
               ),
-            ]
-          )
-        ]
-      ),
+            ) : Container(),
+          ]
+        )
     );
   }
 }
