@@ -1,12 +1,11 @@
-import '../activities.dart';
-import '../animals.dart';
-import '../flags.dart';
-import '../foods.dart';
-import '../objects.dart';
-import '../smileys.dart';
-import '../symbols.dart';
-import '../travel.dart';
-
+import 'emojis/activities.dart';
+import 'emojis/animals.dart';
+import 'emojis/flags.dart';
+import 'emojis/foods.dart';
+import 'emojis/objects.dart';
+import 'emojis/smileys.dart';
+import 'emojis/symbols.dart';
+import 'emojis/travel.dart';
 
 List<String> searchEmojis(String text) {
   if (text.length >= 2) {

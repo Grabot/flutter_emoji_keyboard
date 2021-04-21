@@ -1,7 +1,7 @@
 import 'package:back_button_interceptor/back_button_interceptor.dart';
+import 'package:emoji_keyboard/emoji_keyboard.dart';
 import 'package:flutter/material.dart';
 
-import 'emoji/keyboard/emoji_keyboard.dart';
 
 void main() {
   runApp(MyApp());
@@ -30,8 +30,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
-  double emojiKeyboardHeight = 300;
 
   bool showEmojiKeyboard;
   final TextEditingController controller = TextEditingController();
@@ -92,9 +90,9 @@ class _MyHomePageState extends State<MyHomePage> {
           Align(
             alignment: Alignment.bottomCenter,
             child: EmojiKeyboard(
-              bromotionController: controller,
-              emojiKeyboardHeight: emojiKeyboardHeight,
-              showEmojiKeyboard: showEmojiKeyboard
+                bromotionController: controller,
+                emojiKeyboardHeight: 350,
+                showEmojiKeyboard: showEmojiKeyboard
             ),
           ),
         ]

@@ -1,10 +1,13 @@
-import 'package:emoji_keyboard/emoji/keyboard/bottom_bar.dart';
-import 'package:emoji_keyboard/emoji/keyboard/category_bar.dart';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:keyboard_visibility/keyboard_visibility.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:back_button_interceptor/back_button_interceptor.dart';
+import 'bottom_bar.dart';
+import 'category_bar.dart';
 import 'emoji_page.dart';
 import 'emoji_searching.dart';
 
@@ -26,6 +29,7 @@ class EmojiKeyboard extends StatefulWidget {
 }
 
 class EmojiBoard extends State<EmojiKeyboard> {
+  static const platform = const MethodChannel("nl.emojikeyboard.emoji/available");
 
   final GlobalKey<CategoryBarState> categoryBarStateKey = GlobalKey<CategoryBarState>();
   final GlobalKey<BottomBarState> bottomBarStateKey = GlobalKey<BottomBarState>();
@@ -140,6 +144,7 @@ class EmojiBoard extends State<EmojiKeyboard> {
         recommendedEmojis.forEach((element) {
           finalEmojis.add(element.emoji.toString());
         });
+        isAvailable(finalEmojis);
         setState(() {
           searchedEmojis = finalEmojis;
         });
@@ -148,11 +153,9 @@ class EmojiBoard extends State<EmojiKeyboard> {
   }
 
   updateEmojiSearch(String text) {
-    List finalEmojis = searchEmojis(text);
+    List<String> finalEmojis = searchEmojis(text);
     if (finalEmojis != null && finalEmojis != []) {
-      setState(() {
-        searchedEmojis = finalEmojis.toList();
-      });
+      isAvailable(finalEmojis.toList());
     }
   }
 
@@ -171,7 +174,6 @@ class EmojiBoard extends State<EmojiKeyboard> {
           recentUsed.add(val.toString());
         }
         if (recentUsed == null || recentUsed == []) {
-          print("creating an empthy list for recent");
           recentUsed = [];
         } else {
           // If the emoji is already in the list, then remove it so it is added in the front.
@@ -203,6 +205,31 @@ class EmojiBoard extends State<EmojiKeyboard> {
     setState(() {
       searchMode = false;
     });
+  }
+
+  isAvailable(recentEmojis) {
+    if (Platform.isAndroid) {
+      Future.wait([getAvailableEmojis(recentEmojis)])
+          .then((var value) {
+        setState(() {
+          print("emojis loaded");
+        });
+      });
+    } else {
+      setState(() {
+        this.searchedEmojis = recentEmojis;
+      });
+    }
+  }
+
+  Future getAvailableEmojis(emojis) async {
+    List availableResult = await platform.invokeMethod(
+        "isAvailable", {"emojis": emojis});
+    List<String> availables = [];
+    for (var avail in availableResult) {
+      availables.add(avail.toString());
+    }
+    this.searchedEmojis = availables;
   }
 
   void insertText(String myText) {

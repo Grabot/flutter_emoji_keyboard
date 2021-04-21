@@ -1,19 +1,16 @@
 import 'dart:io';
-
-import 'package:emoji_keyboard/emoji/activities.dart';
-import 'package:emoji_keyboard/emoji/animals.dart';
-import 'package:emoji_keyboard/emoji/flags.dart';
-import 'package:emoji_keyboard/emoji/foods.dart';
-import 'package:emoji_keyboard/emoji/objects.dart';
-import 'package:emoji_keyboard/emoji/smileys.dart';
-import 'package:emoji_keyboard/emoji/symbols.dart';
-import 'package:emoji_keyboard/emoji/travel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
 import 'emoji_grid.dart';
+import 'emojis/activities.dart';
+import 'emojis/animals.dart';
+import 'emojis/flags.dart';
+import 'emojis/foods.dart';
+import 'emojis/objects.dart';
+import 'emojis/smileys.dart';
+import 'emojis/symbols.dart';
+import 'emojis/travel.dart';
 
 class EmojiPage extends StatefulWidget {
 
@@ -70,20 +67,6 @@ class EmojiPageState extends State<EmojiPage> {
     this.symbols = getEmojis(symbolsList);
     this.flags = getEmojis(flagsList);
 
-    // recent = [];
-    // getRecentEmoji().then((value) {
-    //   List<String> recentUsed = [];
-    //   if (value != null && value != []) {
-    //     for (var val in value) {
-    //       recentUsed.add(val.toString());
-    //     }
-    //     pageController.animateToPage(0, duration: Duration(milliseconds: 500), curve: Curves.ease);
-    //     widget.switchedPage(0);
-    //     setState(() {
-    //       recent = recentUsed;
-    //     });
-    //   }
-    // });
     isAvailable();
 
     this.bromotionController = widget.bromotionController;
