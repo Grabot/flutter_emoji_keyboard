@@ -166,25 +166,27 @@ class EmojiBoard extends State<EmojiKeyboard> {
   }
 
   void addRecentEmoji(String emoji) async {
+    print("adding recent emoji $emoji");
     SharedPreferences preferences = await SharedPreferences.getInstance();
     getRecentEmoji().then((value) {
+      print("current recent emojis $value");
       List<String> recentUsed = [];
-      if (value != null && value != []) {
+      if (value != null) {
         for (var val in value) {
           recentUsed.add(val.toString());
         }
-        if (recentUsed == null || recentUsed == []) {
-          recentUsed = [];
-        } else {
-          // If the emoji is already in the list, then remove it so it is added in the front.
-          recentUsed.removeWhere((item) => item == emoji);
-        }
-        recentUsed.insert(0, emoji.toString());
-        preferences.setStringList(recentEmojisKey, recent);
-        setState(() {
-          recent = recentUsed;
-        });
       }
+      if (recentUsed == null || recentUsed == []) {
+        recentUsed = [];
+      } else {
+        // If the emoji is already in the list, then remove it so it is added in the front.
+        recentUsed.removeWhere((item) => item == emoji);
+      }
+      recentUsed.insert(0, emoji.toString());
+      preferences.setStringList(recentEmojisKey, recent);
+      setState(() {
+        recent = recentUsed;
+      });
     });
   }
 

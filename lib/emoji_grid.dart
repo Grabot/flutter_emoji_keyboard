@@ -15,10 +15,10 @@ class EmojiGrid extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _EmojiGridState createState() => _EmojiGridState();
+  EmojiGridState createState() => EmojiGridState();
 }
 
-class _EmojiGridState extends State<EmojiGrid> {
+class EmojiGridState extends State<EmojiGrid> {
 
   List emojis;
   ScrollController scrollController;
@@ -35,11 +35,6 @@ class _EmojiGridState extends State<EmojiGrid> {
 
   keyboardScrollListener() {
     if (scrollController.hasClients) {
-      if (scrollController.offset >=
-          scrollController.position.maxScrollExtent &&
-          !scrollController.position.outOfRange) {
-        print("reached the bottom of the scrollview");
-      }
       if (scrollController.position.userScrollDirection ==
           ScrollDirection.reverse) {
         widget.emojiScrollShowBottomBar(false);
@@ -53,6 +48,12 @@ class _EmojiGridState extends State<EmojiGrid> {
   void pressedEmoji(String emoji) {
     widget.emojiScrollShowBottomBar(true);
     widget.insertText(emoji);
+  }
+
+  void forceUpdate(emojis) {
+    setState(() {
+      this.emojis = emojis;
+    });
   }
 
   @override

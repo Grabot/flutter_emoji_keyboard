@@ -39,6 +39,8 @@ class EmojiPageState extends State<EmojiPage> {
   static const platform = const MethodChannel("nl.emojikeyboard.emoji/available");
   static String recentEmojisKey = "recentEmojis";
 
+  final GlobalKey<EmojiGridState> emojiGridStateKey = GlobalKey<EmojiGridState>();
+
   // List<String> recent;
   List smileys;
   List animals;
@@ -58,14 +60,14 @@ class EmojiPageState extends State<EmojiPage> {
 
   @override
   void initState() {
-    this.smileys = getEmojis(smileysList);
-    this.animals = getEmojis(animalsList);
-    this.foods = getEmojis(foodsList);
-    this.activities = getEmojis(activitiesList);
-    this.travel = getEmojis(travelList);
-    this.objects = getEmojis(objectsList);
-    this.symbols = getEmojis(symbolsList);
-    this.flags = getEmojis(flagsList);
+    this.smileys = [];
+    this.animals = [];
+    this.foods = [];
+    this.activities = [];
+    this.travel = [];
+    this.objects = [];
+    this.symbols = [];
+    this.flags = [];
 
     isAvailable();
 
@@ -91,51 +93,60 @@ class EmojiPageState extends State<EmojiPage> {
         getAvailableFoods(), getAvailableActivities(), getAvailableTravels(),
         getAvailableObjects(), getAvailableSymbols(), getAvailableFlags()])
           .then((var value) {
-        setState(() {
-          print("emojis loaded");
-        });
+            emojiGridStateKey.currentState.forceUpdate(this.smileys);
+      });
+    } else {
+      setState(() {
+        this.smileys = getEmojis(smileysList);
+        this.animals = getEmojis(animalsList);
+        this.foods = getEmojis(foodsList);
+        this.activities = getEmojis(activitiesList);
+        this.travel = getEmojis(travelList);
+        this.objects = getEmojis(objectsList);
+        this.symbols = getEmojis(symbolsList);
+        this.flags = getEmojis(flagsList);
       });
     }
   }
 
   Future getAvailableSmileys() async {
     this.smileys = await platform.invokeMethod(
-        "isAvailable", {"emojis": this.smileys});
+        "isAvailable", {"emojis": getEmojis(smileysList)});
   }
 
   Future getAvailableAnimals() async {
     this.animals = await platform.invokeMethod(
-        "isAvailable", {"emojis": this.animals});
+        "isAvailable", {"emojis": getEmojis(animalsList)});
   }
 
   Future getAvailableFoods() async {
     this.foods = await platform.invokeMethod(
-        "isAvailable", {"emojis": this.foods});
+        "isAvailable", {"emojis": getEmojis(foodsList)});
   }
 
   Future getAvailableActivities() async {
     this.activities = await platform.invokeMethod(
-        "isAvailable", {"emojis": this.activities});
+        "isAvailable", {"emojis": getEmojis(activitiesList)});
   }
 
   Future getAvailableTravels() async {
     this.travel = await platform.invokeMethod(
-        "isAvailable", {"emojis": this.travel});
+        "isAvailable", {"emojis": getEmojis(travelList)});
   }
 
   Future getAvailableObjects() async {
     this.objects = await platform.invokeMethod(
-        "isAvailable", {"emojis": this.objects});
+        "isAvailable", {"emojis": getEmojis(objectsList)});
   }
 
   Future getAvailableSymbols() async {
     this.symbols = await platform.invokeMethod(
-        "isAvailable", {"emojis": this.symbols});
+        "isAvailable", {"emojis": getEmojis(symbolsList)});
   }
 
   Future getAvailableFlags() async {
     this.flags = await platform.invokeMethod(
-        "isAvailable", {"emojis": this.flags});
+        "isAvailable", {"emojis": getEmojis(flagsList)});
   }
 
   void navigateCategory(int categoryNumber) {
@@ -165,7 +176,8 @@ class EmojiPageState extends State<EmojiPage> {
           EmojiGrid(
               emojis: smileys,
               emojiScrollShowBottomBar: widget.emojiScrollShowBottomBar,
-              insertText: widget.insertText
+              insertText: widget.insertText,
+              key: emojiGridStateKey
           ),
           EmojiGrid(
               emojis: animals,
