@@ -13,6 +13,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Emoji Keyboard',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
@@ -79,7 +80,7 @@ class _MyHomePageState extends State<MyHomePage> {
               padding: const EdgeInsets.all(6),
               child: TextFormField(
                 onTap: () {
-                  onTapEmojiFie ld();
+                  onTapEmojiField();
                 },
                 controller: controller,
                 decoration: const InputDecoration(border: OutlineInputBorder()),
