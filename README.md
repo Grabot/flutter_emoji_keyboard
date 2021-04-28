@@ -1,15 +1,23 @@
 # Flutter Emoji Keyboard
 
 A Flutter package that provides keyboard where you can only type with emojis!
+
 It's a keyboard the way you expect it and more! But with less letters and only emojis
 
-** Key features
+## Key features
+
 Smooth and intuitive keyboard layout with over 1800 emojis in 8 categories with an added 'recent chosen' tab.
+
 You can easily switch between categories by swiping or selecting the category from the top bar.
+
 Emojis that cannot be displayed are filtered out (only for Android)
+
 You can even search for your emoji by using the search functionality available in the bottom bar.
-From this keyboard you can also delete an emoji from the position of the cursor or add a space.
+
+From this keyboard you can also delete an emoji from the position of the cursor or add a space from the bottom bar.
+
 Determine the height of the keyboard and show or hide it using a simple variable
+
 
 ## Usage
 To use this plugin, add `emoji_keyboard` as dependency in your pubspec.yaml file.
