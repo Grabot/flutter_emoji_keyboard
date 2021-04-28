@@ -79,7 +79,7 @@ class _MyHomePageState extends State<MyHomePage> {
               padding: const EdgeInsets.all(6),
               child: TextFormField(
                 onTap: () {
-                  onTapEmojiField();
+                  onTapEmojiFie ld();
                 },
                 controller: controller,
                 decoration: const InputDecoration(border: OutlineInputBorder()),

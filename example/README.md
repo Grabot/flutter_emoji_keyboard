@@ -1,16 +1,102 @@
-# emoji_keyboard_example
+import 'package:back_button_interceptor/back_button_interceptor.dart';
+import 'package:emoji_keyboard/emoji_keyboard.dart';
+import 'package:flutter/material.dart';
 
-Demonstrates how to use the emoji_keyboard plugin.
 
-## Getting Started
+void main() {
+  runApp(MyApp());
+}
 
-This project is a starting point for a Flutter application.
+class MyApp extends StatelessWidget {
+  // This widget is the root of your application.
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Emoji Keyboard',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: MyHomePage(title: 'Emoji Keyboard'),
+    );
+  }
+}
 
-A few resources to get you started if this is your first Flutter project:
+class MyHomePage extends StatefulWidget {
+  MyHomePage({Key key, this.title}) : super(key: key);
+  final String title;
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+  @override
+  _MyHomePageState createState() => _MyHomePageState();
+}
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+class _MyHomePageState extends State<MyHomePage> {
+
+  bool showEmojiKeyboard;
+  final TextEditingController controller = TextEditingController();
+
+  @override
+  void initState() {
+    showEmojiKeyboard = false;
+    BackButtonInterceptor.add(myInterceptor);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    BackButtonInterceptor.remove(myInterceptor);
+    super.dispose();
+  }
+
+  bool myInterceptor(bool stopDefaultButtonEvent, RouteInfo info) {
+    if (showEmojiKeyboard) {
+      setState(() {
+        showEmojiKeyboard = false;
+      });
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  void onTapEmojiField() {
+    if (!showEmojiKeyboard) {
+      setState(() {
+        showEmojiKeyboard = true;
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(widget.title),
+      ),
+      body: Stack(
+          children: [
+            Container(
+              alignment: Alignment.topCenter,
+              padding: const EdgeInsets.all(6),
+              child: TextFormField(
+                onTap: () {
+                  onTapEmojiFie ld();
+                },
+                controller: controller,
+                decoration: const InputDecoration(border: OutlineInputBorder()),
+                readOnly: true,
+                showCursor: true,
+              ),
+            ),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: EmojiKeyboard(
+                  bromotionController: controller,
+                  emojiKeyboardHeight: 350,
+                  showEmojiKeyboard: showEmojiKeyboard
+              ),
+            ),
+          ]
+      ),
+    );
+  }
+}

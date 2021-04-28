@@ -1,9 +1,123 @@
-# emoji_keyboard
+# Flutter Emoji Keyboard
 
-This provides keyboard where you can only type with emojis!
+A Flutter package that provides keyboard where you can only type with emojis!
+It's a keyboard the way you expect it and more! But with less letters and only emojis
+
+** Key features
 Smooth and intuitive keyboard layout with over 1800 emojis in 8 categories with an added 'recent chosen' tab.
 You can easily switch between categories by swiping or selecting the category from the top bar.
+Emojis that cannot be displayed are filtered out (only for Android)
 You can even search for your emoji by using the search functionality available in the bottom bar.
 From this keyboard you can also delete an emoji from the position of the cursor or add a space.
+Determine the height of the keyboard and show or hide it using a simple variable
 
-It's a keyboard the way you expect it and more! But with less letters and only emojis
+## Usage
+To use this plugin, add `emoji_keyboard` as dependency in your pubspec.yaml file.
+
+## Sample Usage
+```
+import 'package:back_button_interceptor/back_button_interceptor.dart';
+import 'package:emoji_keyboard/emoji_keyboard.dart';
+import 'package:flutter/material.dart';
+
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  // This widget is the root of your application.
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Emoji Keyboard',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: MyHomePage(title: 'Emoji Keyboard'),
+    );
+  }
+}
+
+class MyHomePage extends StatefulWidget {
+  MyHomePage({Key key, this.title}) : super(key: key);
+  final String title;
+
+  @override
+  _MyHomePageState createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+
+  bool showEmojiKeyboard;
+  final TextEditingController controller = TextEditingController();
+
+  @override
+  void initState() {
+    showEmojiKeyboard = false;
+    BackButtonInterceptor.add(myInterceptor);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    BackButtonInterceptor.remove(myInterceptor);
+    super.dispose();
+  }
+
+  bool myInterceptor(bool stopDefaultButtonEvent, RouteInfo info) {
+    if (showEmojiKeyboard) {
+      setState(() {
+        showEmojiKeyboard = false;
+      });
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  void onTapEmojiField() {
+    if (!showEmojiKeyboard) {
+      setState(() {
+        showEmojiKeyboard = true;
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(widget.title),
+      ),
+      body: Stack(
+          children: [
+            Container(
+              alignment: Alignment.topCenter,
+              padding: const EdgeInsets.all(6),
+              child: TextFormField(
+                onTap: () {
+                  onTapEmojiFie ld();
+                },
+                controller: controller,
+                decoration: const InputDecoration(border: OutlineInputBorder()),
+                readOnly: true,
+                showCursor: true,
+              ),
+            ),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: EmojiKeyboard(
+                  bromotionController: controller,
+                  emojiKeyboardHeight: 350,
+                  showEmojiKeyboard: showEmojiKeyboard
+              ),
+            ),
+          ]
+      ),
+    );
+  }
+}
+
+```
+See the `example` directory for the complete sample app.
