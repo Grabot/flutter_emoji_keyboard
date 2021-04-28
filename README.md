@@ -4,7 +4,8 @@ A Flutter package that provides keyboard where you can only type with emojis!
 
 It's a keyboard the way you expect it and more! But with less letters and only emojis
 
-** Key features
+## Key features
+
 Smooth and intuitive keyboard layout with over 1800 emojis in 8 categories with an added 'recent chosen' tab.
 
 You can easily switch between categories by swiping or selecting the category from the top bar.
