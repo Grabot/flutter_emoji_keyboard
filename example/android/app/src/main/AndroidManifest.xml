@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="nl.emoji_keyboard_example">
+    package="nl.emoji_keyboard_flutter_example">
    <application
-        android:label="emoji_keyboard_example"
+        android:label="emoji_keyboard_flutter_example"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

@@ -1,5 +1,5 @@
 import 'package:back_button_interceptor/back_button_interceptor.dart';
-import 'package:emoji_keyboard/emoji_keyboard.dart';
+import 'package:emoji_keyboard_flutter/emoji_keyboard.dart';
 import 'package:flutter/material.dart';
 
 

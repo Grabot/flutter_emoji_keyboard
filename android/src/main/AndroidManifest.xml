@@ -1,3 +1,3 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-  package="nl.emoji_keyboard">
+  package="nl.emoji_keyboard_flutter">
 </manifest>

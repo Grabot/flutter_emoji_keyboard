@@ -1,4 +1,4 @@
-name: emoji_keyboard
+name: emoji_keyboard_flutter
 description: A keyboard for emojis
 version: 0.1.0
 homepage: https://github.com/Grabot/flutter_emoji_keyboard
@@ -32,10 +32,10 @@ flutter:
   plugin:
     platforms:
       android:
-        package: nl.emoji_keyboard
-        pluginClass: EmojiKeyboardPlugin
+        package: nl.emoji_keyboard_flutter
+        pluginClass: EmojiKeyboardFlutterPlugin
       ios:
-        pluginClass: EmojiKeyboardPlugin
+        pluginClass: EmojiKeyboardFlutterPlugin
 
   # To add assets to your plugin package, add an assets section, like this:
   # assets:

@@ -1,4 +1,4 @@
-package nl.emoji_keyboard
+package nl.emoji_keyboard_flutter
 
 import android.graphics.Paint
 import androidx.annotation.NonNull
@@ -10,8 +10,8 @@ import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
 import io.flutter.plugin.common.PluginRegistry.Registrar
 
-/** EmojiKeyboardPlugin */
-class EmojiKeyboardPlugin: FlutterPlugin, MethodCallHandler {
+/** EmojiKeyboardFlutterPlugin */
+class EmojiKeyboardFlutterPlugin: FlutterPlugin, MethodCallHandler {
   /// The MethodChannel that will the communication between Flutter and native Android
   ///
   /// This local reference serves to register the plugin with the Flutter Engine and unregister it

@@ -1,4 +1,4 @@
-group 'nl.emoji_keyboard'
+group 'nl.emoji_keyboard_flutter'
 version '1.0-SNAPSHOT'
 
 buildscript {

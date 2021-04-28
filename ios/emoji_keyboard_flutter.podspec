@@ -1,13 +1,13 @@
 #
 # To learn more about a Podspec see http://guides.cocoapods.org/syntax/podspec.html.
-# Run `pod lib lint emoji_keyboard.podspec` to validate before publishing.
+# Run `pod lib lint emoji_keyboard_flutter.podspec` to validate before publishing.
 #
 Pod::Spec.new do |s|
-  s.name             = 'emoji_keyboard'
+  s.name             = 'emoji_keyboard_flutter'
   s.version          = '0.0.1'
-  s.summary          = 'A keyboard for emojis'
+  s.summary          = 'A keyboard for only emojis'
   s.description      = <<-DESC
-A keyboard for emojis
+A keyboard for only emojis
                        DESC
   s.homepage         = 'http://example.com'
   s.license          = { :file => '../LICENSE' }

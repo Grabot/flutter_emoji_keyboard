@@ -57,7 +57,7 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.2"
-  emoji_keyboard:
+  emoji_keyboard_flutter:
     dependency: "direct main"
     description:
       path: ".."

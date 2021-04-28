@@ -1,4 +1,4 @@
-package nl.emoji_keyboard_example
+package nl.emoji_keyboard_flutter_example
 
 import io.flutter.embedding.android.FlutterActivity
 
