@@ -1,3 +1,7 @@
+## [0.1.1] 28-04-2021
+
+Some restructuring of the project and some minor improvements
+
 ## [0.1.0] 28-04-2021
 
 This plugin allows you to easily implement a keyboard where you can only type with emojis!

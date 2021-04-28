@@ -1,6 +1,6 @@
 name: emoji_keyboard_flutter
 description: A keyboard for emojis
-version: 0.1.0
+version: 0.1.1
 homepage: https://github.com/Grabot/flutter_emoji_keyboard
 
 environment:
