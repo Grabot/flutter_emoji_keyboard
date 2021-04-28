@@ -32,7 +32,7 @@ To use this plugin, add `emoji_keyboard` as dependency in your pubspec.yaml file
 
 ## Sample Usage
 ```
-import 'package:emoji_keyboard/emoji_keyboard.dart';
+import 'package:emoji_keyboard_flutter/emoji_keyboard.dart';
 
 
 void main() {
