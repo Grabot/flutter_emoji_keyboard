@@ -1,3 +1,7 @@
+## [0.1.2] 28-04-2021
+
+Resolved an issue with naming conventions
+
 ## [0.1.1] 28-04-2021
 
 Some restructuring of the project and some minor improvements
