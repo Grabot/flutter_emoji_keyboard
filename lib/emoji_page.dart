@@ -54,8 +54,6 @@ class EmojiPageState extends State<EmojiPage> {
   PageController pageController;
   TextEditingController bromotionController;
 
-  void textInputHandler(String text) => print(text);
-
   bool showBottomBar = true;
 
   @override

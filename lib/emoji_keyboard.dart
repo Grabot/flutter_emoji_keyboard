@@ -165,10 +165,8 @@ class EmojiBoard extends State<EmojiKeyboard> {
   }
 
   void addRecentEmoji(String emoji) async {
-    print("adding recent emoji $emoji");
     SharedPreferences preferences = await SharedPreferences.getInstance();
     getRecentEmoji().then((value) {
-      print("current recent emojis $value");
       List<String> recentUsed = [];
       if (value != null) {
         for (var val in value) {
@@ -213,7 +211,6 @@ class EmojiBoard extends State<EmojiKeyboard> {
       Future.wait([getAvailableEmojis(recentEmojis)])
           .then((var value) {
         setState(() {
-          print("emojis loaded");
         });
       });
     } else {

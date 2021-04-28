@@ -137,6 +137,8 @@ List<String> searchEmojis(String text) {
       finalEmojis.add(element.emoji.toString());
     });
     return finalEmojis.toList();
+  } else {
+    return [];
   }
 }
 
