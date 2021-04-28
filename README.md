@@ -28,7 +28,7 @@ Determine the height of the keyboard and show or hide it using a simple variable
 
 
 ## Usage
-To use this plugin, add `emoji_keyboard` as dependency in your pubspec.yaml file.
+To use this plugin, add `emoji_keyboard_flutter` as dependency in your pubspec.yaml file.
 
 ## Sample Usage
 ```
