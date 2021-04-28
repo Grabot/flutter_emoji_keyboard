@@ -9,7 +9,7 @@ packages:
     source: hosted
     version: "2.5.0"
   back_button_interceptor:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: back_button_interceptor
       url: "https://pub.dartlang.org"
@@ -63,7 +63,7 @@ packages:
       path: ".."
       relative: true
     source: path
-    version: "1.0.0+1"
+    version: "0.0.1"
   fake_async:
     dependency: transitive
     description:
@@ -155,7 +155,7 @@ packages:
       name: path_provider_windows
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.0"
+    version: "2.0.1"
   platform:
     dependency: transitive
     description:

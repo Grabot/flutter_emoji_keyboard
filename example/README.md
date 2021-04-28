@@ -1,6 +1,6 @@
-# emoji_keyboard
+# emoji_keyboard_example
 
-A keyboard where you can enter emojis
+Demonstrates how to use the emoji_keyboard plugin.
 
 ## Getting Started
 

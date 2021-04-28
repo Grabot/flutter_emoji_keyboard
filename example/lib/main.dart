@@ -73,29 +73,29 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
       ),
       body: Stack(
-        children: [
-        Container(
-          alignment: Alignment.topCenter,
-          padding: const EdgeInsets.all(6),
-          child: TextFormField(
-            onTap: () {
-              onTapEmojiField();
-            },
-            controller: controller,
-            decoration: const InputDecoration(border: OutlineInputBorder()),
-            readOnly: true,
-            showCursor: true,
+          children: [
+            Container(
+              alignment: Alignment.topCenter,
+              padding: const EdgeInsets.all(6),
+              child: TextFormField(
+                onTap: () {
+                  onTapEmojiField();
+                },
+                controller: controller,
+                decoration: const InputDecoration(border: OutlineInputBorder()),
+                readOnly: true,
+                showCursor: true,
+              ),
             ),
-          ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: EmojiKeyboard(
-                bromotionController: controller,
-                emojiKeyboardHeight: 350,
-                showEmojiKeyboard: showEmojiKeyboard
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: EmojiKeyboard(
+                  bromotionController: controller,
+                  emojiKeyboardHeight: 350,
+                  showEmojiKeyboard: showEmojiKeyboard
+              ),
             ),
-          ),
-        ]
+          ]
       ),
     );
   }
