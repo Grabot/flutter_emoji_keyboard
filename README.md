@@ -3,6 +3,7 @@
 A Flutter package that provides keyboard where you can only type with emojis!
 
 It's a keyboard the way you expect it and more! But with less letters and only emojis
+<a href="https://raw.githubusercontent.com/Grabot/flutter_emoji_keyboard/main/example_images/Screenshot_1619643152.png"><img src="https://raw.githubusercontent.com/Grabot/flutter_emoji_keyboard/main/example_images/Screenshot_1619643152.png" width="400"></a>
 
 ## Key features
 
