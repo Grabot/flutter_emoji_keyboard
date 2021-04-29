@@ -1,3 +1,7 @@
+## [0.1.3] 28-04-2021
+
+Fixed some issues with documentation and added some dart code conventions
+
 ## [0.1.2] 28-04-2021
 
 Resolved an issue with naming conventions
