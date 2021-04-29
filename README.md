@@ -1,5 +1,7 @@
 # Flutter Emoji Keyboard
 
+[![pub package](https://img.shields.io/pub/v/emoji_keyboard_flutter.svg)](https://pub.dartlang.org/packages/emoji_keyboard_flutter)
+
 A Flutter package that provides keyboard where you can only type with emojis!
 
 It's a keyboard the way you expect it and more! But with less letters and only emojis
@@ -31,7 +33,7 @@ To use this plugin, add `emoji_keyboard_flutter` as dependency in your pubspec.y
 
 ## Sample Usage
 ```
-import 'package:emoji_keyboard_flutter/emoji_keyboard.dart';
+import 'package:emoji_keyboard_flutter/emoji_keyboard_flutter.dart';
 
 
 void main() {

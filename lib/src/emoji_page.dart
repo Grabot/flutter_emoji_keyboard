@@ -13,16 +13,15 @@ import 'emojis/symbols.dart';
 import 'emojis/travel.dart';
 
 class EmojiPage extends StatefulWidget {
-
-  EmojiPage({
-    Key key,
-    this.emojiKeyboardHeight,
-    this.bromotionController,
-    this.emojiScrollShowBottomBar,
-    this.insertText,
-    this.switchedPage,
-    this.recent
-  }): super(key: key);
+  EmojiPage(
+      {Key key,
+      this.emojiKeyboardHeight,
+      this.bromotionController,
+      this.emojiScrollShowBottomBar,
+      this.insertText,
+      this.switchedPage,
+      this.recent})
+      : super(key: key);
 
   final double emojiKeyboardHeight;
   final TextEditingController bromotionController;
@@ -36,12 +35,13 @@ class EmojiPage extends StatefulWidget {
 }
 
 class EmojiPageState extends State<EmojiPage> {
-  static const platform = const MethodChannel("nl.emojikeyboard.emoji/available");
+  static const platform =
+      const MethodChannel("nl.emojikeyboard.emoji/available");
   static String recentEmojisKey = "recentEmojis";
 
-  final GlobalKey<EmojiGridState> emojiGridStateKey = GlobalKey<EmojiGridState>();
+  final GlobalKey<EmojiGridState> emojiGridStateKey =
+      GlobalKey<EmojiGridState>();
 
-  // List<String> recent;
   List smileys;
   List animals;
   List foods;
@@ -86,12 +86,19 @@ class EmojiPageState extends State<EmojiPage> {
   }
 
   isAvailable() {
+    // If the platform is Android we filter out unavailable emojis for older versions
     if (Platform.isAndroid) {
-      Future.wait([getAvailableSmileys(), getAvailableAnimals(),
-        getAvailableFoods(), getAvailableActivities(), getAvailableTravels(),
-        getAvailableObjects(), getAvailableSymbols(), getAvailableFlags()])
-          .then((var value) {
-            emojiGridStateKey.currentState.forceUpdate(this.smileys);
+      Future.wait([
+        getAvailableSmileys(),
+        getAvailableAnimals(),
+        getAvailableFoods(),
+        getAvailableActivities(),
+        getAvailableTravels(),
+        getAvailableObjects(),
+        getAvailableSymbols(),
+        getAvailableFlags()
+      ]).then((var value) {
+        emojiGridStateKey.currentState.forceUpdate(this.smileys);
       });
     } else {
       setState(() {
@@ -108,52 +115,56 @@ class EmojiPageState extends State<EmojiPage> {
   }
 
   Future getAvailableSmileys() async {
-    this.smileys = await platform.invokeMethod(
-        "isAvailable", {"emojis": getEmojis(smileysList)});
+    this.smileys = await platform
+        .invokeMethod("isAvailable", {"emojis": getEmojis(smileysList)});
   }
 
   Future getAvailableAnimals() async {
-    this.animals = await platform.invokeMethod(
-        "isAvailable", {"emojis": getEmojis(animalsList)});
+    this.animals = await platform
+        .invokeMethod("isAvailable", {"emojis": getEmojis(animalsList)});
   }
 
   Future getAvailableFoods() async {
-    this.foods = await platform.invokeMethod(
-        "isAvailable", {"emojis": getEmojis(foodsList)});
+    this.foods = await platform
+        .invokeMethod("isAvailable", {"emojis": getEmojis(foodsList)});
   }
 
   Future getAvailableActivities() async {
-    this.activities = await platform.invokeMethod(
-        "isAvailable", {"emojis": getEmojis(activitiesList)});
+    this.activities = await platform
+        .invokeMethod("isAvailable", {"emojis": getEmojis(activitiesList)});
   }
 
   Future getAvailableTravels() async {
-    this.travel = await platform.invokeMethod(
-        "isAvailable", {"emojis": getEmojis(travelList)});
+    this.travel = await platform
+        .invokeMethod("isAvailable", {"emojis": getEmojis(travelList)});
   }
 
   Future getAvailableObjects() async {
-    this.objects = await platform.invokeMethod(
-        "isAvailable", {"emojis": getEmojis(objectsList)});
+    this.objects = await platform
+        .invokeMethod("isAvailable", {"emojis": getEmojis(objectsList)});
   }
 
   Future getAvailableSymbols() async {
-    this.symbols = await platform.invokeMethod(
-        "isAvailable", {"emojis": getEmojis(symbolsList)});
+    this.symbols = await platform
+        .invokeMethod("isAvailable", {"emojis": getEmojis(symbolsList)});
   }
 
   Future getAvailableFlags() async {
-    this.flags = await platform.invokeMethod(
-        "isAvailable", {"emojis": getEmojis(flagsList)});
+    this.flags = await platform
+        .invokeMethod("isAvailable", {"emojis": getEmojis(flagsList)});
   }
 
   void navigateCategory(int categoryNumber) {
-    pageController.animateToPage(categoryNumber, duration: Duration(milliseconds: 500), curve: Curves.ease);
+    pageController.animateToPage(categoryNumber,
+        duration: Duration(milliseconds: 500), curve: Curves.ease);
   }
 
   pageScrollListener() {
     if (pageController.hasClients) {
-      if (pageController.position.userScrollDirection == ScrollDirection.reverse || pageController.position.userScrollDirection == ScrollDirection.forward) {
+      if (pageController.position.userScrollDirection ==
+              ScrollDirection.reverse ||
+          pageController.position.userScrollDirection ==
+              ScrollDirection.forward) {
         widget.switchedPage(pageController.page.round());
       }
     }
@@ -161,60 +172,48 @@ class EmojiPageState extends State<EmojiPage> {
 
   @override
   Widget build(BuildContext context) {
+    // Here we build the emoji page. We have 8 categories and a recent tab for a total of 9 pages
     return Container(
-      height: widget.emojiKeyboardHeight-50,
-      child: PageView(
-        controller: pageController,
-        children: [
-          EmojiGrid(
-              emojis: widget.recent,
-              emojiScrollShowBottomBar: widget.emojiScrollShowBottomBar,
-              insertText: widget.insertText
-          ),
-          EmojiGrid(
-              emojis: smileys,
-              emojiScrollShowBottomBar: widget.emojiScrollShowBottomBar,
-              insertText: widget.insertText,
-              key: emojiGridStateKey
-          ),
-          EmojiGrid(
-              emojis: animals,
-              emojiScrollShowBottomBar: widget.emojiScrollShowBottomBar,
-              insertText: widget.insertText
-          ),
-          EmojiGrid(
-              emojis: foods,
-              emojiScrollShowBottomBar: widget.emojiScrollShowBottomBar,
-              insertText: widget.insertText
-          ),
-          EmojiGrid(
-              emojis: activities,
-              emojiScrollShowBottomBar: widget.emojiScrollShowBottomBar,
-              insertText: widget.insertText
-          ),
-          EmojiGrid(
-              emojis: travel,
-              emojiScrollShowBottomBar: widget.emojiScrollShowBottomBar,
-              insertText: widget.insertText
-          ),
-          EmojiGrid(
-              emojis: objects,
-              emojiScrollShowBottomBar: widget.emojiScrollShowBottomBar,
-              insertText: widget.insertText
-          ),
-          EmojiGrid(
-              emojis: symbols,
-              emojiScrollShowBottomBar: widget.emojiScrollShowBottomBar,
-              insertText: widget.insertText
-          ),
-          EmojiGrid(
-              emojis: flags,
-              emojiScrollShowBottomBar: widget.emojiScrollShowBottomBar,
-              insertText: widget.insertText
-          )
-        ]
-      ),
+      height: widget.emojiKeyboardHeight - 50,
+      child: PageView(controller: pageController, children: [
+        EmojiGrid(
+            emojis: widget.recent,
+            emojiScrollShowBottomBar: widget.emojiScrollShowBottomBar,
+            insertText: widget.insertText),
+        EmojiGrid(
+            emojis: smileys,
+            emojiScrollShowBottomBar: widget.emojiScrollShowBottomBar,
+            insertText: widget.insertText,
+            key: emojiGridStateKey),
+        EmojiGrid(
+            emojis: animals,
+            emojiScrollShowBottomBar: widget.emojiScrollShowBottomBar,
+            insertText: widget.insertText),
+        EmojiGrid(
+            emojis: foods,
+            emojiScrollShowBottomBar: widget.emojiScrollShowBottomBar,
+            insertText: widget.insertText),
+        EmojiGrid(
+            emojis: activities,
+            emojiScrollShowBottomBar: widget.emojiScrollShowBottomBar,
+            insertText: widget.insertText),
+        EmojiGrid(
+            emojis: travel,
+            emojiScrollShowBottomBar: widget.emojiScrollShowBottomBar,
+            insertText: widget.insertText),
+        EmojiGrid(
+            emojis: objects,
+            emojiScrollShowBottomBar: widget.emojiScrollShowBottomBar,
+            insertText: widget.insertText),
+        EmojiGrid(
+            emojis: symbols,
+            emojiScrollShowBottomBar: widget.emojiScrollShowBottomBar,
+            insertText: widget.insertText),
+        EmojiGrid(
+            emojis: flags,
+            emojiScrollShowBottomBar: widget.emojiScrollShowBottomBar,
+            insertText: widget.insertText)
+      ]),
     );
   }
-
 }

@@ -2,11 +2,7 @@ import 'package:flutter/material.dart';
 import 'emoji_category_key.dart';
 
 class CategoryBar extends StatefulWidget {
-
-  const CategoryBar({
-    Key key,
-    this.categoryHandler
-  }) : super(key: key);
+  const CategoryBar({Key key, this.categoryHandler}) : super(key: key);
 
   final Function(int) categoryHandler;
 
@@ -15,7 +11,6 @@ class CategoryBar extends StatefulWidget {
 }
 
 class CategoryBarState extends State<CategoryBar> {
-
   int categorySelected;
   double emojiCategoryHeight;
 
@@ -36,6 +31,7 @@ class CategoryBarState extends State<CategoryBar> {
     }
   }
 
+  // If the category should be updated we send a trigger to this function, so only the category bar updates.
   void updateCategoryBar(int categoryNumber) {
     if (categoryNumber != categorySelected) {
       setState(() {
@@ -46,10 +42,11 @@ class CategoryBarState extends State<CategoryBar> {
 
   @override
   Widget build(BuildContext context) {
+    // Here we create the category bar, each category is linked to it's corresponding page.
     return Container(
       height: emojiCategoryHeight,
       width: MediaQuery.of(context).size.width,
-      child:SizedBox(
+      child: SizedBox(
         child: Row(
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -114,4 +111,3 @@ class CategoryBarState extends State<CategoryBar> {
     );
   }
 }
-

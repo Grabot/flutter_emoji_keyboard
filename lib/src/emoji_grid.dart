@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
 class EmojiGrid extends StatefulWidget {
-
   final List emojis;
   final Function(bool) emojiScrollShowBottomBar;
   final Function(String) insertText;
@@ -19,7 +18,6 @@ class EmojiGrid extends StatefulWidget {
 }
 
 class EmojiGridState extends State<EmojiGrid> {
-
   List emojis;
   ScrollController scrollController;
 
@@ -45,6 +43,7 @@ class EmojiGridState extends State<EmojiGrid> {
       }
     }
   }
+
   void pressedEmoji(String emoji) {
     widget.emojiScrollShowBottomBar(true);
     widget.insertText(emoji);
@@ -58,6 +57,7 @@ class EmojiGridState extends State<EmojiGrid> {
 
   @override
   Widget build(BuildContext context) {
+    // We make a grid of all emojis from the corresponding category list.
     return GridView.builder(
         controller: scrollController,
         shrinkWrap: true,
@@ -70,14 +70,7 @@ class EmojiGridState extends State<EmojiGrid> {
               onPressed: () {
                 pressedEmoji(emojis[index]);
               },
-              child: Text(
-                  emojis[index],
-                  style: TextStyle(
-                      fontSize: 25
-                  )
-              )
-          );
-        }
-    );
+              child: Text(emojis[index], style: TextStyle(fontSize: 25)));
+        });
   }
 }

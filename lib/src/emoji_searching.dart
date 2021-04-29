@@ -8,7 +8,7 @@ import 'emojis/symbols.dart';
 import 'emojis/travel.dart';
 
 List<String> searchEmojis(String text) {
-  if (text.length >= 2) {
+  if (text.length >= 1) {
     List<SearchedEmoji> recommendedEmojis = [];
 
     List allEmojis = [
@@ -41,13 +41,9 @@ List<String> searchEmojis(String text) {
           }
 
           if (numSplitEqualKeyword > 0) {
-            if (numSplitEqualKeyword == description
-                .split(" ")
-                .length) {
-              recommendedEmojis.add(SearchedEmoji(
-                  name: description,
-                  emoji: emoji[1],
-                  tier: 1));
+            if (numSplitEqualKeyword == description.split(" ").length) {
+              recommendedEmojis.add(
+                  SearchedEmoji(name: description, emoji: emoji[1], tier: 1));
             } else {
               recommendedEmojis.add(SearchedEmoji(
                   name: description,
@@ -74,17 +70,9 @@ List<String> searchEmojis(String text) {
         return 1;
       } else {
         if (a.tier == 1) {
-          if (a.name
-              .split(" ")
-              .length > b.name
-              .split(" ")
-              .length) {
+          if (a.name.split(" ").length > b.name.split(" ").length) {
             return -1;
-          } else if (a.name
-              .split(" ")
-              .length < b.name
-              .split(" ")
-              .length) {
+          } else if (a.name.split(" ").length < b.name.split(" ").length) {
             return 1;
           } else {
             return 0;
@@ -100,18 +88,9 @@ List<String> searchEmojis(String text) {
             } else if (a.numSplitPartialKeyword < b.numSplitPartialKeyword) {
               return 1;
             } else {
-              if (a.name
-                  .split(" ")
-                  .length < b.name
-                  .split(" ")
-                  .length) {
+              if (a.name.split(" ").length < b.name.split(" ").length) {
                 return -1;
-              } else if (a.name
-                  .split(" ")
-                  .length >
-                  b.name
-                      .split(" ")
-                      .length) {
+              } else if (a.name.split(" ").length > b.name.split(" ").length) {
                 return 1;
               } else {
                 return 0;
@@ -142,7 +121,6 @@ List<String> searchEmojis(String text) {
   }
 }
 
-
 class SearchedEmoji {
   final String name;
   final String emoji;
@@ -151,14 +129,11 @@ class SearchedEmoji {
   final int numSplitPartialKeyword;
 
   SearchedEmoji(
-      {
-        this.name,
-        this.emoji,
-        this.tier,
-        this.numSplitEqualKeyword = 0,
-        this.numSplitPartialKeyword = 0
-      }
-      );
+      {this.name,
+      this.emoji,
+      this.tier,
+      this.numSplitEqualKeyword = 0,
+      this.numSplitPartialKeyword = 0});
 
   @override
   String toString() {
