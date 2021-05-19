@@ -1,3 +1,9 @@
+## [0.1.4] 19-05-2021
+
+Added null safety to the package
+Improved styling and added Dark mode for the keyboard. Also updated the screenshots
+replaced an outdated package for seeing keyboard triggers with an updated one and maintained one.
+
 ## [0.1.3] 28-04-2021
 
 Fixed some issues with documentation and added some dart code conventions

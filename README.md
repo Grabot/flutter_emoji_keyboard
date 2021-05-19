@@ -7,9 +7,9 @@ A Flutter package that provides keyboard where you can only type with emojis!
 It's a keyboard the way you expect it and more! But with less letters and only emojis
 
 
-<a href="https://raw.githubusercontent.com/Grabot/flutter_emoji_keyboard/main/example_images/Screenshot_1619643152.png"><img src="https://raw.githubusercontent.com/Grabot/flutter_emoji_keyboard/main/example_images/Screenshot_1619643152.png" width="200"></a>
-<a href="https://raw.githubusercontent.com/Grabot/flutter_emoji_keyboard/main/example_images/Screenshot_1619643189.png"><img src="https://raw.githubusercontent.com/Grabot/flutter_emoji_keyboard/main/example_images/Screenshot_1619643189.png" width="200"></a>
-<a href="https://raw.githubusercontent.com/Grabot/flutter_emoji_keyboard/main/example_images/Screenshot_1619643227.png"><img src="https://raw.githubusercontent.com/Grabot/flutter_emoji_keyboard/main/example_images/Screenshot_1619643227.png" width="200"></a>
+<a href="https://raw.githubusercontent.com/Grabot/flutter_emoji_keyboard/main/example_images/Screenshot_1621415098.png"><img src="https://raw.githubusercontent.com/Grabot/flutter_emoji_keyboard/main/example_images/Screenshot_1621415098.png" width="200"></a>
+<a href="https://raw.githubusercontent.com/Grabot/flutter_emoji_keyboard/main/example_images/Screenshot_1621415191.png"><img src="https://raw.githubusercontent.com/Grabot/flutter_emoji_keyboard/main/example_images/Screenshot_1621415191.png" width="200"></a>
+<a href="https://raw.githubusercontent.com/Grabot/flutter_emoji_keyboard/main/example_images/Screenshot_1621415243.png"><img src="https://raw.githubusercontent.com/Grabot/flutter_emoji_keyboard/main/example_images/Screenshot_1621415243.png" width="200"></a>
 
 
 
@@ -26,6 +26,10 @@ You can even search for your emoji by using the search functionality available i
 From this keyboard you can also delete an emoji from the position of the cursor or add a space from the bottom bar.
 
 Determine the height of the keyboard and show or hide it using a simple variable
+
+Change the default light setting to dark mode
+
+<a href="https://raw.githubusercontent.com/Grabot/flutter_emoji_keyboard/main/example_images/Screenshot_1621415774.png"><img src="https://raw.githubusercontent.com/Grabot/flutter_emoji_keyboard/main/example_images/Screenshot_1621415774.png" width="200"></a>
 
 
 ## Usage
@@ -79,9 +83,10 @@ class _MyHomePageState extends State<MyHomePage> {
             Align(
               alignment: Alignment.bottomCenter,
               child: EmojiKeyboard(
-                  bromotionController: controller,
-                  emojiKeyboardHeight: 350,
-                  showEmojiKeyboard: showEmojiKeyboard
+                bromotionController: controller,
+                emojiKeyboardHeight: 420,
+                showEmojiKeyboard: true,
+                darkMode: true
               ),
             ),
           ]
