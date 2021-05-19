@@ -1,4 +1,4 @@
-'''
+```
 import 'package:back_button_interceptor/back_button_interceptor.dart';
 import 'package:emoji_keyboard_flutter/emoji_keyboard_flutter.dart';
 import 'package:flutter/material.dart';
@@ -77,6 +77,7 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Stack(
           children: [
             Container(
+              color: Colors.white,
               alignment: Alignment.topCenter,
               padding: const EdgeInsets.all(6),
               child: TextFormField(
@@ -92,9 +93,10 @@ class _MyHomePageState extends State<MyHomePage> {
             Align(
               alignment: Alignment.bottomCenter,
               child: EmojiKeyboard(
-                  bromotionController: controller,
-                  emojiKeyboardHeight: 350,
-                  showEmojiKeyboard: showEmojiKeyboard
+                bromotionController: controller,
+                emojiKeyboardHeight: 350,
+                showEmojiKeyboard: showEmojiKeyboard,
+                darkMode: true
               ),
             ),
           ]
@@ -102,4 +104,4 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
-'''
+```
