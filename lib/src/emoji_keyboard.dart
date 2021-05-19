@@ -10,6 +10,14 @@ import 'category_bar.dart';
 import 'emoji_page.dart';
 import 'emoji_searching.dart';
 
+/// The emoji keyboard. This holds all the components of the keyboard.
+/// This will include the:
+///   - category bar
+///     This holds the categories
+///   - bottom bar
+///     This holds the backspace, search and normal space functionality
+///   - emoji pages
+///     These hold all the emojis in 9 separate listviews.
 class EmojiKeyboard extends StatefulWidget {
   final TextEditingController bromotionController;
   final double emojiKeyboardHeight;
@@ -29,6 +37,10 @@ class EmojiKeyboard extends StatefulWidget {
   EmojiBoard createState() => EmojiBoard();
 }
 
+/// The emojiboard has a configurable textfield which is will control
+/// It has a configurable height and it can be made visible or invisible
+/// using the showKeyboard boolean
+/// It also has a darkmode for the users with a good taste in styling.
 class EmojiBoard extends State<EmojiKeyboard> {
   static const platform =
       const MethodChannel("nl.emojikeyboard.emoji/available");
@@ -94,6 +106,10 @@ class EmojiBoard extends State<EmojiKeyboard> {
     super.initState();
   }
 
+  /// We intercept any back button trigger. If the user has the emoji keyboard
+  /// open it will first override the back functionality by just hiding the
+  /// emoji keyboard first. If the back button is called again the normal
+  /// back functionality will apply.
   bool myInterceptor(bool stopDefaultButtonEvent, RouteInfo info) {
     if (searchMode) {
       setState(() {
@@ -112,10 +128,15 @@ class EmojiBoard extends State<EmojiKeyboard> {
     super.dispose();
   }
 
+  /// This function handles any changes to the category from the
+  /// category bar and passes it to the emoji page widget.
   void categoryHandler(int categoryNumber) {
     emojiPageStateKey.currentState!.navigateCategory(categoryNumber);
   }
 
+  /// This function handles any triggers to hide or show the bottom bar if the
+  /// user scrolls up or down on the emoji page. It sends this trigger to the
+  /// bottom bar
   void emojiScrollShowBottomBar(bool emojiScrollShowBottomBar) {
     if (this.showBottomBar != emojiScrollShowBottomBar) {
       this.showBottomBar = emojiScrollShowBottomBar;
@@ -124,10 +145,17 @@ class EmojiBoard extends State<EmojiKeyboard> {
     }
   }
 
+  /// This function handles changes in the Emoji page if the user swipes
+  /// left or right.
+  /// It sends a trigger to the category bar to update the category
   void switchedPage(int pageNumber) {
     categoryBarStateKey.currentState!.updateCategoryBar(pageNumber);
   }
 
+  /// If the user presses the "search" button this function is called.
+  /// It sets the initial emojis, which is the recent page.
+  /// It remembers the position that the cursor was at and it will shift focus
+  /// to the new keyboard which will be called up.
   void emojiSearch() {
     setInitialSearchEmojis();
     setState(() {
@@ -137,6 +165,9 @@ class EmojiBoard extends State<EmojiKeyboard> {
     focusSearchEmoji.requestFocus();
   }
 
+  /// The function which will set the initial search emojis when the "search"
+  /// button is pressed. It takes the recent emojis and fills it in.
+  /// It stops after 10 because more is not needed.
   setInitialSearchEmojis() {
     getRecentEmoji().then((value) {
       List<SearchedEmoji> recommendedEmojis = [];
@@ -160,6 +191,11 @@ class EmojiBoard extends State<EmojiKeyboard> {
     });
   }
 
+  /// Every letter that the user inputs in the search mode will trigger this
+  /// function.
+  /// It will take the text entered so far and find all emojis which are
+  /// related to that text search in any way. It puts these emojis in the list
+  /// and shows it.
   updateEmojiSearch(String text) {
     List<String> finalEmojis = searchEmojis(text);
     if (finalEmojis != null && finalEmojis != []) {
@@ -167,12 +203,20 @@ class EmojiBoard extends State<EmojiKeyboard> {
     }
   }
 
+  /// This function finds the most used emojis of the user by looking in the
+  /// shared preferences of the app.
+  /// If the user enters an emoji it is added to the list so this list holds
+  /// all this users most used emojis.
   Future getRecentEmoji() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     List<String>? recent = preferences.getStringList(recentEmojisKey);
     return recent;
   }
 
+  /// If the user presses an emoji it is added to it's "recent" list.
+  /// This is a list of emojis in the shared preferences.
+  /// It loads all the emojis in this list and adds it to it.
+  /// If it was already there, it removes it first and adds it to the front.
   void addRecentEmoji(String emoji) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     getRecentEmoji().then((value) {
@@ -195,6 +239,10 @@ class EmojiBoard extends State<EmojiKeyboard> {
     });
   }
 
+  /// If the user has searched for an emoji using the search functionality
+  /// it can select any emoji and it will insert this emoji in the Textfield.
+  /// It will then go out of search mode and back to the emoji keyboard.
+  /// The emoji is added where the cursor was when the user pressed search.
   void insertTextSearch(String myText) {
     final text = bromotionController!.text;
     final textSelection = rememberPosition;
@@ -214,6 +262,8 @@ class EmojiBoard extends State<EmojiKeyboard> {
     });
   }
 
+  /// This function is called when we want to see if any of the recent emojis
+  /// that the user used can be shown in this Android version.
   isAvailable(recentEmojis) {
     if (Platform.isAndroid) {
       Future.wait([getAvailableEmojis(recentEmojis)]).then((var value) {
@@ -226,6 +276,8 @@ class EmojiBoard extends State<EmojiKeyboard> {
     }
   }
 
+  /// If the emoji cannot be shown in this Android version it is removed from
+  /// the list.
   Future getAvailableEmojis(emojis) async {
     List availableResult =
         await (platform.invokeMethod("isAvailable", {"emojis": emojis}));
@@ -236,6 +288,10 @@ class EmojiBoard extends State<EmojiKeyboard> {
     this.searchedEmojis = availables;
   }
 
+  /// If the user selects an emoji from the grid a trigger is send to this
+  /// function with the corresponding emoji that the user pressed.
+  /// The emoji is added to the Textfield at the location of the cursor
+  /// or as a replacement of the selection of the user.
   void insertText(String myText) {
     addRecentEmoji(myText);
     emojiScrollShowBottomBar(true);

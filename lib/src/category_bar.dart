@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'emoji_category_key.dart';
 
+/// This is the Category bar. Here the user can select any of the 9 categories
 class CategoryBar extends StatefulWidget {
 
   final Function(int) categoryHandler;
@@ -16,6 +17,12 @@ class CategoryBar extends StatefulWidget {
   CategoryBarState createState() => CategoryBarState();
 }
 
+/// There are 8 emoji categories and a "recent" tab for the 9 categories total
+/// Each category can be selected and it will jump to the corresponding category
+/// The user can also switch to any category to the left or right of the current
+/// category by swiping in that direction.
+/// A difference in styling will indicate which category is selected.
+/// The icons for the categories are also defined here.
 class CategoryBarState extends State<CategoryBar> {
   int categorySelected = 1;
   double emojiCategoryHeight = 50;
@@ -25,6 +32,10 @@ class CategoryBarState extends State<CategoryBar> {
     super.initState();
   }
 
+  /// If the user presses a emoji category key this function is called
+  /// with the corresponding category number.
+  /// The correct category is shown in the category bar and a trigger is
+  /// send to the emoji page to show the page corresponding to the category.
   void onCategorySelect(int category) {
     widget.categoryHandler(category);
     if (categorySelected != category) {
@@ -34,6 +45,9 @@ class CategoryBarState extends State<CategoryBar> {
     }
   }
 
+  /// If the user swipes left or right in the emoji page the category changes.
+  /// When that happens a trigger is send here to update the category bar
+  /// to show the correct category corresponding to the page
   void updateCategoryBar(int categoryNumber) {
     if (categoryNumber != categorySelected) {
       setState(() {

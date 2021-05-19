@@ -7,6 +7,9 @@ import 'emojis/smileys.dart';
 import 'emojis/symbols.dart';
 import 'emojis/travel.dart';
 
+/// When this is called it receives a text and it return all the emojis which
+/// are related to that text and which the user might be looking for.
+/// It looks for exact or partial matches with the emoji name and the given text
 List<String> searchEmojis(String text) {
   if (text.length >= 1) {
     List<SearchedEmoji> recommendedEmojis = [];
@@ -121,6 +124,11 @@ List<String> searchEmojis(String text) {
   }
 }
 
+/// Here we store the emoji that the user searched for. We store the tier and
+/// the name and the emoji.
+/// We use the tier to sort them in the order in which the user probably wants.
+/// The searched word is matched with how well it matches the emoji name.
+/// If the word matches exact it will be a stronger factor than partially
 class SearchedEmoji {
   final String name;
   final String emoji;

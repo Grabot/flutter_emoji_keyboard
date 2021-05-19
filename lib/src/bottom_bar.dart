@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+/// This is the Bottom Bar of the Emoji Keyboard
 class BottomBar extends StatefulWidget {
 
   final TextEditingController bromotionController;
@@ -17,6 +18,12 @@ class BottomBar extends StatefulWidget {
   BottomBarState createState() => BottomBarState();
 }
 
+/// The bottom bar of the Emoji keyboard is visible when opening
+/// the emoji keyboard. When the user scrolls down the bottom bar is hidden.
+/// If the user then scrolls back up or presses an emoji the bottom bar
+/// becomes visible and usable again.
+/// The bottom bar has the "search" button with which the user can
+/// search for a particular emoji using a regular keyboard.
 class BottomBarState extends State<BottomBar> {
   TextEditingController? bromotionController;
   final double bottomBarHeight = 50;
@@ -28,6 +35,15 @@ class BottomBarState extends State<BottomBar> {
     super.initState();
   }
 
+  /// If the user presses the backspace located on the bottom bar it should
+  /// remove the previous emoji (or character) based on where the cursor is
+  /// at that moment.
+  /// Using the skipLast(1) functionality we determine which that is and
+  /// remove it.
+  /// First we check if a selection is made, if that's the case we remove
+  /// that selection
+  /// if the user has the cursor in the beginning or nothing is in the
+  /// Textfield nothing happens
   void onBackspace() {
     final text = bromotionController!.text;
     final textSelection = bromotionController!.selection;
@@ -67,6 +83,7 @@ class BottomBarState extends State<BottomBar> {
     );
   }
 
+  /// If the user presses the Spacebar it will simply add a space
   void onSpacebar() {
     final text = bromotionController!.text;
     final textSelection = bromotionController!.selection;
@@ -82,6 +99,11 @@ class BottomBarState extends State<BottomBar> {
     );
   }
 
+  /// If the user scrolls down the bottom bar should be hidden.
+  /// If the user scrolls up the bottom bar should be shown.
+  /// If the user presses an emoji the bottom bar should also be shown
+  /// A call is send to this function from the Emoji grid which handles the
+  /// scrolling and it will set the visible boolean here to hide or show it
   void emojiScrollShowBottomBar(bool show) {
     if (show != showBottomBar) {
       setState(() {
