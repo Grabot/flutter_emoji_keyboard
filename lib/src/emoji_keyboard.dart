@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
-import 'package:keyboard_visibility/keyboard_visibility.dart';
+import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:back_button_interceptor/back_button_interceptor.dart';
 import 'bottom_bar.dart';
@@ -14,12 +14,16 @@ class EmojiKeyboard extends StatefulWidget {
   final TextEditingController bromotionController;
   final double emojiKeyboardHeight;
   final bool showEmojiKeyboard;
+  final bool darkMode;
 
   EmojiKeyboard(
-      {Key key,
-      this.bromotionController,
-      this.emojiKeyboardHeight,
-      this.showEmojiKeyboard})
+      {
+        Key? key,
+        required this.bromotionController,
+        this.emojiKeyboardHeight = 350,
+        this.showEmojiKeyboard = true,
+        this.darkMode = false
+      })
       : super(key: key);
 
   EmojiBoard createState() => EmojiBoard();
@@ -30,8 +34,6 @@ class EmojiBoard extends State<EmojiKeyboard> {
       const MethodChannel("nl.emojikeyboard.emoji/available");
   static String recentEmojisKey = "recentEmojis";
 
-  // We keep track of the GlobalStateKeys for the category, bottombar and emojipage.
-  // This is so we can send a signal to these widgets if they have to update
   final GlobalKey<CategoryBarState> categoryBarStateKey =
       GlobalKey<CategoryBarState>();
   final GlobalKey<BottomBarState> bottomBarStateKey =
@@ -39,32 +41,28 @@ class EmojiBoard extends State<EmojiKeyboard> {
   final GlobalKey<EmojiPageState> emojiPageStateKey =
       GlobalKey<EmojiPageState>();
 
-  // The focusnode is used to set the focus to the text editing field when the user selects the search option
-  // This will cause the regular keyboard to pop up
-  FocusNode focusSearchEmoji;
+  FocusNode focusSearchEmoji = FocusNode();
 
   final TextEditingController searchController = TextEditingController();
-  List<String> searchedEmojis;
-  TextSelection rememberPosition;
+  List<String> searchedEmojis = [];
 
-  double emojiKeyboardHeight;
+  late TextSelection rememberPosition;
 
-  // The bromotion controller will handle the emotion of the bro. This will be passed to the emoji keyboard
-  TextEditingController bromotionController;
+  double emojiKeyboardHeight = 350;
 
-  bool showBottomBar;
-  bool searchMode;
-  List<String> recent;
+  TextEditingController? bromotionController;
+
+  bool showBottomBar = true;
+  bool searchMode = false;
+  bool darkMode = false;
+  List<String> recent = [];
 
   @override
   void initState() {
     this.bromotionController = widget.bromotionController;
     this.emojiKeyboardHeight = widget.emojiKeyboardHeight;
-    this.showBottomBar = true;
-    this.searchMode = false;
-    this.searchedEmojis = [];
+    this.darkMode = widget.darkMode;
 
-    this.recent = [];
     getRecentEmoji().then((value) {
       List<String> recentUsed = [];
       if (value != null && value != []) {
@@ -79,23 +77,23 @@ class EmojiBoard extends State<EmojiKeyboard> {
       }
     });
 
-    // If the search option is selected than we will look for a 'back' call which will hide the regular keyboard.
-    // When this happens we want to leave searchmode and go back to the emoji keyboard, so we listen to this event and set this functionality.
-    KeyboardVisibilityNotification().addNewListener(onHide: () {
-      if (searchMode) {
-        setState(() {
-          searchMode = false;
-        });
+    var keyboardVisibilityController = KeyboardVisibilityController();
+
+    keyboardVisibilityController.onChange.listen((bool visible) {
+      if (!visible) {
+        if (searchMode) {
+          setState(() {
+            searchMode = false;
+          });
+        }
       }
     });
 
-    this.focusSearchEmoji = FocusNode();
     BackButtonInterceptor.add(myInterceptor);
 
     super.initState();
   }
 
-  // When the user clicks the back button when in search mode we want to first leave the search mode and only after that leave the emoji keyboard
   bool myInterceptor(bool stopDefaultButtonEvent, RouteInfo info) {
     if (searchMode) {
       setState(() {
@@ -115,22 +113,19 @@ class EmojiBoard extends State<EmojiKeyboard> {
   }
 
   void categoryHandler(int categoryNumber) {
-    emojiPageStateKey.currentState.navigateCategory(categoryNumber);
+    emojiPageStateKey.currentState!.navigateCategory(categoryNumber);
   }
 
-  // This determines whether or not the bottom bar should be visible.
-  // From the emoji page it sends a signal if the user is scrolling down or up and the trigger is send to the bottom bar to hide or show itself.
   void emojiScrollShowBottomBar(bool emojiScrollShowBottomBar) {
     if (this.showBottomBar != emojiScrollShowBottomBar) {
       this.showBottomBar = emojiScrollShowBottomBar;
-      bottomBarStateKey.currentState
+      bottomBarStateKey.currentState!
           .emojiScrollShowBottomBar(this.showBottomBar);
     }
   }
 
-  // If the user swipes left or right on the emoji page it switches categories. We want the category bar to be updated when this happens.
   void switchedPage(int pageNumber) {
-    categoryBarStateKey.currentState.updateCategoryBar(pageNumber);
+    categoryBarStateKey.currentState!.updateCategoryBar(pageNumber);
   }
 
   void emojiSearch() {
@@ -138,18 +133,17 @@ class EmojiBoard extends State<EmojiKeyboard> {
     setState(() {
       this.searchMode = true;
     });
-    rememberPosition = bromotionController.selection;
+    rememberPosition = bromotionController!.selection;
     focusSearchEmoji.requestFocus();
   }
 
-  // If the user wants to search for emojis the list will first be empty. We will fill it with it's 'recent' list in case he will quickly see what he's looking for.
   setInitialSearchEmojis() {
     getRecentEmoji().then((value) {
       List<SearchedEmoji> recommendedEmojis = [];
       if (value != null && value != []) {
         for (var val in value) {
           recommendedEmojis
-              .add(SearchedEmoji(name: null, emoji: val.toString(), tier: 1));
+              .add(SearchedEmoji(name: "", emoji: val.toString(), tier: 1));
           if (recommendedEmojis.length >= 10) {
             break;
           }
@@ -166,7 +160,6 @@ class EmojiBoard extends State<EmojiKeyboard> {
     });
   }
 
-  // For older versions of Android the emoji might not be usable, we filter these out, also in the search mode.
   updateEmojiSearch(String text) {
     List<String> finalEmojis = searchEmojis(text);
     if (finalEmojis != null && finalEmojis != []) {
@@ -174,14 +167,12 @@ class EmojiBoard extends State<EmojiKeyboard> {
     }
   }
 
-  // The recent emojis are stored and retrieved from the shared instances. Here we retrieve the list we've stored.
   Future getRecentEmoji() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
-    List<String> recent = preferences.getStringList(recentEmojisKey);
+    List<String>? recent = preferences.getStringList(recentEmojisKey);
     return recent;
   }
 
-  // The recent emojis are stored and retrieved from the shared preferences. Here we store a new entry in the list.
   void addRecentEmoji(String emoji) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     getRecentEmoji().then((value) {
@@ -194,7 +185,6 @@ class EmojiBoard extends State<EmojiKeyboard> {
       if (recentUsed == null || recentUsed == []) {
         recentUsed = [];
       } else {
-        // If the emoji is already in the list, then remove it so it is added in the front.
         recentUsed.removeWhere((item) => item == emoji);
       }
       recentUsed.insert(0, emoji.toString());
@@ -205,9 +195,8 @@ class EmojiBoard extends State<EmojiKeyboard> {
     });
   }
 
-  // If the user selects an option in the search option we will add it to the text editing controller on the position where the user had it's selection.
   void insertTextSearch(String myText) {
-    final text = bromotionController.text;
+    final text = bromotionController!.text;
     final textSelection = rememberPosition;
     final newText = text.replaceRange(
       textSelection.start,
@@ -215,8 +204,8 @@ class EmojiBoard extends State<EmojiKeyboard> {
       myText,
     );
     final myTextLength = myText.length;
-    bromotionController.text = newText;
-    bromotionController.selection = textSelection.copyWith(
+    bromotionController!.text = newText;
+    bromotionController!.selection = textSelection.copyWith(
       baseOffset: textSelection.start + myTextLength,
       extentOffset: textSelection.start + myTextLength,
     );
@@ -239,7 +228,7 @@ class EmojiBoard extends State<EmojiKeyboard> {
 
   Future getAvailableEmojis(emojis) async {
     List availableResult =
-        await platform.invokeMethod("isAvailable", {"emojis": emojis});
+        await (platform.invokeMethod("isAvailable", {"emojis": emojis}));
     List<String> availables = [];
     for (var avail in availableResult) {
       availables.add(avail.toString());
@@ -247,22 +236,19 @@ class EmojiBoard extends State<EmojiKeyboard> {
     this.searchedEmojis = availables;
   }
 
-  // If the user select an emoji from the regular emoji view it gets added on the cursor position.
-  // It will also add it to the recent selection and it will reveal the bottom bar if it's hiding
-  // It will also add it to the recent selection and it will reveal the bottom bar if it's hiding
   void insertText(String myText) {
     addRecentEmoji(myText);
     emojiScrollShowBottomBar(true);
-    final text = bromotionController.text;
-    final textSelection = bromotionController.selection;
+    final text = bromotionController!.text;
+    final textSelection = bromotionController!.selection;
     final newText = text.replaceRange(
       textSelection.start,
       textSelection.end,
       myText,
     );
     final myTextLength = myText.length;
-    bromotionController.text = newText;
-    bromotionController.selection = textSelection.copyWith(
+    bromotionController!.text = newText;
+    bromotionController!.selection = textSelection.copyWith(
       baseOffset: textSelection.start + myTextLength,
       extentOffset: textSelection.start + myTextLength,
     );
@@ -270,30 +256,31 @@ class EmojiBoard extends State<EmojiKeyboard> {
 
   @override
   Widget build(BuildContext context) {
-    // Here we add the whole emoji keyboard. The whole thing is wrapped in a Container,
-    // the user can implement this Container to be positioned where they want and control the size and visibility with the corresponding variables.
     return Container(
         child: Column(mainAxisSize: MainAxisSize.min, children: [
       Container(
         height:
             widget.showEmojiKeyboard && !searchMode ? emojiKeyboardHeight : 0,
-        color: Colors.grey,
+        color: this.darkMode ? Color(0xff262626) : Color(0xffe7e7e7),
         child: Column(children: [
           CategoryBar(
-              key: categoryBarStateKey, categoryHandler: categoryHandler),
+              key: categoryBarStateKey,
+              categoryHandler: categoryHandler,
+              darkMode: darkMode),
           Stack(children: [
             EmojiPage(
                 key: emojiPageStateKey,
                 emojiKeyboardHeight: emojiKeyboardHeight,
-                bromotionController: bromotionController,
+                bromotionController: bromotionController!,
                 emojiScrollShowBottomBar: emojiScrollShowBottomBar,
                 insertText: insertText,
                 recent: recent,
                 switchedPage: switchedPage),
             BottomBar(
-              key: bottomBarStateKey,
-              bromotionController: bromotionController,
-              emojiSearch: emojiSearch,
+                key: bottomBarStateKey,
+                bromotionController: bromotionController!,
+                emojiSearch: emojiSearch,
+                darkMode: darkMode
             ),
           ])
         ]),
@@ -305,13 +292,10 @@ class EmojiBoard extends State<EmojiKeyboard> {
                 children: [
                   Container(
                     height: MediaQuery.of(context).size.width /
-                        8, // 8 items to fill screen
+                        8,
                     child: ListView.builder(
                       scrollDirection: Axis.horizontal,
-                      // Let the ListView know how many items it needs to build.
                       itemCount: searchedEmojis.length,
-                      // Provide a builder function. This is where the magic happens.
-                      // Convert each item into a widget based on the type of item it is.
                       itemBuilder: (context, index) {
                         return TextButton(
                             onPressed: () {

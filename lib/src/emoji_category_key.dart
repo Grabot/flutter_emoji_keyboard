@@ -3,11 +3,13 @@ import 'package:flutter/widgets.dart';
 
 class EmojiCategoryKey extends StatelessWidget {
   const EmojiCategoryKey(
-      {Key key,
-      this.onCategorySelect,
-      this.category,
-      this.categoryNumber,
-      this.active})
+      {
+        Key? key,
+        required this.onCategorySelect,
+        required this.category,
+        required this.categoryNumber,
+        required this.active
+      })
       : super(key: key);
 
   final ValueSetter<int> onCategorySelect;
@@ -29,7 +31,7 @@ class EmojiCategoryKey extends StatelessWidget {
             icon: Icon(category),
             color: active ? Colors.black : Colors.grey.shade600,
             onPressed: () {
-              onCategorySelect?.call(categoryNumber);
+              onCategorySelect.call(categoryNumber);
             },
           )),
     );

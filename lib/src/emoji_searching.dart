@@ -113,7 +113,7 @@ List<String> searchEmojis(String text) {
 
     Set<String> finalEmojis = {};
     recommendedEmojis.forEach((element) {
-      finalEmojis.add(element.emoji.toString());
+      finalEmojis.add(element.emoji);
     });
     return finalEmojis.toList();
   } else {
@@ -129,14 +129,12 @@ class SearchedEmoji {
   final int numSplitPartialKeyword;
 
   SearchedEmoji(
-      {this.name,
-      this.emoji,
-      this.tier,
-      this.numSplitEqualKeyword = 0,
-      this.numSplitPartialKeyword = 0});
+      {
+        required this.name,
+        required this.emoji,
+        required this.tier,
+        this.numSplitEqualKeyword = 0,
+        this.numSplitPartialKeyword = 0
+      });
 
-  @override
-  String toString() {
-    return "emoji $emoji  and full description $name";
-  }
 }

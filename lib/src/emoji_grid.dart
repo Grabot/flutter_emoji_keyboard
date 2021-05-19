@@ -7,10 +7,10 @@ class EmojiGrid extends StatefulWidget {
   final Function(String) insertText;
 
   EmojiGrid({
-    Key key,
-    this.emojis,
-    this.emojiScrollShowBottomBar,
-    this.insertText,
+    Key? key,
+    required this.emojis,
+    required this.emojiScrollShowBottomBar,
+    required this.insertText,
   }) : super(key: key);
 
   @override
@@ -18,14 +18,13 @@ class EmojiGrid extends StatefulWidget {
 }
 
 class EmojiGridState extends State<EmojiGrid> {
-  List emojis;
-  ScrollController scrollController;
+  List? emojis;
+  ScrollController scrollController = new ScrollController();
 
   @override
   void initState() {
     this.emojis = widget.emojis;
 
-    scrollController = new ScrollController();
     scrollController.addListener(() => keyboardScrollListener());
 
     super.initState();
@@ -57,20 +56,19 @@ class EmojiGridState extends State<EmojiGrid> {
 
   @override
   Widget build(BuildContext context) {
-    // We make a grid of all emojis from the corresponding category list.
     return GridView.builder(
         controller: scrollController,
         shrinkWrap: true,
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 8,
         ),
-        itemCount: emojis.length,
+        itemCount: emojis!.length,
         itemBuilder: (BuildContext ctx, index) {
           return TextButton(
               onPressed: () {
-                pressedEmoji(emojis[index]);
+                pressedEmoji(emojis![index]);
               },
-              child: Text(emojis[index], style: TextStyle(fontSize: 25)));
+              child: Text(emojis![index], style: TextStyle(fontSize: 25)));
         });
   }
 }

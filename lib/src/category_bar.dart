@@ -2,23 +2,26 @@ import 'package:flutter/material.dart';
 import 'emoji_category_key.dart';
 
 class CategoryBar extends StatefulWidget {
-  const CategoryBar({Key key, this.categoryHandler}) : super(key: key);
 
   final Function(int) categoryHandler;
+  final bool darkMode;
+
+  const CategoryBar({
+    Key? key,
+    required this.categoryHandler,
+    required this.darkMode
+  }) : super(key: key);
 
   @override
   CategoryBarState createState() => CategoryBarState();
 }
 
 class CategoryBarState extends State<CategoryBar> {
-  int categorySelected;
-  double emojiCategoryHeight;
+  int categorySelected = 1;
+  double emojiCategoryHeight = 50;
 
   @override
   void initState() {
-    emojiCategoryHeight = 50;
-    categorySelected = 1;
-
     super.initState();
   }
 
@@ -31,7 +34,6 @@ class CategoryBarState extends State<CategoryBar> {
     }
   }
 
-  // If the category should be updated we send a trigger to this function, so only the category bar updates.
   void updateCategoryBar(int categoryNumber) {
     if (categoryNumber != categorySelected) {
       setState(() {
@@ -42,8 +44,8 @@ class CategoryBarState extends State<CategoryBar> {
 
   @override
   Widget build(BuildContext context) {
-    // Here we create the category bar, each category is linked to it's corresponding page.
     return Container(
+      color: widget.darkMode ? Color(0xff171717) : Color(0xffdbdbdb),
       height: emojiCategoryHeight,
       width: MediaQuery.of(context).size.width,
       child: SizedBox(

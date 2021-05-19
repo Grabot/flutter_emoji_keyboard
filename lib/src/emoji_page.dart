@@ -13,14 +13,17 @@ import 'emojis/symbols.dart';
 import 'emojis/travel.dart';
 
 class EmojiPage extends StatefulWidget {
+
   EmojiPage(
-      {Key key,
-      this.emojiKeyboardHeight,
-      this.bromotionController,
-      this.emojiScrollShowBottomBar,
-      this.insertText,
-      this.switchedPage,
-      this.recent})
+      {
+        Key? key,
+        required this.emojiKeyboardHeight,
+        required this.bromotionController,
+        required this.emojiScrollShowBottomBar,
+        required this.insertText,
+        required this.switchedPage,
+        required this.recent
+      })
       : super(key: key);
 
   final double emojiKeyboardHeight;
@@ -42,36 +45,26 @@ class EmojiPageState extends State<EmojiPage> {
   final GlobalKey<EmojiGridState> emojiGridStateKey =
       GlobalKey<EmojiGridState>();
 
-  List smileys;
-  List animals;
-  List foods;
-  List activities;
-  List travel;
-  List objects;
-  List symbols;
-  List flags;
+  List smileys = [];
+  List animals = [];
+  List foods = [];
+  List activities = [];
+  List travel = [];
+  List objects = [];
+  List symbols = [];
+  List flags = [];
 
-  PageController pageController;
-  TextEditingController bromotionController;
+  PageController pageController = new PageController(initialPage: 1);
+  TextEditingController? bromotionController;
 
   bool showBottomBar = true;
 
   @override
   void initState() {
-    this.smileys = [];
-    this.animals = [];
-    this.foods = [];
-    this.activities = [];
-    this.travel = [];
-    this.objects = [];
-    this.symbols = [];
-    this.flags = [];
+    this.bromotionController = widget.bromotionController;
 
     isAvailable();
 
-    this.bromotionController = widget.bromotionController;
-
-    pageController = new PageController(initialPage: 1);
     pageController.addListener(() => pageScrollListener());
 
     super.initState();
@@ -98,7 +91,7 @@ class EmojiPageState extends State<EmojiPage> {
         getAvailableSymbols(),
         getAvailableFlags()
       ]).then((var value) {
-        emojiGridStateKey.currentState.forceUpdate(this.smileys);
+        emojiGridStateKey.currentState!.forceUpdate(this.smileys);
       });
     } else {
       setState(() {
@@ -165,7 +158,7 @@ class EmojiPageState extends State<EmojiPage> {
               ScrollDirection.reverse ||
           pageController.position.userScrollDirection ==
               ScrollDirection.forward) {
-        widget.switchedPage(pageController.page.round());
+        widget.switchedPage(pageController.page!.round());
       }
     }
   }
