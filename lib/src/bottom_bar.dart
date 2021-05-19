@@ -2,17 +2,16 @@ import 'package:flutter/material.dart';
 
 /// This is the Bottom Bar of the Emoji Keyboard
 class BottomBar extends StatefulWidget {
-
   final TextEditingController bromotionController;
   final Function emojiSearch;
   final bool darkMode;
 
-  BottomBar({
-    Key? key,
-    required this.bromotionController,
-    required this.emojiSearch,
-    required this.darkMode
-  }) : super(key: key);
+  BottomBar(
+      {Key? key,
+      required this.bromotionController,
+      required this.emojiSearch,
+      required this.darkMode})
+      : super(key: key);
 
   @override
   BottomBarState createState() => BottomBarState();
@@ -148,10 +147,8 @@ class BottomBarState extends State<BottomBar> {
                           },
                           child: Icon(Icons.space_bar))),
                   SizedBox(
-                      width: MediaQuery.of(context).size.width /
-                          8,
-                      height: MediaQuery.of(context).size.width /
-                          8,
+                      width: MediaQuery.of(context).size.width / 8,
+                      height: MediaQuery.of(context).size.width / 8,
                       child: TextButton(
                           onPressed: () {
                             onBackspace();

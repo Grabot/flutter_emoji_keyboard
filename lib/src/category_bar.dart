@@ -3,15 +3,12 @@ import 'emoji_category_key.dart';
 
 /// This is the Category bar. Here the user can select any of the 9 categories
 class CategoryBar extends StatefulWidget {
-
   final Function(int) categoryHandler;
   final bool darkMode;
 
-  const CategoryBar({
-    Key? key,
-    required this.categoryHandler,
-    required this.darkMode
-  }) : super(key: key);
+  const CategoryBar(
+      {Key? key, required this.categoryHandler, required this.darkMode})
+      : super(key: key);
 
   @override
   CategoryBarState createState() => CategoryBarState();

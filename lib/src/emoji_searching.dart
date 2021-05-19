@@ -137,12 +137,9 @@ class SearchedEmoji {
   final int numSplitPartialKeyword;
 
   SearchedEmoji(
-      {
-        required this.name,
-        required this.emoji,
-        required this.tier,
-        this.numSplitEqualKeyword = 0,
-        this.numSplitPartialKeyword = 0
-      });
-
+      {required this.name,
+      required this.emoji,
+      required this.tier,
+      this.numSplitEqualKeyword = 0,
+      this.numSplitPartialKeyword = 0});
 }

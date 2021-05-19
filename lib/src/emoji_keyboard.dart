@@ -25,13 +25,11 @@ class EmojiKeyboard extends StatefulWidget {
   final bool darkMode;
 
   EmojiKeyboard(
-      {
-        Key? key,
-        required this.bromotionController,
-        this.emojiKeyboardHeight = 350,
-        this.showEmojiKeyboard = true,
-        this.darkMode = false
-      })
+      {Key? key,
+      required this.bromotionController,
+      this.emojiKeyboardHeight = 350,
+      this.showEmojiKeyboard = true,
+      this.darkMode = false})
       : super(key: key);
 
   EmojiBoard createState() => EmojiBoard();
@@ -336,8 +334,7 @@ class EmojiBoard extends State<EmojiKeyboard> {
                 key: bottomBarStateKey,
                 bromotionController: bromotionController!,
                 emojiSearch: emojiSearch,
-                darkMode: darkMode
-            ),
+                darkMode: darkMode),
           ])
         ]),
       ),
@@ -347,8 +344,7 @@ class EmojiBoard extends State<EmojiKeyboard> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Container(
-                    height: MediaQuery.of(context).size.width /
-                        8,
+                    height: MediaQuery.of(context).size.width / 8,
                     child: ListView.builder(
                       scrollDirection: Axis.horizontal,
                       itemCount: searchedEmojis.length,
