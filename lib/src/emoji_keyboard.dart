@@ -340,6 +340,7 @@ class EmojiBoard extends State<EmojiKeyboard> {
       ),
       searchMode
           ? Container(
+              color: this.darkMode ? Color(0xff262626) : Color(0xffe7e7e7),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -363,6 +364,9 @@ class EmojiBoard extends State<EmojiKeyboard> {
                     onChanged: (text) {
                       updateEmojiSearch(text);
                     },
+                    style: TextStyle(
+                      color: darkMode ? Colors.white : Colors.black,
+                    ),
                     decoration:
                         const InputDecoration(border: OutlineInputBorder()),
                   ),
