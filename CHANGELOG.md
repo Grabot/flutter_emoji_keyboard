@@ -1,3 +1,8 @@
+## [1.0.1] 26-05-2021
+
+Fix that search mode was permanently in DarkMode
+The TextField in DarkMode now has white text (and black when not in DarkMode) so that it is readable
+
 ## [1.0.0] 19-05-2021
 
 Official first release.
