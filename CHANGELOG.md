@@ -1,3 +1,7 @@
+## [1.0.2] 27-05-2021
+
+Fixed an issue where the keyboard wouldn't hide when in search mode.
+
 ## [1.0.1] 26-05-2021
 
 Fix that search mode was permanently in DarkMode

@@ -338,7 +338,7 @@ class EmojiBoard extends State<EmojiKeyboard> {
           ])
         ]),
       ),
-      searchMode
+      widget.showEmojiKeyboard && searchMode
           ? Container(
               color: this.darkMode ? Color(0xff262626) : Color(0xffe7e7e7),
               child: Column(
