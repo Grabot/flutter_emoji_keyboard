@@ -1,3 +1,7 @@
+## [1.0.4] 05-06-2021
+
+Fixed styling issues
+
 ## [1.0.3] 05-06-2021
 
 The phone can now be rotated between orientation and landscape.
