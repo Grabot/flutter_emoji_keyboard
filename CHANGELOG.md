@@ -1,3 +1,8 @@
+## [1.0.3] 05-06-2021
+
+The phone can now be rotated between orientation and landscape.
+The emoji keyboard will respond accordingly.
+
 ## [1.0.2] 27-05-2021
 
 Fixed an issue where the keyboard wouldn't hide when in search mode.

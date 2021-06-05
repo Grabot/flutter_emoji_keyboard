@@ -20,6 +20,7 @@ class EmojiPage extends StatefulWidget {
       required this.bromotionController,
       required this.emojiScrollShowBottomBar,
       required this.insertText,
+      required this.orientation,
       required this.switchedPage,
       required this.recent})
       : super(key: key);
@@ -28,6 +29,7 @@ class EmojiPage extends StatefulWidget {
   final TextEditingController bromotionController;
   final Function(bool) emojiScrollShowBottomBar;
   final Function(String) insertText;
+  final Orientation orientation;
   final Function(int) switchedPage;
   final List<String> recent;
 
@@ -202,39 +204,48 @@ class EmojiPageState extends State<EmojiPage> {
         EmojiGrid(
             emojis: widget.recent,
             emojiScrollShowBottomBar: widget.emojiScrollShowBottomBar,
+            orientation: widget.orientation,
             insertText: widget.insertText),
         EmojiGrid(
             emojis: smileys,
             emojiScrollShowBottomBar: widget.emojiScrollShowBottomBar,
+            orientation: widget.orientation,
             insertText: widget.insertText,
             key: emojiGridStateKey),
         EmojiGrid(
             emojis: animals,
             emojiScrollShowBottomBar: widget.emojiScrollShowBottomBar,
+            orientation: widget.orientation,
             insertText: widget.insertText),
         EmojiGrid(
             emojis: foods,
             emojiScrollShowBottomBar: widget.emojiScrollShowBottomBar,
+            orientation: widget.orientation,
             insertText: widget.insertText),
         EmojiGrid(
             emojis: activities,
             emojiScrollShowBottomBar: widget.emojiScrollShowBottomBar,
+            orientation: widget.orientation,
             insertText: widget.insertText),
         EmojiGrid(
             emojis: travel,
             emojiScrollShowBottomBar: widget.emojiScrollShowBottomBar,
+            orientation: widget.orientation,
             insertText: widget.insertText),
         EmojiGrid(
             emojis: objects,
             emojiScrollShowBottomBar: widget.emojiScrollShowBottomBar,
+            orientation: widget.orientation,
             insertText: widget.insertText),
         EmojiGrid(
             emojis: symbols,
             emojiScrollShowBottomBar: widget.emojiScrollShowBottomBar,
+            orientation: widget.orientation,
             insertText: widget.insertText),
         EmojiGrid(
             emojis: flags,
             emojiScrollShowBottomBar: widget.emojiScrollShowBottomBar,
+            orientation: widget.orientation,
             insertText: widget.insertText)
       ]),
     );

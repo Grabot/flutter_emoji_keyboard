@@ -310,70 +310,79 @@ class EmojiBoard extends State<EmojiKeyboard> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        child: Column(mainAxisSize: MainAxisSize.min, children: [
-      Container(
-        height:
-            widget.showEmojiKeyboard && !searchMode ? emojiKeyboardHeight : 0,
-        color: this.darkMode ? Color(0xff262626) : Color(0xffe7e7e7),
-        child: Column(children: [
-          CategoryBar(
-              key: categoryBarStateKey,
-              categoryHandler: categoryHandler,
-              darkMode: darkMode),
-          Stack(children: [
-            EmojiPage(
-                key: emojiPageStateKey,
-                emojiKeyboardHeight: emojiKeyboardHeight,
-                bromotionController: bromotionController!,
-                emojiScrollShowBottomBar: emojiScrollShowBottomBar,
-                insertText: insertText,
-                recent: recent,
-                switchedPage: switchedPage),
-            BottomBar(
-                key: bottomBarStateKey,
-                bromotionController: bromotionController!,
-                emojiSearch: emojiSearch,
-                darkMode: darkMode),
-          ])
-        ]),
-      ),
-      widget.showEmojiKeyboard && searchMode
-          ? Container(
-              color: this.darkMode ? Color(0xff262626) : Color(0xffe7e7e7),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Container(
-                    height: MediaQuery.of(context).size.width / 8,
-                    child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: searchedEmojis.length,
-                      itemBuilder: (context, index) {
-                        return TextButton(
-                            onPressed: () {
-                              insertTextSearch(searchedEmojis[index]);
-                            },
-                            child: Text(searchedEmojis[index],
+    return OrientationBuilder(
+        builder: (context, orientation) {
+          return Container(
+              child: Column(mainAxisSize: MainAxisSize.min, children: [
+                Container(
+                  height:
+                  widget.showEmojiKeyboard && !searchMode
+                      ? orientation == Orientation.portrait ? emojiKeyboardHeight : 150
+                      : 0,
+                  color: this.darkMode ? Color(0xff262626) : Color(0xffe7e7e7),
+                  child: Column(children: [
+                    CategoryBar(
+                        key: categoryBarStateKey,
+                        categoryHandler: categoryHandler,
+                        darkMode: darkMode),
+                    Stack(children: [
+                      EmojiPage(
+                          key: emojiPageStateKey,
+                          emojiKeyboardHeight: orientation == Orientation.portrait ? emojiKeyboardHeight : 150,
+                          bromotionController: bromotionController!,
+                          emojiScrollShowBottomBar: emojiScrollShowBottomBar,
+                          insertText: insertText,
+                          orientation: orientation,
+                          recent: recent,
+                          switchedPage: switchedPage),
+                      BottomBar(
+                          key: bottomBarStateKey,
+                          bromotionController: bromotionController!,
+                          emojiSearch: emojiSearch,
+                          darkMode: darkMode),
+                    ])
+                  ]),
+                ),
+                widget.showEmojiKeyboard && searchMode
+                    ? Container(
+                  color: this.darkMode ? Color(0xff262626) : Color(0xffe7e7e7),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Container(
+                        height: orientation == Orientation.portrait ?
+                        MediaQuery.of(context).size.width / 8
+                        : 50,
+                        child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: searchedEmojis.length,
+                          itemBuilder: (context, index) {
+                            return TextButton(
+                                onPressed: () {
+                                  insertTextSearch(searchedEmojis[index]);
+                                },
+                                child: Text(searchedEmojis[index],
                                 style: TextStyle(fontSize: 25)));
-                      },
-                    ),
-                  ),
-                  TextFormField(
-                    focusNode: focusSearchEmoji,
-                    onChanged: (text) {
-                      updateEmojiSearch(text);
-                    },
-                    style: TextStyle(
-                      color: darkMode ? Colors.white : Colors.black,
-                    ),
-                    decoration:
+                          },
+                        ),
+                      ),
+                      TextFormField(
+                        focusNode: focusSearchEmoji,
+                        onChanged: (text) {
+                          updateEmojiSearch(text);
+                        },
+                        style: TextStyle(
+                          color: darkMode ? Colors.white : Colors.black,
+                        ),
+                        decoration:
                         const InputDecoration(border: OutlineInputBorder()),
+                      ),
+                    ],
                   ),
-                ],
-              ),
-            )
-          : Container(),
-    ]));
+                )
+                    : Container(),
+              ]));
+        }
+    );
   }
 }
