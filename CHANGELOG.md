@@ -1,3 +1,7 @@
+## [1.1.0] 06-06-2021
+
+Improved on the orientation
+
 ## [1.0.4] 06-06-2021
 
 Fixed styling issues
