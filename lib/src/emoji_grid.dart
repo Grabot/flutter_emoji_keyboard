@@ -6,13 +6,11 @@ class EmojiGrid extends StatefulWidget {
   final List emojis;
   final Function(bool) emojiScrollShowBottomBar;
   final Function(String) insertText;
-  final Orientation orientation;
 
   EmojiGrid({
     Key? key,
     required this.emojis,
     required this.emojiScrollShowBottomBar,
-    required this.orientation,
     required this.insertText,
   }) : super(key: key);
 
@@ -75,13 +73,17 @@ class EmojiGridState extends State<EmojiGrid> {
     });
   }
 
+  bool isPortrait() {
+    return MediaQuery.of(context).orientation == Orientation.portrait;
+  }
+
   @override
   Widget build(BuildContext context) {
     return GridView.builder(
         controller: scrollController,
         shrinkWrap: true,
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: widget.orientation == Orientation.portrait ? 8 : 16,
+          crossAxisCount: isPortrait() ? 8 : 16,
         ),
         itemCount: emojis!.length,
         itemBuilder: (BuildContext ctx, index) {
