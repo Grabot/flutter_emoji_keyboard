@@ -373,19 +373,17 @@ class EmojiBoard extends State<EmojiKeyboard> {
                       },
                     ),
                   ),
-                  Row(
-                    children: [
-                      Container(
+                  Row(children: [
+                    Container(
                         child: IconButton(
-                        icon: Icon(Icons.arrow_back),
-                          color: Colors.grey.shade600,
-                          onPressed: () {
-                            pressedBackSearch();
-                          },
-                        )
-                      ),
-                      Expanded(
-                        child: TextFormField(
+                      icon: Icon(Icons.arrow_back),
+                      color: Colors.grey.shade600,
+                      onPressed: () {
+                        pressedBackSearch();
+                      },
+                    )),
+                    Expanded(
+                      child: TextFormField(
                           focusNode: focusSearchEmoji,
                           onChanged: (text) {
                             updateEmojiSearch(text);
@@ -398,12 +396,9 @@ class EmojiBoard extends State<EmojiKeyboard> {
                               focusedBorder: InputBorder.none,
                               enabledBorder: InputBorder.none,
                               errorBorder: InputBorder.none,
-                              disabledBorder: InputBorder.none
-                          )
-                        ),
-                      ),
-                    ]
-                  ),
+                              disabledBorder: InputBorder.none)),
+                    ),
+                  ]),
                 ],
               ),
             )

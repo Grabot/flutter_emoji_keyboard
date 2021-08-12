@@ -1,3 +1,8 @@
+## [1.1.1] 12-08-2021
+
+In the search mode you will not automatically go back when an emoji has been selected.
+A back icon is added before the textfield which will behave like pressing the back button
+
 ## [1.1.0] 06-06-2021
 
 Improved on the orientation
