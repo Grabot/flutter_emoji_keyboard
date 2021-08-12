@@ -9,7 +9,7 @@ It's a keyboard the way you expect it and more! But with less letters and only e
 
 <a href="https://raw.githubusercontent.com/Grabot/flutter_emoji_keyboard/main/example_images/Screenshot_1621415098.png"><img src="https://raw.githubusercontent.com/Grabot/flutter_emoji_keyboard/main/example_images/Screenshot_1621415098.png" width="200"></a>
 <a href="https://raw.githubusercontent.com/Grabot/flutter_emoji_keyboard/main/example_images/Screenshot_1621415191.png"><img src="https://raw.githubusercontent.com/Grabot/flutter_emoji_keyboard/main/example_images/Screenshot_1621415191.png" width="200"></a>
-<a href="https://raw.githubusercontent.com/Grabot/flutter_emoji_keyboard/main/example_images/Screenshot_1621415243.png"><img src="https://raw.githubusercontent.com/Grabot/flutter_emoji_keyboard/main/example_images/Screenshot_1621415243.png" width="200"></a>
+<a href="https://raw.githubusercontent.com/Grabot/flutter_emoji_keyboard/main/example_images/Screenshot_1628774419.png"><img src="https://raw.githubusercontent.com/Grabot/flutter_emoji_keyboard/main/example_images/Screenshot_1628774419.png" width="200"></a>
 
 
 

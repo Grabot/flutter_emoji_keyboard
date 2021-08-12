@@ -95,7 +95,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 bromotionController: controller,
                 emojiKeyboardHeight: 350,
                 showEmojiKeyboard: showEmojiKeyboard,
-                darkMode: true
+                darkMode: false
               ),
             ),
           ]
