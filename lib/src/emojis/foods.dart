@@ -121,5 +121,5 @@ List foodsList = [
   ['Chopsticks', '🥢'],
   ['Fork and Knife with Plate', '🍽️'],
   ['Fork and Knife', '🍴'],
-  ['Spoon', '🥄'],
+  ['Spoon', '🥄']
 ];

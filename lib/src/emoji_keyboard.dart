@@ -255,9 +255,6 @@ class EmojiBoard extends State<EmojiKeyboard> {
       baseOffset: textSelection.start + myTextLength,
       extentOffset: textSelection.start + myTextLength,
     );
-    setState(() {
-      searchMode = false;
-    });
   }
 
   /// This function is called when we want to see if any of the recent emojis
@@ -310,6 +307,14 @@ class EmojiBoard extends State<EmojiKeyboard> {
 
   bool isPortrait() {
     return MediaQuery.of(context).orientation == Orientation.portrait;
+  }
+
+  pressedBackSearch() {
+    if (searchMode) {
+      setState(() {
+        searchMode = false;
+      });
+    }
   }
 
   @override
@@ -368,16 +373,36 @@ class EmojiBoard extends State<EmojiKeyboard> {
                       },
                     ),
                   ),
-                  TextFormField(
-                    focusNode: focusSearchEmoji,
-                    onChanged: (text) {
-                      updateEmojiSearch(text);
-                    },
-                    style: TextStyle(
-                      color: darkMode ? Colors.white : Colors.black,
-                    ),
-                    decoration:
-                        const InputDecoration(border: OutlineInputBorder()),
+                  Row(
+                    children: [
+                      Container(
+                        child: IconButton(
+                        icon: Icon(Icons.arrow_back),
+                          color: Colors.grey.shade600,
+                          onPressed: () {
+                            pressedBackSearch();
+                          },
+                        )
+                      ),
+                      Expanded(
+                        child: TextFormField(
+                          focusNode: focusSearchEmoji,
+                          onChanged: (text) {
+                            updateEmojiSearch(text);
+                          },
+                          style: TextStyle(
+                            color: darkMode ? Colors.white : Colors.black,
+                          ),
+                          decoration: new InputDecoration(
+                              border: InputBorder.none,
+                              focusedBorder: InputBorder.none,
+                              enabledBorder: InputBorder.none,
+                              errorBorder: InputBorder.none,
+                              disabledBorder: InputBorder.none
+                          )
+                        ),
+                      ),
+                    ]
                   ),
                 ],
               ),

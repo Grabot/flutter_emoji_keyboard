@@ -9,6 +9,8 @@ List symbolsList = [
   ['Heart Decoration', '💟'],
   ['Heart Exclamation', '❣️'],
   ['Broken Heart', '💔'],
+  ['Heart on Fire', '❤️‍🔥'],
+  ['Mending Heart', '❤️‍🩹'],
   ['Red Heart', '❤️'],
   ['Orange Heart', '🧡'],
   ['Yellow Heart', '💛'],
@@ -289,7 +291,5 @@ List symbolsList = [
   ['Diamond with a Dot', '💠'],
   ['Radio Button', '🔘'],
   ['White Square Button', '🔳'],
-  ['Black Square Button', '🔲'],
-  ['Heart on Fire', '❤️‍🔥'],
-  ['Mending Heart', '❤️‍🩹']
+  ['Black Square Button', '🔲']
 ];

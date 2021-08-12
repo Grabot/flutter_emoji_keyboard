@@ -36,10 +36,12 @@ List smileysList = [
   ['Neutral Face', '😐'],
   ['Expressionless Face', '😑'],
   ['Face Without Mouth', '😶'],
+  ['Face in Clouds', '😶‍🌫️'],
   ['Smirking Face', '😏'],
   ['Unamused Face', '😒'],
   ['Face with Rolling Eyes', '🙄'],
   ['Grimacing Face', '😬'],
+  ['Face Exhaling', '😮‍💨'],
   ['Lying Face', '🤥'],
   ['Relieved Face', '😌'],
   ['Pensive Face', '😔'],
@@ -56,6 +58,7 @@ List smileysList = [
   ['Cold Face', '🥶'],
   ['Woozy Face', '🥴'],
   ['Dizzy Face', '😵'],
+  ['Face with Spiral Eyes', '😵‍💫'],
   ['Exploding Head', '🤯'],
   ['Cowboy Hat Face', '🤠'],
   ['Partying Face', '🥳'],
@@ -459,8 +462,5 @@ List smileysList = [
   ['Lipstick', '💄'],
   ['Ring', '💍'],
   ['Briefcase', '💼'],
-  ['Drop of Blood', '🩸'],
-  ['Face Exhaling', '😮‍💨'],
-  ['Face with Spiral Eyes', '😵‍💫'],
-  ['Face in Clouds', '😶‍🌫️']
+  ['Drop of Blood', '🩸']
 ];
