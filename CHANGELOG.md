@@ -1,3 +1,8 @@
+## [1.1.2] 24-08-2021
+
+When the back button is pressed and there is only 1 (emoji) character in the text field
+it will remove that one regardless of where the selection cursor is pointing.
+
 ## [1.1.1] 12-08-2021
 
 In the search mode you will not automatically go back when an emoji has been selected.

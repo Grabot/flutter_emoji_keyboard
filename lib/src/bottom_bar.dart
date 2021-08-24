@@ -62,7 +62,22 @@ class BottomBarState extends State<BottomBar> {
     }
 
     if (textSelection.start == 0) {
-      return;
+      if (text.length == 0) {
+        return;
+      } else {
+        // Eagerly selects all but the last count characters
+        String finalCharacter = text.characters.skipLast(1).string;
+        // So if the result is empty there was only 1 character
+        if (finalCharacter == "") {
+          // If there was only 1 character we remove that one.
+          bromotionController!.text = "";
+          bromotionController!.selection = textSelection.copyWith(
+            baseOffset: 0,
+            extentOffset: 0,
+          );
+          return;
+        }
+      }
     }
 
     String firstSection = text.substring(0, textSelection.start);
