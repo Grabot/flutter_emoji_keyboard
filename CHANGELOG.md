@@ -1,3 +1,7 @@
+## [1.1.3] 24-08-2021
+
+Some emoji updates
+
 ## [1.1.2] 24-08-2021
 
 When the back button is pressed and there is only 1 (emoji) character in the text field

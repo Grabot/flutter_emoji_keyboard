@@ -88,7 +88,7 @@ List activitiesList = [
   ['Skis', '🎿'],
   ['Sled', '🛷'],
   ['Curling Stone', '🥌'],
-  ['Direct Hit', '🎯'],
+  ['Bullseye', '🎯'],
   ['Pool 8 Ball', '🎱'],
   ['Video Game', '🎮'],
   ['Slot Machine', '🎰'],

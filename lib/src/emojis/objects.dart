@@ -173,7 +173,7 @@ List objectsList = [
   ['Hammer and Wrench', '🛠️'],
   ['Dagger', '🗡️'],
   ['Crossed Swords', '⚔️'],
-  ['Pistol', '🔫'],
+  ['Water Pistol', '🔫'],
   ['Boomerang', '🪃'],
   ['Shield', '🛡️'],
   ['Carpentry Saw', '🪚'],
