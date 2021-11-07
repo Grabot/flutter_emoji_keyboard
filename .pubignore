@@ -46,4 +46,7 @@ app.*.map.json
 /android/app/release
 
 # The example project
-/example/
+/example/.dart_tool/
+/example/.idea/
+/example/build/
+/example/.packages
