@@ -10,7 +10,7 @@ environment:
 dependencies:
 
   back_button_interceptor: ^5.0.0
-  shared_preferences: ^2.0.5
+  sqflite: ^2.0.0+4
   flutter_keyboard_visibility: ^5.0.2
 
   flutter:

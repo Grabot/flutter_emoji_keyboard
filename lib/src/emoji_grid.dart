@@ -5,12 +5,14 @@ import 'package:flutter/rendering.dart';
 class EmojiGrid extends StatefulWidget {
   final List emojis;
   final Function(bool) emojiScrollShowBottomBar;
-  final Function(String) insertText;
+  final Function(String, int) insertText;
+  final int categoryIndicator;
 
   EmojiGrid({
     Key? key,
     required this.emojis,
     required this.emojiScrollShowBottomBar,
+    required this.categoryIndicator,
     required this.insertText,
   }) : super(key: key);
 
@@ -61,7 +63,7 @@ class EmojiGridState extends State<EmojiGrid> {
   /// to insert the text in the Textfield.
   void pressedEmoji(String emoji) {
     widget.emojiScrollShowBottomBar(true);
-    widget.insertText(emoji);
+    widget.insertText(emoji, widget.categoryIndicator);
   }
 
   /// If the emojis are loaded the grid is already visible.

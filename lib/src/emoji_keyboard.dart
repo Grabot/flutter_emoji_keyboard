@@ -1,14 +1,23 @@
 import 'dart:io';
+import 'package:emoji_keyboard_flutter/src/util/emoji.dart';
+import 'package:emoji_keyboard_flutter/src/util/storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:back_button_interceptor/back_button_interceptor.dart';
 import 'bottom_bar.dart';
 import 'category_bar.dart';
 import 'emoji_page.dart';
 import 'emoji_searching.dart';
+import 'emojis/activities.dart';
+import 'emojis/animals.dart';
+import 'emojis/flags.dart';
+import 'emojis/foods.dart';
+import 'emojis/objects.dart';
+import 'emojis/smileys.dart';
+import 'emojis/symbols.dart';
+import 'emojis/travel.dart';
 
 /// The emoji keyboard. This holds all the components of the keyboard.
 /// This will include the:
@@ -41,8 +50,7 @@ class EmojiKeyboard extends StatefulWidget {
 /// It also has a darkmode for the users with a good taste in styling.
 class EmojiBoard extends State<EmojiKeyboard> {
   static const platform =
-      const MethodChannel("nl.emojikeyboard.emoji/available");
-  static String recentEmojisKey = "recentEmojis";
+      const MethodChannel("nl.emoji_keyboard_flutter_example.emoji/available");
 
   final GlobalKey<CategoryBarState> categoryBarStateKey =
       GlobalKey<CategoryBarState>();
@@ -65,7 +73,10 @@ class EmojiBoard extends State<EmojiKeyboard> {
   bool showBottomBar = true;
   bool searchMode = false;
   bool darkMode = false;
-  List<String> recent = [];
+  List<Emoji> recent = [];
+  List<String> recentEmojis = [];
+
+  Storage storage= Storage();
 
   @override
   void initState() {
@@ -73,18 +84,20 @@ class EmojiBoard extends State<EmojiKeyboard> {
     this.emojiKeyboardHeight = widget.emojiKeyboardHeight;
     this.darkMode = widget.darkMode;
 
-    getRecentEmoji().then((value) {
-      List<String> recentUsed = [];
-      if (value != null && value != []) {
-        for (var val in value) {
-          recentUsed.add(val.toString());
-        }
-        setState(() {
-          recent = recentUsed;
-        });
-        categoryHandler(0);
-        switchedPage(0);
+    storage.fetchAllEmojis().then((emojis) {
+      print("we have fetched ALL emojis!");
+      print(emojis);
+
+      if (emojis.isNotEmpty) {
+        recent = emojis;
+        recent.sort((a, b) => b.amount.compareTo(a.amount));
+        recentEmojis = recent.map((emote) => emote.emoji).toList();
       }
+
+      categoryHandler(0);
+      switchedPage(0);
+
+      setState(() {});
     });
 
     var keyboardVisibilityController = KeyboardVisibilityController();
@@ -167,26 +180,24 @@ class EmojiBoard extends State<EmojiKeyboard> {
   /// button is pressed. It takes the recent emojis and fills it in.
   /// It stops after 10 because more is not needed.
   setInitialSearchEmojis() {
-    getRecentEmoji().then((value) {
-      List<SearchedEmoji> recommendedEmojis = [];
-      if (value != null && value != []) {
-        for (var val in value) {
-          recommendedEmojis
-              .add(SearchedEmoji(name: "", emoji: val.toString(), tier: 1));
-          if (recommendedEmojis.length >= 10) {
-            break;
-          }
+    List<SearchedEmoji> recommendedEmojis = [];
+    if (recentEmojis != []) {
+      for (var recentEmoji in recentEmojis) {
+        recommendedEmojis
+            .add(SearchedEmoji(name: "", emoji: recentEmoji.toString(), tier: 1));
+        if (recommendedEmojis.length >= 20) {
+          break;
         }
-        List<String> finalEmojis = [];
-        recommendedEmojis.forEach((element) {
-          finalEmojis.add(element.emoji.toString());
-        });
-        isAvailable(finalEmojis);
-        setState(() {
-          searchedEmojis = finalEmojis;
-        });
       }
-    });
+      List<String> finalEmojis = [];
+      recommendedEmojis.forEach((element) {
+        finalEmojis.add(element.emoji.toString());
+      });
+      isAvailable(finalEmojis);
+      setState(() {
+        searchedEmojis = finalEmojis;
+      });
+    }
   }
 
   /// Every letter that the user inputs in the search mode will trigger this
@@ -201,40 +212,141 @@ class EmojiBoard extends State<EmojiKeyboard> {
     }
   }
 
-  /// This function finds the most used emojis of the user by looking in the
-  /// shared preferences of the app.
-  /// If the user enters an emoji it is added to the list so this list holds
-  /// all this users most used emojis.
-  Future getRecentEmoji() async {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    List<String>? recent = preferences.getStringList(recentEmojisKey);
-    return recent;
-  }
-
   /// If the user presses an emoji it is added to it's "recent" list.
   /// This is a list of emojis in the shared preferences.
   /// It loads all the emojis in this list and adds it to it.
   /// If it was already there, it removes it first and adds it to the front.
-  void addRecentEmoji(String emoji) async {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    getRecentEmoji().then((value) {
-      List<String> recentUsed = [];
-      if (value != null) {
-        for (var val in value) {
-          recentUsed.add(val.toString());
+  void addRecentEmoji(String emoji, int category) async {
+
+    List<String> recentEmojiList = recent.map((emote) => emote.emoji).toList();
+    if (recentEmojiList.contains(emoji)) {
+      // The emoji is already in the list so we want to update it.
+      print("updating emoji! $emoji");
+      Emoji currentEmoji = recent.firstWhere((emote) => emote.emoji == emoji);
+      currentEmoji.increase();
+      storage.updateEmoji(currentEmoji).then((value) {
+        print("we have successfully updated an emoji ${currentEmoji.emojiDescription}  ${currentEmoji.emoji}  ${currentEmoji.amount}");
+        recent.sort((a, b) => b.amount.compareTo(a.amount));
+        setState(() {
+          recentEmojis = recent.map((emote) => emote.emoji).toList();
+          print("emojis now $recentEmojis");
+        });
+      });
+    } else {
+      Emoji newEmoji = getEmoji(emoji, category);
+      print("new emoji! $emoji");
+      storage.addEmoji(newEmoji).then((emotion) {
+        print("we have successfully ADDED an emoji ${newEmoji.emojiDescription}  ${newEmoji.emoji}  ${newEmoji.amount}");
+        recent.add(newEmoji);
+        recent.sort((a, b) => b.amount.compareTo(a.amount));
+        setState(() {
+          recentEmojis = recent.map((emote) => emote.emoji).toList();
+          print("emojis now $recentEmojis");
+        });
+      });
+    }
+  }
+
+  addRecentEmojiSearch(String emoji) async {
+    List<String> recentEmojiList = recent.map((emote) => emote.emoji).toList();
+    if (recentEmojiList.contains(emoji)) {
+      // The emoji is already in the list so we want to update it.
+      print("updating emoji! $emoji");
+      Emoji currentEmoji = recent.firstWhere((emote) => emote.emoji == emoji);
+      currentEmoji.increase();
+      storage.updateEmoji(currentEmoji).then((value) {
+        print("we have successfully updated an emoji ${currentEmoji.emojiDescription}  ${currentEmoji.emoji}  ${currentEmoji.amount}");
+        recent.sort((a, b) => b.amount.compareTo(a.amount));
+        setState(() {
+          recentEmojis = recent.map((emote) => emote.emoji).toList();
+          print("emojis now $recentEmojis");
+        });
+      });
+    } else {
+      Emoji newEmoji = Emoji("", "", 1);
+      for (int i = 1; i <= 8; i++ ) {
+        Emoji foundEmoji = getEmoji(emoji, i);
+        if (foundEmoji.emojiDescription != "") {
+          newEmoji = foundEmoji;
+          break;
         }
       }
-      if (recentUsed == null || recentUsed == []) {
-        recentUsed = [];
-      } else {
-        recentUsed.removeWhere((item) => item == emoji);
+      if (newEmoji.emojiDescription != "") {
+        print("new emoji! $emoji");
+        storage.addEmoji(newEmoji).then((emotion) {
+          print("we have successfully ADDED an emoji ${newEmoji.emojiDescription}  ${newEmoji.emoji}  ${newEmoji.amount}");
+          recent.add(newEmoji);
+          recent.sort((a, b) => b.amount.compareTo(a.amount));
+          setState(() {
+            recentEmojis = recent.map((emote) => emote.emoji).toList();
+            print("emojis now $recentEmojis");
+          });
+        });
       }
-      recentUsed.insert(0, emoji.toString());
-      preferences.setStringList(recentEmojisKey, recent);
-      setState(() {
-        recent = recentUsed;
-      });
-    });
+    }
+  }
+
+  Emoji getEmoji(String emoji, int category) {
+    // Every time there is a new emoji we will look for the correct one in our
+    // emoji lists
+    if (category == 1) {
+      for (List<String> smileyEmojis in smileysList) {
+        if (emoji == smileyEmojis[1]) {
+          print("found a smiley! ${smileyEmojis[1]}");
+          return Emoji(smileyEmojis[0], smileyEmojis[1], 1);
+        }
+      }
+    } else if (category == 2) {
+      for (List<String> animalEmojis in animalsList) {
+        if (emoji == animalEmojis[1]) {
+          print("found a animal! ${animalEmojis[1]}");
+          return Emoji(animalEmojis[0], animalEmojis[1], 1);
+        }
+      }
+    } else if (category == 3) {
+      for (List<String> foodEmojis in foodsList) {
+        if (emoji == foodEmojis[1]) {
+          print("found a food! ${foodEmojis[1]}");
+          return Emoji(foodEmojis[0], foodEmojis[1], 1);
+        }
+      }
+    } else if (category == 4) {
+      for (List<String> activityEmojis in activitiesList) {
+        if (emoji == activityEmojis[1]) {
+          print("found a activity! ${activityEmojis[1]}");
+          return Emoji(activityEmojis[0], activityEmojis[1], 1);
+        }
+      }
+    } else if (category == 5) {
+      for (List<String> travelEmojis in travelList) {
+        if (emoji == travelEmojis[1]) {
+          print("found a travel! ${travelEmojis[1]}");
+          return Emoji(travelEmojis[0], travelEmojis[1], 1);
+        }
+      }
+    } else if (category == 6) {
+      for (List<String> objectEmojis in objectsList) {
+        if (emoji == objectEmojis[1]) {
+          print("found a object! ${objectEmojis[1]}");
+          return Emoji(objectEmojis[0], objectEmojis[1], 1);
+        }
+      }
+    } else if (category == 7) {
+      for (List<String> symbolEmojis in symbolsList) {
+        if (emoji == symbolEmojis[1]) {
+          print("found a symbol! ${symbolEmojis[1]}");
+          return Emoji(symbolEmojis[0], symbolEmojis[1], 1);
+        }
+      }
+    } else if (category == 8) {
+      for (List<String> flagEmojis in flagsList) {
+        if (emoji == flagEmojis[1]) {
+          print("found a flag! ${flagEmojis[1]}");
+          return Emoji(flagEmojis[0], flagEmojis[1], 1);
+        }
+      }
+    }
+    return Emoji("", "", 1);
   }
 
   /// If the user has searched for an emoji using the search functionality
@@ -242,6 +354,7 @@ class EmojiBoard extends State<EmojiKeyboard> {
   /// It will then go out of search mode and back to the emoji keyboard.
   /// The emoji is added where the cursor was when the user pressed search.
   void insertTextSearch(String myText) {
+    addRecentEmojiSearch(myText);
     final text = bromotionController!.text;
     final textSelection = rememberPosition;
     final newText = text.replaceRange(
@@ -287,8 +400,8 @@ class EmojiBoard extends State<EmojiKeyboard> {
   /// function with the corresponding emoji that the user pressed.
   /// The emoji is added to the Textfield at the location of the cursor
   /// or as a replacement of the selection of the user.
-  void insertText(String myText) {
-    addRecentEmoji(myText);
+  void insertText(String myText, int category) {
+    addRecentEmoji(myText, category);
     emojiScrollShowBottomBar(true);
     final text = bromotionController!.text;
     final textSelection = bromotionController!.selection;
@@ -340,7 +453,7 @@ class EmojiBoard extends State<EmojiKeyboard> {
                 bromotionController: bromotionController!,
                 emojiScrollShowBottomBar: emojiScrollShowBottomBar,
                 insertText: insertText,
-                recent: recent,
+                recent: recentEmojis,
                 switchedPage: switchedPage),
             BottomBar(
                 key: bottomBarStateKey,

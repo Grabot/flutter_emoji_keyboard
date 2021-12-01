@@ -27,7 +27,7 @@ class EmojiPage extends StatefulWidget {
   final double emojiKeyboardHeight;
   final TextEditingController bromotionController;
   final Function(bool) emojiScrollShowBottomBar;
-  final Function(String) insertText;
+  final Function(String, int) insertText;
   final Function(int) switchedPage;
   final List<String> recent;
 
@@ -202,39 +202,48 @@ class EmojiPageState extends State<EmojiPage> {
         EmojiGrid(
             emojis: widget.recent,
             emojiScrollShowBottomBar: widget.emojiScrollShowBottomBar,
+            categoryIndicator: 0,
             insertText: widget.insertText),
         EmojiGrid(
             emojis: smileys,
             emojiScrollShowBottomBar: widget.emojiScrollShowBottomBar,
+            categoryIndicator: 1,
             insertText: widget.insertText,
             key: emojiGridStateKey),
         EmojiGrid(
             emojis: animals,
             emojiScrollShowBottomBar: widget.emojiScrollShowBottomBar,
+            categoryIndicator: 2,
             insertText: widget.insertText),
         EmojiGrid(
             emojis: foods,
             emojiScrollShowBottomBar: widget.emojiScrollShowBottomBar,
+            categoryIndicator: 3,
             insertText: widget.insertText),
         EmojiGrid(
             emojis: activities,
             emojiScrollShowBottomBar: widget.emojiScrollShowBottomBar,
+            categoryIndicator: 4,
             insertText: widget.insertText),
         EmojiGrid(
             emojis: travel,
             emojiScrollShowBottomBar: widget.emojiScrollShowBottomBar,
+            categoryIndicator: 5,
             insertText: widget.insertText),
         EmojiGrid(
             emojis: objects,
             emojiScrollShowBottomBar: widget.emojiScrollShowBottomBar,
+            categoryIndicator: 6,
             insertText: widget.insertText),
         EmojiGrid(
             emojis: symbols,
             emojiScrollShowBottomBar: widget.emojiScrollShowBottomBar,
+            categoryIndicator: 7,
             insertText: widget.insertText),
         EmojiGrid(
             emojis: flags,
             emojiScrollShowBottomBar: widget.emojiScrollShowBottomBar,
+            categoryIndicator: 8,
             insertText: widget.insertText)
       ]),
     );
