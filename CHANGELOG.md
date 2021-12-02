@@ -1,3 +1,7 @@
+## [1.2.2] 02-12-2021
+
+resolved some minor issues
+
 ## [1.2.1] 02-12-2021
 
 resolved some minor issues

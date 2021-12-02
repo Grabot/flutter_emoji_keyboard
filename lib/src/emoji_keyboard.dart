@@ -95,13 +95,16 @@ class EmojiBoard extends State<EmojiKeyboard> {
         recent = emojis;
         recent.sort((a, b) => b.amount.compareTo(a.amount));
         recentEmojis = recent.map((emote) => emote.emoji).toList();
+
+        if (mounted) {
+          setState(() {});
+        }
       }
 
-      setState(() {});
-    });
+      categoryHandler(0);
+      switchedPage(0);
 
-    categoryHandler(0);
-    switchedPage(0);
+    });
 
     var keyboardVisibilityController = KeyboardVisibilityController();
 
