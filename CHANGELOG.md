@@ -1,3 +1,13 @@
+## [1.2.0] 02-12-2021
+
+Changed the recent emojis to be stored using a local db.
+It will also keep track of the amount of times an emoji is used.
+The ordering of the recent emoji tab will always be the most used to the least used.
+
+Also implemented the function that determines if the current Android version can show the emoji.
+This can be seen in the Android project of the example project.
+
+
 ## [1.1.3] 24-08-2021
 
 Some emoji updates

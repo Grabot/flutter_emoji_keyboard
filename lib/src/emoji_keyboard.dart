@@ -49,6 +49,11 @@ class EmojiKeyboard extends StatefulWidget {
 /// using the showKeyboard boolean
 /// It also has a darkmode for the users with a good taste in styling.
 class EmojiBoard extends State<EmojiKeyboard> {
+
+  /// The name of the channel that Android will call when adding an emoji.
+  /// This function will see if it can be shown in the Android version
+  /// that the user is currently using.
+  /// (See MainActivity in the android project for the implementation)
   static const platform =
       const MethodChannel("nl.emoji_keyboard_flutter_example.emoji/available");
 
@@ -85,15 +90,12 @@ class EmojiBoard extends State<EmojiKeyboard> {
     this.darkMode = widget.darkMode;
 
     storage.fetchAllEmojis().then((emojis) {
-      print("we have fetched ALL emojis!");
-      print(emojis);
 
       if (emojis.isNotEmpty) {
         recent = emojis;
         recent.sort((a, b) => b.amount.compareTo(a.amount));
         recentEmojis = recent.map((emote) => emote.emoji).toList();
       }
-
       categoryHandler(0);
       switchedPage(0);
 
@@ -213,53 +215,50 @@ class EmojiBoard extends State<EmojiKeyboard> {
   }
 
   /// If the user presses an emoji it is added to it's "recent" list.
-  /// This is a list of emojis in the shared preferences.
-  /// It loads all the emojis in this list and adds it to it.
-  /// If it was already there, it removes it first and adds it to the front.
+  /// This is a list of emojis in a local db
+  /// It looks to see if it is present in the 'recent emoji' list.
+  /// If that is true than it should be in the database and we update it.
+  /// If that is not true, we add a new entry for the database.
+  /// When it adds a new entry it will look in the emoji list for the category
+  /// that the emoji is in to be able to store a new entry in the local db
   void addRecentEmoji(String emoji, int category) async {
 
     List<String> recentEmojiList = recent.map((emote) => emote.emoji).toList();
     if (recentEmojiList.contains(emoji)) {
       // The emoji is already in the list so we want to update it.
-      print("updating emoji! $emoji");
       Emoji currentEmoji = recent.firstWhere((emote) => emote.emoji == emoji);
       currentEmoji.increase();
       storage.updateEmoji(currentEmoji).then((value) {
-        print("we have successfully updated an emoji ${currentEmoji.emojiDescription}  ${currentEmoji.emoji}  ${currentEmoji.amount}");
         recent.sort((a, b) => b.amount.compareTo(a.amount));
         setState(() {
           recentEmojis = recent.map((emote) => emote.emoji).toList();
-          print("emojis now $recentEmojis");
         });
       });
     } else {
       Emoji newEmoji = getEmoji(emoji, category);
-      print("new emoji! $emoji");
       storage.addEmoji(newEmoji).then((emotion) {
-        print("we have successfully ADDED an emoji ${newEmoji.emojiDescription}  ${newEmoji.emoji}  ${newEmoji.amount}");
         recent.add(newEmoji);
         recent.sort((a, b) => b.amount.compareTo(a.amount));
         setState(() {
           recentEmojis = recent.map((emote) => emote.emoji).toList();
-          print("emojis now $recentEmojis");
         });
       });
     }
   }
 
+  /// The add recent emoji search does the same as the `addRecentEmoji` function
+  /// But here we don't have access to the category, so we will loop through
+  /// all the categories to find the emoji we want to add
   addRecentEmojiSearch(String emoji) async {
     List<String> recentEmojiList = recent.map((emote) => emote.emoji).toList();
     if (recentEmojiList.contains(emoji)) {
       // The emoji is already in the list so we want to update it.
-      print("updating emoji! $emoji");
       Emoji currentEmoji = recent.firstWhere((emote) => emote.emoji == emoji);
       currentEmoji.increase();
       storage.updateEmoji(currentEmoji).then((value) {
-        print("we have successfully updated an emoji ${currentEmoji.emojiDescription}  ${currentEmoji.emoji}  ${currentEmoji.amount}");
         recent.sort((a, b) => b.amount.compareTo(a.amount));
         setState(() {
           recentEmojis = recent.map((emote) => emote.emoji).toList();
-          print("emojis now $recentEmojis");
         });
       });
     } else {
@@ -272,76 +271,68 @@ class EmojiBoard extends State<EmojiKeyboard> {
         }
       }
       if (newEmoji.emojiDescription != "") {
-        print("new emoji! $emoji");
         storage.addEmoji(newEmoji).then((emotion) {
-          print("we have successfully ADDED an emoji ${newEmoji.emojiDescription}  ${newEmoji.emoji}  ${newEmoji.amount}");
           recent.add(newEmoji);
           recent.sort((a, b) => b.amount.compareTo(a.amount));
           setState(() {
             recentEmojis = recent.map((emote) => emote.emoji).toList();
-            print("emojis now $recentEmojis");
           });
         });
       }
     }
   }
 
+  /// When we want to store a new emoji to the db we need to find it in our
+  /// emoji lists first. We use the category to quickly find the emoji
+  /// corresponding to the on the user entered and we store it in the db.
   Emoji getEmoji(String emoji, int category) {
     // Every time there is a new emoji we will look for the correct one in our
     // emoji lists
     if (category == 1) {
       for (List<String> smileyEmojis in smileysList) {
         if (emoji == smileyEmojis[1]) {
-          print("found a smiley! ${smileyEmojis[1]}");
           return Emoji(smileyEmojis[0], smileyEmojis[1], 1);
         }
       }
     } else if (category == 2) {
       for (List<String> animalEmojis in animalsList) {
         if (emoji == animalEmojis[1]) {
-          print("found a animal! ${animalEmojis[1]}");
           return Emoji(animalEmojis[0], animalEmojis[1], 1);
         }
       }
     } else if (category == 3) {
       for (List<String> foodEmojis in foodsList) {
         if (emoji == foodEmojis[1]) {
-          print("found a food! ${foodEmojis[1]}");
           return Emoji(foodEmojis[0], foodEmojis[1], 1);
         }
       }
     } else if (category == 4) {
       for (List<String> activityEmojis in activitiesList) {
         if (emoji == activityEmojis[1]) {
-          print("found a activity! ${activityEmojis[1]}");
           return Emoji(activityEmojis[0], activityEmojis[1], 1);
         }
       }
     } else if (category == 5) {
       for (List<String> travelEmojis in travelList) {
         if (emoji == travelEmojis[1]) {
-          print("found a travel! ${travelEmojis[1]}");
           return Emoji(travelEmojis[0], travelEmojis[1], 1);
         }
       }
     } else if (category == 6) {
       for (List<String> objectEmojis in objectsList) {
         if (emoji == objectEmojis[1]) {
-          print("found a object! ${objectEmojis[1]}");
           return Emoji(objectEmojis[0], objectEmojis[1], 1);
         }
       }
     } else if (category == 7) {
       for (List<String> symbolEmojis in symbolsList) {
         if (emoji == symbolEmojis[1]) {
-          print("found a symbol! ${symbolEmojis[1]}");
           return Emoji(symbolEmojis[0], symbolEmojis[1], 1);
         }
       }
     } else if (category == 8) {
       for (List<String> flagEmojis in flagsList) {
         if (emoji == flagEmojis[1]) {
-          print("found a flag! ${flagEmojis[1]}");
           return Emoji(flagEmojis[0], flagEmojis[1], 1);
         }
       }

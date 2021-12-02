@@ -1,9 +1,14 @@
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
-
 import 'emoji.dart';
 
-
+/// The storage. This holds all the components of the local db.
+/// Here we will be able to:
+/// - initialize the database
+/// - create a new Emoji table, if none exist yet.
+/// - get all entries in the emoji table.
+/// - add a emoji emoji entry in the db.
+/// - update an existing emoji entry to increase the count.
 class Storage {
   static const _dbName = "flutter_emoji_keyboard.db";
 
@@ -23,9 +28,8 @@ class Storage {
     return based;
   }
 
-  // Creates and opens the database.
+  /// Creates and opens the database.
   _initDatabase() async {
-    print("initializing the database");
     var databasesPath = await getDatabasesPath();
     String path = join(databasesPath, _dbName);
 
@@ -36,7 +40,7 @@ class Storage {
     );
   }
 
-  // Creates the database structure (unless database has already been created)
+  /// Creates the database structure (unless database has already been created)
   Future _onCreate(
       Database db,
       int version,
@@ -45,7 +49,6 @@ class Storage {
   }
 
   createTableEmoji(Database db) async {
-    print("create table Emojis");
     await db.execute('''
     CREATE TABLE Emojis (
             id INTEGER PRIMARY KEY,
@@ -57,6 +60,17 @@ class Storage {
           ''');
   }
 
+  Future<List<Emoji>> fetchAllEmojis() async {
+    Database database = await this.database;
+    String query = "SELECT * FROM Emojis";
+    List<Map<String, dynamic>> emojis = await database.rawQuery(query);
+    if (emojis.isNotEmpty) {
+      return emojis.map((map) => Emoji.fromDbMap(map)
+      ).toList();
+    }
+    return List.empty();
+  }
+
   Future<int> addEmoji(Emoji emoji) async {
     Database database = await this.database;
     return database.insert(
@@ -64,19 +78,6 @@ class Storage {
       emoji.toDbMap(),
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
-  }
-
-  Future<List<Emoji>> fetchAllEmojis() async {
-    Database database = await this.database;
-    String query = "SELECT * FROM Emojis";
-    List<Map<String, dynamic>> emojis = await database.rawQuery(query);
-    print("all emojis");
-    print(emojis);
-    if (emojis.isNotEmpty) {
-      return emojis.map((map) => Emoji.fromDbMap(map)
-      ).toList();
-    }
-    return List.empty();
   }
 
   Future<int> updateEmoji(Emoji emoji) async {
