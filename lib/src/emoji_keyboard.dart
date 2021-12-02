@@ -96,11 +96,12 @@ class EmojiBoard extends State<EmojiKeyboard> {
         recent.sort((a, b) => b.amount.compareTo(a.amount));
         recentEmojis = recent.map((emote) => emote.emoji).toList();
       }
-      categoryHandler(0);
-      switchedPage(0);
 
       setState(() {});
     });
+
+    categoryHandler(0);
+    switchedPage(0);
 
     var keyboardVisibilityController = KeyboardVisibilityController();
 
@@ -144,7 +145,9 @@ class EmojiBoard extends State<EmojiKeyboard> {
   /// This function handles any changes to the category from the
   /// category bar and passes it to the emoji page widget.
   void categoryHandler(int categoryNumber) {
-    emojiPageStateKey.currentState!.navigateCategory(categoryNumber);
+    if(emojiPageStateKey.currentState != null) {
+      emojiPageStateKey.currentState!.navigateCategory(categoryNumber);
+    }
   }
 
   /// This function handles any triggers to hide or show the bottom bar if the
@@ -153,8 +156,10 @@ class EmojiBoard extends State<EmojiKeyboard> {
   void emojiScrollShowBottomBar(bool emojiScrollShowBottomBar) {
     if (this.showBottomBar != emojiScrollShowBottomBar) {
       this.showBottomBar = emojiScrollShowBottomBar;
-      bottomBarStateKey.currentState!
-          .emojiScrollShowBottomBar(this.showBottomBar);
+      if(bottomBarStateKey.currentState != null) {
+        bottomBarStateKey.currentState!
+            .emojiScrollShowBottomBar(this.showBottomBar);
+      }
     }
   }
 
@@ -162,7 +167,9 @@ class EmojiBoard extends State<EmojiKeyboard> {
   /// left or right.
   /// It sends a trigger to the category bar to update the category
   void switchedPage(int pageNumber) {
-    categoryBarStateKey.currentState!.updateCategoryBar(pageNumber);
+    if(categoryBarStateKey.currentState != null) {
+      categoryBarStateKey.currentState!.updateCategoryBar(pageNumber);
+    }
   }
 
   /// If the user presses the "search" button this function is called.

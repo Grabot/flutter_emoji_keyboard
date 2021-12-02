@@ -1,3 +1,7 @@
+## [1.2.1] 02-12-2021
+
+resolved some minor issues
+
 ## [1.2.0] 02-12-2021
 
 Changed the recent emojis to be stored using a local db.
