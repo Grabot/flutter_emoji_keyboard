@@ -42,9 +42,9 @@ class Storage {
 
   /// Creates the database structure (unless database has already been created)
   Future _onCreate(
-      Database db,
-      int version,
-      ) async {
+    Database db,
+    int version,
+  ) async {
     await createTableEmoji(db);
   }
 
@@ -65,8 +65,7 @@ class Storage {
     String query = "SELECT * FROM Emojis";
     List<Map<String, dynamic>> emojis = await database.rawQuery(query);
     if (emojis.isNotEmpty) {
-      return emojis.map((map) => Emoji.fromDbMap(map)
-      ).toList();
+      return emojis.map((map) => Emoji.fromDbMap(map)).toList();
     }
     return List.empty();
   }

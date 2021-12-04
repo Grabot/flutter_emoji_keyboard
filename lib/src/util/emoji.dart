@@ -1,16 +1,9 @@
-
-
 class Emoji {
-
   late String emojiDescription;
   late String emoji;
   late int amount;
 
-  Emoji(
-      String emojiDescription,
-      String emoji,
-      int amount
-    ) {
+  Emoji(String emojiDescription, String emoji, int amount) {
     this.emojiDescription = emojiDescription;
     this.emoji = emoji;
     this.amount = amount;
@@ -33,5 +26,4 @@ class Emoji {
     emoji = map['emoji'];
     amount = map['amount'];
   }
-
 }

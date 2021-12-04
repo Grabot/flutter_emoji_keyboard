@@ -49,7 +49,6 @@ class EmojiKeyboard extends StatefulWidget {
 /// using the showKeyboard boolean
 /// It also has a darkmode for the users with a good taste in styling.
 class EmojiBoard extends State<EmojiKeyboard> {
-
   /// The name of the channel that Android will call when adding an emoji.
   /// This function will see if it can be shown in the Android version
   /// that the user is currently using.
@@ -81,7 +80,7 @@ class EmojiBoard extends State<EmojiKeyboard> {
   List<Emoji> recent = [];
   List<String> recentEmojis = [];
 
-  Storage storage= Storage();
+  Storage storage = Storage();
 
   @override
   void initState() {
@@ -90,7 +89,6 @@ class EmojiBoard extends State<EmojiKeyboard> {
     this.darkMode = widget.darkMode;
 
     storage.fetchAllEmojis().then((emojis) {
-
       if (emojis.isNotEmpty) {
         recent = emojis;
         recent.sort((a, b) => b.amount.compareTo(a.amount));
@@ -103,7 +101,6 @@ class EmojiBoard extends State<EmojiKeyboard> {
 
       categoryHandler(0);
       switchedPage(0);
-
     });
 
     var keyboardVisibilityController = KeyboardVisibilityController();
@@ -148,7 +145,7 @@ class EmojiBoard extends State<EmojiKeyboard> {
   /// This function handles any changes to the category from the
   /// category bar and passes it to the emoji page widget.
   void categoryHandler(int categoryNumber) {
-    if(emojiPageStateKey.currentState != null) {
+    if (emojiPageStateKey.currentState != null) {
       emojiPageStateKey.currentState!.navigateCategory(categoryNumber);
     }
   }
@@ -159,7 +156,7 @@ class EmojiBoard extends State<EmojiKeyboard> {
   void emojiScrollShowBottomBar(bool emojiScrollShowBottomBar) {
     if (this.showBottomBar != emojiScrollShowBottomBar) {
       this.showBottomBar = emojiScrollShowBottomBar;
-      if(bottomBarStateKey.currentState != null) {
+      if (bottomBarStateKey.currentState != null) {
         bottomBarStateKey.currentState!
             .emojiScrollShowBottomBar(this.showBottomBar);
       }
@@ -170,7 +167,7 @@ class EmojiBoard extends State<EmojiKeyboard> {
   /// left or right.
   /// It sends a trigger to the category bar to update the category
   void switchedPage(int pageNumber) {
-    if(categoryBarStateKey.currentState != null) {
+    if (categoryBarStateKey.currentState != null) {
       categoryBarStateKey.currentState!.updateCategoryBar(pageNumber);
     }
   }
@@ -195,8 +192,8 @@ class EmojiBoard extends State<EmojiKeyboard> {
     List<SearchedEmoji> recommendedEmojis = [];
     if (recentEmojis != []) {
       for (var recentEmoji in recentEmojis) {
-        recommendedEmojis
-            .add(SearchedEmoji(name: "", emoji: recentEmoji.toString(), tier: 1));
+        recommendedEmojis.add(
+            SearchedEmoji(name: "", emoji: recentEmoji.toString(), tier: 1));
         if (recommendedEmojis.length >= 20) {
           break;
         }
@@ -232,7 +229,6 @@ class EmojiBoard extends State<EmojiKeyboard> {
   /// When it adds a new entry it will look in the emoji list for the category
   /// that the emoji is in to be able to store a new entry in the local db
   void addRecentEmoji(String emoji, int category) async {
-
     List<String> recentEmojiList = recent.map((emote) => emote.emoji).toList();
     if (recentEmojiList.contains(emoji)) {
       // The emoji is already in the list so we want to update it.
@@ -273,7 +269,7 @@ class EmojiBoard extends State<EmojiKeyboard> {
       });
     } else {
       Emoji newEmoji = Emoji("", "", 1);
-      for (int i = 1; i <= 8; i++ ) {
+      for (int i = 1; i <= 8; i++) {
         Emoji foundEmoji = getEmoji(emoji, i);
         if (foundEmoji.emojiDescription != "") {
           newEmoji = foundEmoji;
