@@ -1,3 +1,7 @@
+## [1.2.4] 02-12-2021
+
+resolved more minor issues
+
 ## [1.2.3] 02-12-2021
 
 added correct Dart formatting
