@@ -107,7 +107,9 @@ class EmojiPageState extends State<EmojiPage> {
         getAvailableSymbols(),
         getAvailableFlags()
       ]).then((var value) {
-        emojiGridStateKey.currentState!.forceUpdate(this.smileys);
+        if (emojiGridStateKey.currentState != null) {
+          emojiGridStateKey.currentState!.forceUpdate(this.smileys);
+        }
       });
     } else {
       setState(() {
