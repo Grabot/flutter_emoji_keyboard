@@ -1,5 +1,9 @@
 ## [1.2.4] 02-12-2021
 
+changed the channel name of the android emoji check.
+
+## [1.2.4] 02-12-2021
+
 resolved more minor issues
 
 ## [1.2.3] 02-12-2021

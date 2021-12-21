@@ -54,7 +54,7 @@ class EmojiBoard extends State<EmojiKeyboard> {
   /// that the user is currently using.
   /// (See MainActivity in the android project for the implementation)
   static const platform =
-      const MethodChannel("nl.emoji_keyboard_flutter_example.emoji/available");
+      const MethodChannel("nl.brocast.emoji/available");
 
   final GlobalKey<CategoryBarState> categoryBarStateKey =
       GlobalKey<CategoryBarState>();
