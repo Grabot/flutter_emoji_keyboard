@@ -1,4 +1,8 @@
-## [1.2.4] 02-12-2021
+## [1.2.6] 02-12-2021
+
+When there are no 'recent' emojis in the db it will default on the smile category.
+
+## [1.2.5] 02-12-2021
 
 changed the channel name of the android emoji check.
 

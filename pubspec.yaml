@@ -1,6 +1,6 @@
 name: emoji_keyboard_flutter
 description: A Flutter package that provides keyboard where you can only type with emojis!
-version: 1.2.5
+version: 1.2.6
 homepage: https://github.com/Grabot/flutter_emoji_keyboard
 
 environment:
@@ -10,8 +10,8 @@ environment:
 dependencies:
 
   back_button_interceptor: ^5.0.2
-  sqflite: ^2.0.0+4
-  path: ^1.8.0
+  sqflite: ^2.0.1
+  path: ^1.8.1
   flutter_keyboard_visibility: ^5.1.0
 
   flutter:
