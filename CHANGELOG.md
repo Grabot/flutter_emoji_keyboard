@@ -1,4 +1,4 @@
-## [1.2.6] 02-12-2021
+## [1.2.7] 02-12-2021
 
 When there are no 'recent' emojis in the db it will default on the smile category.
 
