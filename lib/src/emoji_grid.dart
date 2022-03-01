@@ -88,6 +88,7 @@ class EmojiGridState extends State<EmojiGrid> {
           crossAxisCount: isPortrait() ? 8 : 16,
         ),
         itemCount: emojis!.length,
+        padding: EdgeInsets.only(bottom: 40),
         itemBuilder: (BuildContext ctx, index) {
           return TextButton(
               onPressed: () {

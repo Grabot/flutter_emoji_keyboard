@@ -28,14 +28,14 @@ import 'emojis/travel.dart';
 ///   - emoji pages
 ///     These hold all the emojis in 9 separate listviews.
 class EmojiKeyboard extends StatefulWidget {
-  final TextEditingController bromotionController;
+  final TextEditingController emotionController;
   final double emojiKeyboardHeight;
   final bool showEmojiKeyboard;
   final bool darkMode;
 
   EmojiKeyboard(
       {Key? key,
-      required this.bromotionController,
+      required this.emotionController,
       this.emojiKeyboardHeight = 350,
       this.showEmojiKeyboard = true,
       this.darkMode = false})
@@ -83,7 +83,7 @@ class EmojiBoard extends State<EmojiKeyboard> {
 
   @override
   void initState() {
-    this.bromotionController = widget.bromotionController;
+    this.bromotionController = widget.emotionController;
     this.emojiKeyboardHeight = widget.emojiKeyboardHeight;
     this.darkMode = widget.darkMode;
 
@@ -433,90 +433,93 @@ class EmojiBoard extends State<EmojiKeyboard> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        child: Column(mainAxisSize: MainAxisSize.min, children: [
-      Container(
-        height: widget.showEmojiKeyboard && !searchMode
-            ? isPortrait()
-                ? emojiKeyboardHeight
-                : 150
-            : 0,
-        color: this.darkMode ? Color(0xff262626) : Color(0xffe7e7e7),
-        child: Column(children: [
-          CategoryBar(
-              key: categoryBarStateKey,
-              categoryHandler: categoryHandler,
-              darkMode: darkMode),
-          Stack(children: [
-            EmojiPage(
-                key: emojiPageStateKey,
-                emojiKeyboardHeight: isPortrait() ? emojiKeyboardHeight : 150,
-                bromotionController: bromotionController!,
-                emojiScrollShowBottomBar: emojiScrollShowBottomBar,
-                insertText: insertText,
-                recent: recentEmojis,
-                switchedPage: switchedPage),
-            BottomBar(
-                key: bottomBarStateKey,
-                bromotionController: bromotionController!,
-                emojiSearch: emojiSearch,
+    return SafeArea(
+      bottom: true,
+      child: Container(
+          child: Column(mainAxisSize: MainAxisSize.min, children: [
+        Container(
+          height: widget.showEmojiKeyboard && !searchMode
+              ? isPortrait()
+                  ? emojiKeyboardHeight
+                  : 150
+              : 0,
+          color: this.darkMode ? Color(0xff262626) : Color(0xffe7e7e7),
+          child: Column(children: [
+            CategoryBar(
+                key: categoryBarStateKey,
+                categoryHandler: categoryHandler,
                 darkMode: darkMode),
-          ])
-        ]),
-      ),
-      widget.showEmojiKeyboard && searchMode
-          ? Container(
-              color: this.darkMode ? Color(0xff262626) : Color(0xffe7e7e7),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Container(
-                    height: isPortrait()
-                        ? MediaQuery.of(context).size.width / 8
-                        : 50,
-                    child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: searchedEmojis.length,
-                      itemBuilder: (context, index) {
-                        return TextButton(
-                            onPressed: () {
-                              insertTextSearch(searchedEmojis[index]);
-                            },
-                            child: Text(searchedEmojis[index],
-                                style: TextStyle(fontSize: 25)));
-                      },
-                    ),
-                  ),
-                  Row(children: [
+            Stack(children: [
+              EmojiPage(
+                  key: emojiPageStateKey,
+                  emojiKeyboardHeight: isPortrait() ? emojiKeyboardHeight : 150,
+                  bromotionController: bromotionController!,
+                  emojiScrollShowBottomBar: emojiScrollShowBottomBar,
+                  insertText: insertText,
+                  recent: recentEmojis,
+                  switchedPage: switchedPage),
+              BottomBar(
+                  key: bottomBarStateKey,
+                  bromotionController: bromotionController!,
+                  emojiSearch: emojiSearch,
+                  darkMode: darkMode),
+            ])
+          ]),
+        ),
+        widget.showEmojiKeyboard && searchMode
+            ? Container(
+                color: this.darkMode ? Color(0xff262626) : Color(0xffe7e7e7),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
                     Container(
-                        child: IconButton(
-                      icon: Icon(Icons.arrow_back),
-                      color: Colors.grey.shade600,
-                      onPressed: () {
-                        pressedBackSearch();
-                      },
-                    )),
-                    Expanded(
-                      child: TextFormField(
-                          focusNode: focusSearchEmoji,
-                          onChanged: (text) {
-                            updateEmojiSearch(text);
-                          },
-                          style: TextStyle(
-                            color: darkMode ? Colors.white : Colors.black,
-                          ),
-                          decoration: new InputDecoration(
-                              border: InputBorder.none,
-                              focusedBorder: InputBorder.none,
-                              enabledBorder: InputBorder.none,
-                              errorBorder: InputBorder.none,
-                              disabledBorder: InputBorder.none)),
+                      height: isPortrait()
+                          ? MediaQuery.of(context).size.width / 8
+                          : 50,
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: searchedEmojis.length,
+                        itemBuilder: (context, index) {
+                          return TextButton(
+                              onPressed: () {
+                                insertTextSearch(searchedEmojis[index]);
+                              },
+                              child: Text(searchedEmojis[index],
+                                  style: TextStyle(fontSize: 25)));
+                        },
+                      ),
                     ),
-                  ]),
-                ],
-              ),
-            )
-          : Container(),
-    ]));
+                    Row(children: [
+                      Container(
+                          child: IconButton(
+                        icon: Icon(Icons.arrow_back),
+                        color: Colors.grey.shade600,
+                        onPressed: () {
+                          pressedBackSearch();
+                        },
+                      )),
+                      Expanded(
+                        child: TextFormField(
+                            focusNode: focusSearchEmoji,
+                            onChanged: (text) {
+                              updateEmojiSearch(text);
+                            },
+                            style: TextStyle(
+                              color: darkMode ? Colors.white : Colors.black,
+                            ),
+                            decoration: new InputDecoration(
+                                border: InputBorder.none,
+                                focusedBorder: InputBorder.none,
+                                enabledBorder: InputBorder.none,
+                                errorBorder: InputBorder.none,
+                                disabledBorder: InputBorder.none)),
+                      ),
+                    ]),
+                  ],
+                ),
+              )
+            : Container(),
+      ])),
+    );
   }
 }
