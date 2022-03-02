@@ -1,3 +1,9 @@
+## [1.2.8] 02-03-2022
+
+Since the keyboard is conventionally placed on the bottom I have added a SafeArea on the bottom, 
+which would allow the keyboard to not interfer with bottom bars.
+And added padding to categories, if the bottom bar is visible the lowest emojis are still clickable. 
+
 ## [1.2.7] 02-12-2021
 
 When there are no 'recent' emojis in the db it will default on the smile category.

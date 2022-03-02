@@ -74,33 +74,30 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: Stack(
-          children: [
-            Container(
-              color: Colors.white,
-              alignment: Alignment.topCenter,
-              padding: const EdgeInsets.all(6),
-              child: TextFormField(
-                onTap: () {
-                  onTapEmojiField();
-                },
-                controller: controller,
-                decoration: const InputDecoration(border: OutlineInputBorder()),
-                readOnly: true,
-                showCursor: true,
-              ),
-            ),
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: EmojiKeyboard(
-                bromotionController: controller,
-                emojiKeyboardHeight: 350,
-                showEmojiKeyboard: showEmojiKeyboard,
-                darkMode: true
-              ),
-            ),
-          ]
-      ),
+      body: Stack(children: [
+        Container(
+          color: Colors.white,
+          alignment: Alignment.topCenter,
+          padding: const EdgeInsets.all(6),
+          child: TextFormField(
+            onTap: () {
+              onTapEmojiField();
+            },
+            controller: controller,
+            decoration: const InputDecoration(border: OutlineInputBorder()),
+            readOnly: true,
+            showCursor: true,
+          ),
+        ),
+        Align(
+          alignment: Alignment.bottomCenter,
+          child: EmojiKeyboard(
+              emotionController: controller,
+              emojiKeyboardHeight: 400,
+              showEmojiKeyboard: showEmojiKeyboard,
+              darkMode: true),
+        ),
+      ]),
     );
   }
 }
