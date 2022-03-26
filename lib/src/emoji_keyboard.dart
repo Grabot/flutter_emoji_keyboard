@@ -10,14 +10,14 @@ import 'bottom_bar.dart';
 import 'category_bar.dart';
 import 'emoji_page.dart';
 import 'emoji_searching.dart';
-import 'emojis/activities.dart';
-import 'emojis/animals.dart';
-import 'emojis/flags.dart';
-import 'emojis/foods.dart';
-import 'emojis/objects.dart';
-import 'emojis/smileys.dart';
-import 'emojis/symbols.dart';
-import 'emojis/travel.dart';
+import 'test/activities.dart';
+import 'test/animals.dart';
+import 'test/flags.dart';
+import 'test/foods.dart';
+import 'test/objects.dart';
+import 'test/smileys.dart';
+import 'test/symbols.dart';
+import 'test/travel.dart';
 
 /// The emoji keyboard. This holds all the components of the keyboard.
 /// This will include the:
@@ -220,7 +220,7 @@ class EmojiBoard extends State<EmojiKeyboard> {
   /// and shows it.
   updateEmojiSearch(String text) {
     List<String> finalEmojis = searchEmojis(text);
-    if (finalEmojis != null && finalEmojis != []) {
+    if (finalEmojis != []) {
       isAvailable(finalEmojis.toList());
     }
   }
@@ -299,12 +299,13 @@ class EmojiBoard extends State<EmojiKeyboard> {
     // Every time there is a new emoji we will look for the correct one in our
     // emoji lists
     if (category == 1) {
-      for (List<String> smileyEmojis in smileysList) {
-        if (emoji == smileyEmojis[1]) {
-          return Emoji(smileyEmojis[0], smileyEmojis[1], 1);
+      for (var smileyEmojis in smileysList) {
+        if (emoji == smileyEmojis[0]) {
+          return Emoji(smileyEmojis[1], smileyEmojis[0], 1);
         }
       }
     } else if (category == 2) {
+      // TODO!!!!
       for (List<String> animalEmojis in animalsList) {
         if (emoji == animalEmojis[1]) {
           return Emoji(animalEmojis[0], animalEmojis[1], 1);
@@ -402,8 +403,8 @@ class EmojiBoard extends State<EmojiKeyboard> {
   /// The emoji is added to the Textfield at the location of the cursor
   /// or as a replacement of the selection of the user.
   void insertText(String myText, int category) {
-    addRecentEmoji(myText, category);
-    emojiScrollShowBottomBar(true);
+    // addRecentEmoji(myText, category);
+    // emojiScrollShowBottomBar(true);
     final text = bromotionController!.text;
     final textSelection = bromotionController!.selection;
     final newText = text.replaceRange(
