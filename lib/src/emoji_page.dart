@@ -87,7 +87,7 @@ class EmojiPageState extends State<EmojiPage> {
       Emoji emoji = Emoji("", emojiDetails[0], -1);
       if (emojiDetails[3] == 1) {
         // There are additional components you can add to the emoji
-        emoji.setComponent(wavingHand);
+        emoji.setComponent(skinComponents[0]);
       }
       onlyEmoji.add(emoji);
     }

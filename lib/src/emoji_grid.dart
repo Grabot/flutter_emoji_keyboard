@@ -86,6 +86,13 @@ class EmojiGridState extends State<EmojiGrid> {
 
   @override
   Widget build(BuildContext context) {
+    // Add global keys to the buttons to find the position
+    List<GlobalKey> keys = [];
+    for (int i = 0; i < emojis!.length; i++) {
+      GlobalKey key = GlobalKey();
+      keys.add(key);
+    }
+
     return GridView.builder(
         controller: scrollController,
         shrinkWrap: true,
@@ -98,18 +105,48 @@ class EmojiGridState extends State<EmojiGrid> {
           return CustomPaint(
             foregroundPainter: emojis![index].testComponent ? BorderPainter() : NoBorderPainter(),
             child: Container(
+              key: keys[index],
               child: TextButton(
                   onPressed: () {
                     pressedEmoji(emojis![index].emoji);
                   },
                   onLongPress: () {
-                    getExtraEmojiOptions(emojis![index]);
+                    _showPopupMenu(keys[index]);
                   },
                   child: Text(emojis![index].emoji, style: TextStyle(fontSize: 25))),
             ),
           );
         });
   }
+
+  _showPopupMenu(GlobalKey keyKey) async {
+    RenderBox? box = keyKey.currentContext!.findRenderObject() as RenderBox?;
+
+    Offset position = box!.localToGlobal(Offset.zero);
+
+    double xPos = position.dx;
+    double yPos = position.dy;
+    double emojiWidth = MediaQuery.of(context).size.width / 8;
+    RelativeRect test = RelativeRect.fromLTRB(
+      xPos,
+      yPos,
+      xPos + emojiWidth,
+      yPos + emojiWidth
+    );
+
+    showMenu(
+        context: context,
+        items: [
+          MessageDetailPopup(
+              key: UniqueKey()
+          )
+        ],
+        position: test)
+        .then((int? delta) {
+      return;
+    });
+  }
+
 }
 
 class NoBorderPainter extends CustomPainter {
@@ -154,4 +191,45 @@ class BorderPainter extends CustomPainter {
 
   @override
   bool shouldRebuildSemantics(BorderPainter oldDelegate) => false;
+}
+
+class MessageDetailPopup extends PopupMenuEntry<int> {
+  MessageDetailPopup(
+      {required Key key})
+      : super(key: key);
+
+  @override
+  bool represents(int? n) => n == 1 || n == -1;
+
+  @override
+  MessageDetailPopupState createState() => MessageDetailPopupState();
+
+  @override
+  double get height => 1;
+}
+
+class MessageDetailPopupState extends State<MessageDetailPopup> {
+  @override
+  Widget build(BuildContext context) {
+    return getPopupItems(context);
+  }
+}
+
+Widget getPopupItems(BuildContext context) {
+  return Column(children: [
+    Container(
+      height: MediaQuery.of(context).size.width / 8,
+      width: MediaQuery.of(context).size.width / 8,
+      alignment: Alignment.center,
+      child: TextButton(
+          onPressed: () {
+            print("pressed button!");
+          },
+          child: Text(
+            'Message',
+            textAlign: TextAlign.left,
+            style: TextStyle(color: Colors.black, fontSize: 14),
+          )),
+    )
+  ]);
 }
