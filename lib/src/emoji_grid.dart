@@ -137,7 +137,7 @@ class EmojiGridState extends State<EmojiGrid> {
     showMenu(
         context: context,
         items: [
-          MessageDetailPopup(
+          ComponentDetailPopup(
               key: UniqueKey()
           )
         ],
@@ -193,8 +193,8 @@ class BorderPainter extends CustomPainter {
   bool shouldRebuildSemantics(BorderPainter oldDelegate) => false;
 }
 
-class MessageDetailPopup extends PopupMenuEntry<int> {
-  MessageDetailPopup(
+class ComponentDetailPopup extends PopupMenuEntry<int> {
+  ComponentDetailPopup(
       {required Key key})
       : super(key: key);
 
@@ -202,13 +202,13 @@ class MessageDetailPopup extends PopupMenuEntry<int> {
   bool represents(int? n) => n == 1 || n == -1;
 
   @override
-  MessageDetailPopupState createState() => MessageDetailPopupState();
+  ComponentDetailPopupState createState() => ComponentDetailPopupState();
 
   @override
   double get height => 1;
 }
 
-class MessageDetailPopupState extends State<MessageDetailPopup> {
+class ComponentDetailPopupState extends State<ComponentDetailPopup> {
   @override
   Widget build(BuildContext context) {
     return getPopupItems(context);
@@ -216,20 +216,22 @@ class MessageDetailPopupState extends State<MessageDetailPopup> {
 }
 
 Widget getPopupItems(BuildContext context) {
-  return Column(children: [
+  return Row(children: [
     Container(
       height: MediaQuery.of(context).size.width / 8,
-      width: MediaQuery.of(context).size.width / 8,
+      width: ((MediaQuery.of(context).size.width / 8) * 5),
       alignment: Alignment.center,
-      child: TextButton(
-          onPressed: () {
-            print("pressed button!");
-          },
-          child: Text(
-            'Message',
-            textAlign: TextAlign.left,
-            style: TextStyle(color: Colors.black, fontSize: 14),
-          )),
+      color: Colors.red,
+      child: CustomPaint(
+        foregroundPainter: NoBorderPainter(),
+        child: Container(
+          child: TextButton(
+              onPressed: () {
+                print("press component");
+              },
+              child: Text('👋🏻', style: TextStyle(fontSize: 25))),
+        ),
+      )
     )
   ]);
 }
