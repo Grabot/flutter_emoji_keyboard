@@ -1,4 +1,6 @@
 import 'package:emoji_keyboard_flutter/src/util/emoji.dart';
+import 'package:emoji_keyboard_flutter/src/util/popup_menu_override.dart';
+import 'package:emoji_keyboard_flutter/src/util/popup_menu_override.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
@@ -29,6 +31,7 @@ class EmojiGrid extends StatefulWidget {
 class EmojiGridState extends State<EmojiGrid> {
   List? emojis;
   ScrollController scrollController = new ScrollController();
+  ScrollController scrollPopupController = new ScrollController();
 
   @override
   void initState() {
@@ -128,21 +131,23 @@ class EmojiGridState extends State<EmojiGrid> {
     double yPos = position.dy;
     double emojiWidth = MediaQuery.of(context).size.width / 8;
     RelativeRect test = RelativeRect.fromLTRB(
-      xPos,
-      yPos,
-      xPos + emojiWidth,
-      yPos + emojiWidth
+      xPos - (emojiWidth * 2),
+      yPos - (emojiWidth * 5),
+      xPos + (emojiWidth * 3),
+      yPos
     );
 
-    showMenu(
+    showMenuOverride(
         context: context,
+        position: test,
+        width: (MediaQuery.of(context).size.width / 8) * 5,
         items: [
           ComponentDetailPopup(
-              key: UniqueKey()
+            key: UniqueKey()
           )
         ],
-        position: test)
-        .then((int? delta) {
+    ).then((value) {
+      print("value: $value");
       return;
     });
   }
@@ -191,47 +196,4 @@ class BorderPainter extends CustomPainter {
 
   @override
   bool shouldRebuildSemantics(BorderPainter oldDelegate) => false;
-}
-
-class ComponentDetailPopup extends PopupMenuEntry<int> {
-  ComponentDetailPopup(
-      {required Key key})
-      : super(key: key);
-
-  @override
-  bool represents(int? n) => n == 1 || n == -1;
-
-  @override
-  ComponentDetailPopupState createState() => ComponentDetailPopupState();
-
-  @override
-  double get height => 1;
-}
-
-class ComponentDetailPopupState extends State<ComponentDetailPopup> {
-  @override
-  Widget build(BuildContext context) {
-    return getPopupItems(context);
-  }
-}
-
-Widget getPopupItems(BuildContext context) {
-  return Row(children: [
-    Container(
-      height: MediaQuery.of(context).size.width / 8,
-      width: ((MediaQuery.of(context).size.width / 8) * 5),
-      alignment: Alignment.center,
-      color: Colors.red,
-      child: CustomPaint(
-        foregroundPainter: NoBorderPainter(),
-        child: Container(
-          child: TextButton(
-              onPressed: () {
-                print("press component");
-              },
-              child: Text('👋🏻', style: TextStyle(fontSize: 25))),
-        ),
-      )
-    )
-  ]);
 }
