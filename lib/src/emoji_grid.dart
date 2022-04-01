@@ -123,6 +123,14 @@ class EmojiGridState extends State<EmojiGrid> {
   }
 
   _showPopupMenu(GlobalKey keyKey) async {
+    List<String> components = [
+      '👋🏻', '👋🏼', '👋🏽', '👋🏾', '👋🏿', '👋🏽',
+      '👋🏼', '👋🏽', '👋🏾', '👋🏿', '👋🏻', '👋🏼',
+      '👋🏽', '👋🏾', '👋🏾', '👋🏻', '👋🏼', '👋🏽',
+      '👋🏾', '👋🏿', '👋🏿', '👋🏼', '👋🏽', '👋🏾',
+      '👋🏿', '👋🏻', '👋🏿', '👋🏽', '👋🏾', '👋🏽',
+      '👋🏻', '👋🏼'];
+
     RenderBox? box = keyKey.currentContext!.findRenderObject() as RenderBox?;
 
     Offset position = box!.localToGlobal(Offset.zero);
@@ -130,20 +138,50 @@ class EmojiGridState extends State<EmojiGrid> {
     double xPos = position.dx;
     double yPos = position.dy;
     double emojiWidth = MediaQuery.of(context).size.width / 8;
-    RelativeRect test = RelativeRect.fromLTRB(
-      xPos - (emojiWidth * 2),
-      yPos - (emojiWidth * 5),
-      xPos + (emojiWidth * 3),
-      yPos
+
+    // We want the width to be 6 buttons wide,
+    // the original emoji + 5 skin components
+    // You can have more components, but it will always be at least 6.
+    double widthPopup = (MediaQuery.of(context).size.width / 8) * 6;
+    double heightPopup = 0;
+    if (components.length <= 6) {
+      // Only 1 row needed. Show all emojis in a single row
+      heightPopup = (MediaQuery.of(context).size.width / 8);
+    } else if (components.length <= 12) {
+      // Only 2 rows needed. Show all emojis in 2 rows
+      heightPopup = (MediaQuery.of(context).size.width / 8) * 2;
+    } else {
+      // More rows needed. Show all emojis by showing 2.5 rows,
+      // showing that it can be scrolled
+      heightPopup = (MediaQuery.of(context).size.width / 8) * 2.5;
+    }
+
+    // The height of the position should reflect the height of the popup
+    double heightPosition = 0;
+    if (components.length <= 6) {
+      heightPosition = yPos - (emojiWidth * 1);
+    } else if (components.length <= 12) {
+      heightPosition = yPos - (emojiWidth * 2);
+    } else {
+      heightPosition = yPos - (emojiWidth * 2.5);
+    }
+
+    RelativeRect popupPosition = RelativeRect.fromLTRB(
+        xPos - (emojiWidth * 2) - (emojiWidth / 2),
+        heightPosition,
+        xPos + (emojiWidth * 3) + (emojiWidth / 2),
+        yPos
     );
 
     showMenuOverride(
         context: context,
-        position: test,
-        width: (MediaQuery.of(context).size.width / 8) * 5,
+        position: popupPosition,
+        widthPopup: widthPopup,
+        heightPopup: heightPopup,
         items: [
           ComponentDetailPopup(
-            key: UniqueKey()
+            key: UniqueKey(),
+            components: components
           )
         ],
     ).then((value) {
