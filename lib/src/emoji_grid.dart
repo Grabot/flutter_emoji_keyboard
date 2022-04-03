@@ -1,8 +1,10 @@
+import 'package:emoji_keyboard_flutter/src/test/component/component.dart';
 import 'package:emoji_keyboard_flutter/src/util/emoji.dart';
 import 'package:emoji_keyboard_flutter/src/util/popup_menu_override.dart';
 import 'package:emoji_keyboard_flutter/src/util/popup_menu_override.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/services.dart';
 
 /// This is the Grid which will hold all the emojis
 class EmojiGrid extends StatefulWidget {
@@ -32,6 +34,8 @@ class EmojiGridState extends State<EmojiGrid> {
   List? emojis;
   ScrollController scrollController = new ScrollController();
   ScrollController scrollPopupController = new ScrollController();
+
+  static const platform = const MethodChannel("nl.emojikeyboard.emoji/available");
 
   @override
   void initState() {
@@ -106,7 +110,7 @@ class EmojiGridState extends State<EmojiGrid> {
         padding: EdgeInsets.only(bottom: 40),
         itemBuilder: (BuildContext ctx, index) {
           return CustomPaint(
-            foregroundPainter: emojis![index].testComponent ? BorderPainter() : NoBorderPainter(),
+            foregroundPainter: emojis![index].hasComponent ? BorderPainter() : NoBorderPainter(),
             child: Container(
               key: keys[index],
               child: TextButton(
@@ -114,7 +118,9 @@ class EmojiGridState extends State<EmojiGrid> {
                     pressedEmoji(emojis![index].emoji);
                   },
                   onLongPress: () {
-                    _showPopupMenu(keys[index]);
+                    if (emojis![index].hasComponent) {
+                      _showPopupMenu(keys[index], emojis![index]);
+                    }
                   },
                   child: Text(emojis![index].emoji, style: TextStyle(fontSize: 25))),
             ),
@@ -122,14 +128,20 @@ class EmojiGridState extends State<EmojiGrid> {
         });
   }
 
-  _showPopupMenu(GlobalKey keyKey) async {
-    List<String> components = [
-      '👋🏻', '👋🏼', '👋🏽', '👋🏾', '👋🏿', '👋🏽',
-      '👋🏼', '👋🏽', '👋🏾', '👋🏿', '👋🏻', '👋🏼',
-      '👋🏽', '👋🏾', '👋🏾', '👋🏻', '👋🏼', '👋🏽',
-      '👋🏾', '👋🏿', '👋🏿', '👋🏼', '👋🏽', '👋🏾',
-      '👋🏿', '👋🏻', '👋🏿', '👋🏽', '👋🏾', '👋🏽',
-      '👋🏻', '👋🏼'];
+  _showPopupMenu(GlobalKey keyKey, Emoji emoji) async {
+    List<String> components = [emoji.emoji];
+    components.addAll(componentsMap[emoji.emoji]);
+
+    var test = await platform
+        .invokeMethod("isAvailable", {"emojis": components});
+
+    List<String> finalComponents = [];
+    for (Object object in test) {
+      finalComponents.add(object.toString());
+    }
+
+    print("long press on emoji ${emoji.emoji}");
+    print("${emoji.hasComponent}");
 
     RenderBox? box = keyKey.currentContext!.findRenderObject() as RenderBox?;
 
@@ -144,10 +156,10 @@ class EmojiGridState extends State<EmojiGrid> {
     // You can have more components, but it will always be at least 6.
     double widthPopup = (MediaQuery.of(context).size.width / 8) * 6;
     double heightPopup = 0;
-    if (components.length <= 6) {
+    if (finalComponents.length <= 6) {
       // Only 1 row needed. Show all emojis in a single row
       heightPopup = (MediaQuery.of(context).size.width / 8);
-    } else if (components.length <= 12) {
+    } else if (finalComponents.length <= 12) {
       // Only 2 rows needed. Show all emojis in 2 rows
       heightPopup = (MediaQuery.of(context).size.width / 8) * 2;
     } else {
@@ -158,9 +170,9 @@ class EmojiGridState extends State<EmojiGrid> {
 
     // The height of the position should reflect the height of the popup
     double heightPosition = 0;
-    if (components.length <= 6) {
+    if (finalComponents.length <= 6) {
       heightPosition = yPos - (emojiWidth * 1);
-    } else if (components.length <= 12) {
+    } else if (finalComponents.length <= 12) {
       heightPosition = yPos - (emojiWidth * 2);
     } else {
       heightPosition = yPos - (emojiWidth * 2.5);
@@ -181,7 +193,7 @@ class EmojiGridState extends State<EmojiGrid> {
         items: [
           ComponentDetailPopup(
             key: UniqueKey(),
-            components: components
+            components: finalComponents
           )
         ],
     ).then((value) {

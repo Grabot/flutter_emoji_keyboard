@@ -2,8 +2,7 @@ class Emoji {
   late String emojiDescription;
   late String emoji;
   late int amount;
-  late List component = [];
-  bool testComponent = false;
+  bool hasComponent = false;
 
   Emoji(String emojiDescription, String emoji, int amount) {
     this.emojiDescription = emojiDescription;
@@ -15,9 +14,8 @@ class Emoji {
     this.amount += 1;
   }
 
-  setComponent(List componentEmoji) {
-    component = componentEmoji;
-    testComponent = true;
+  hasCompo() {
+    hasComponent = true;
   }
 
   Map<String, dynamic> toDbMap() {

@@ -471,7 +471,7 @@ class ComponentDetailPopupState extends State<ComponentDetailPopup> {
       return Container(
         height: MediaQuery.of(context).size.width / 8,
         width: MediaQuery.of(context).size.width / 8,
-        color: Colors.red,
+        color: Colors.grey,
         child: TextButton(
             onPressed: () {
               print("press component $index");

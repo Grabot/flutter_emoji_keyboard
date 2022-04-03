@@ -85,9 +85,9 @@ class EmojiPageState extends State<EmojiPage> {
     List<Emoji> onlyEmoji = [];
     for (var emojiDetails in emojiList) {
       Emoji emoji = Emoji("", emojiDetails[0], -1);
-      if (emojiDetails[3] == 1) {
+      if (emojiDetails[3] != 0) {
         // There are additional components you can add to the emoji
-        emoji.setComponent(skinComponents[0]);
+        emoji.hasCompo();
       }
       onlyEmoji.add(emoji);
     }
