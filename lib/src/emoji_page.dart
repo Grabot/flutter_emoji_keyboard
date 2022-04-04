@@ -81,15 +81,10 @@ class EmojiPageState extends State<EmojiPage> {
   /// Here we also store the name given to the emoji. Since we don't show it
   /// we have this simple function which retrieves only the emojis of these
   /// lists.
-  List<Emoji> getEmojis(emojiList) {
-    List<Emoji> onlyEmoji = [];
-    for (var emojiDetails in emojiList) {
-      Emoji emoji = Emoji("", emojiDetails[0], -1);
-      if (emojiDetails[3] != 0) {
-        // There are additional components you can add to the emoji
-        emoji.hasCompo();
-      }
-      onlyEmoji.add(emoji);
+  List<String> getEmojis(emojiList) {
+    List<String> onlyEmoji = [];
+    for (var emotion in emojiList) {
+      onlyEmoji.add(emotion);
     }
     return onlyEmoji;
   }
@@ -128,14 +123,14 @@ class EmojiPageState extends State<EmojiPage> {
       });
     } else {
       setState(() {
-        this.smileys = getEmojis(smileysList);
-        this.animals = getEmojis(animalsList);
-        this.foods = getEmojis(foodsList);
-        this.activities = getEmojis(activitiesList);
-        this.travel = getEmojis(travelList);
-        this.objects = getEmojis(objectsList);
-        this.symbols = getEmojis(symbolsList);
-        this.flags = getEmojis(flagsList);
+        this.smileys = getEmojisString(smileysList);
+        this.animals = getEmojisString(animalsList);
+        this.foods = getEmojisString(foodsList);
+        this.activities = getEmojisString(activitiesList);
+        this.travel = getEmojisString(travelList);
+        this.objects = getEmojisString(objectsList);
+        this.symbols = getEmojisString(symbolsList);
+        this.flags = getEmojisString(flagsList);
       });
     }
   }
@@ -144,23 +139,16 @@ class EmojiPageState extends State<EmojiPage> {
   Future getAvailableSmileys() async {
     List<Object?> smileysStrings = await platform
         .invokeMethod("isAvailable", {"emojis": getEmojisString(smileysList)});
-    List<List> smileyEmojiList = [];
-    for (var emojiDetails in smileysStrings) {
-      for (var smileDetails in smileysList) {
-        if (emojiDetails!.toString() == smileDetails[0]) {
-          // The emoji is in the list. Add it to the emojis to be shown
-          smileyEmojiList.add(smileDetails);
-        }
-      }
-    }
     // We create a list of lists to make it compatible with the 'getEmojis' function.
-    this.smileys = getEmojis(smileyEmojiList);
+    this.smileys = getEmojis(smileysStrings);
   }
 
   /// Here we load the animal emojis and filter out the ones we can't show
   Future getAvailableAnimals() async {
-    this.animals = await platform
+    List<Object?> animalsString = await platform
         .invokeMethod("isAvailable", {"emojis": getEmojisString(animalsList)});
+    // Now that we have the animal strings we want to turn it to a emoji object list.
+    this.animals = getEmojis(animalsString);
   }
 
   /// Here we load the food emojis and filter out the ones we can't show
@@ -228,11 +216,13 @@ class EmojiPageState extends State<EmojiPage> {
       height: widget.emojiKeyboardHeight - 50,
       child: PageView(controller: pageController, children: [
         EmojiGrid(
+            key: emojiGridStateKey,
             emojis: [], // TODO: add recent
             emojiScrollShowBottomBar: widget.emojiScrollShowBottomBar,
             categoryIndicator: 0,
             insertText: widget.insertText),
         EmojiGrid(
+            key: emojiGridStateKey,
             emojis: smileys,
             emojiScrollShowBottomBar: widget.emojiScrollShowBottomBar,
             categoryIndicator: 1,

@@ -460,25 +460,28 @@ class ComponentDetailPopupState extends State<ComponentDetailPopup> {
 
   @override
   Widget build(BuildContext context) {
-    return GridView.builder(
-        controller: scrollPopupController,
-        shrinkWrap: true,
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 6,
-    ),
-    itemCount: widget.components.length,
-    itemBuilder: (BuildContext ctx, index) {
-      return Container(
-        height: MediaQuery.of(context).size.width / 8,
-        width: MediaQuery.of(context).size.width / 8,
+    return Container(
         color: Colors.grey,
-        child: TextButton(
-            onPressed: () {
-              print("press component $index");
-            },
-            child: Text(widget.components[index], style: TextStyle(fontSize: 25))),
-            // child: Text(test2[index], style: TextStyle(fontSize: 25))),
-      );
-    });
+        child: GridView.builder(
+          controller: scrollPopupController,
+          shrinkWrap: true,
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 6,
+      ),
+      itemCount: widget.components.length,
+      itemBuilder: (BuildContext ctx, index) {
+        return Container(
+          height: MediaQuery.of(context).size.width / 8,
+          width: MediaQuery.of(context).size.width / 8,
+          color: Colors.grey,
+          child: TextButton(
+              onPressed: () {
+                print("press component $index");
+              },
+              child: Text(widget.components[index], style: TextStyle(fontSize: 25))),
+              // child: Text(test2[index], style: TextStyle(fontSize: 25))),
+        );
+      })
+    );
   }
 }

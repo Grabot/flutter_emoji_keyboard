@@ -110,27 +110,40 @@ class EmojiGridState extends State<EmojiGrid> {
         padding: EdgeInsets.only(bottom: 40),
         itemBuilder: (BuildContext ctx, index) {
           return CustomPaint(
-            foregroundPainter: emojis![index].hasComponent ? BorderPainter() : NoBorderPainter(),
+            foregroundPainter: hasComponent(emojis![index]) ? BorderPainter() : null,
             child: Container(
               key: keys[index],
               child: TextButton(
                   onPressed: () {
-                    pressedEmoji(emojis![index].emoji);
+                    pressedEmoji(emojis![index]);
                   },
                   onLongPress: () {
-                    if (emojis![index].hasComponent) {
+                    if (hasComponent(emojis![index])) {
                       _showPopupMenu(keys[index], emojis![index]);
                     }
                   },
-                  child: Text(emojis![index].emoji, style: TextStyle(fontSize: 25))),
+                  // TODO: Link fontsize to screenwidth
+                  child: Text(emojis![index], style: TextStyle(fontSize: 25))),
             ),
           );
         });
   }
 
-  _showPopupMenu(GlobalKey keyKey, Emoji emoji) async {
-    List<String> components = [emoji.emoji];
-    components.addAll(componentsMap[emoji.emoji]);
+  hasComponent(String emoji) {
+    if (widget.categoryIndicator != 1) {
+      return false;
+    } else {
+      if (componentsMap.containsKey(emoji)) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+  }
+
+  _showPopupMenu(GlobalKey keyKey, String emoji) async {
+    List<String> components = [emoji];
+    components.addAll(componentsMap[emoji]);
 
     var test = await platform
         .invokeMethod("isAvailable", {"emojis": components});
@@ -140,8 +153,7 @@ class EmojiGridState extends State<EmojiGrid> {
       finalComponents.add(object.toString());
     }
 
-    print("long press on emoji ${emoji.emoji}");
-    print("${emoji.hasComponent}");
+    print("long press on emoji $emoji");
 
     RenderBox? box = keyKey.currentContext!.findRenderObject() as RenderBox?;
 
@@ -202,19 +214,6 @@ class EmojiGridState extends State<EmojiGrid> {
     });
   }
 
-}
-
-class NoBorderPainter extends CustomPainter {
-
-  @override
-  void paint(Canvas canvas, Size size) {
-  }
-
-  @override
-  bool shouldRepaint(BorderPainter oldDelegate) => false;
-
-  @override
-  bool shouldRebuildSemantics(BorderPainter oldDelegate) => false;
 }
 
 class BorderPainter extends CustomPainter {
