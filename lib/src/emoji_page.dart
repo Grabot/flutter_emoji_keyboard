@@ -137,18 +137,14 @@ class EmojiPageState extends State<EmojiPage> {
 
   /// Here we load the smiley emojis and filter out the ones we can't show
   Future getAvailableSmileys() async {
-    List<Object?> smileysStrings = await platform
+    this.smileys = await platform
         .invokeMethod("isAvailable", {"emojis": getEmojisString(smileysList)});
-    // We create a list of lists to make it compatible with the 'getEmojis' function.
-    this.smileys = getEmojis(smileysStrings);
   }
 
   /// Here we load the animal emojis and filter out the ones we can't show
   Future getAvailableAnimals() async {
-    List<Object?> animalsString = await platform
+    this.animals = await platform
         .invokeMethod("isAvailable", {"emojis": getEmojisString(animalsList)});
-    // Now that we have the animal strings we want to turn it to a emoji object list.
-    this.animals = getEmojis(animalsString);
   }
 
   /// Here we load the food emojis and filter out the ones we can't show
@@ -216,7 +212,6 @@ class EmojiPageState extends State<EmojiPage> {
       height: widget.emojiKeyboardHeight - 50,
       child: PageView(controller: pageController, children: [
         EmojiGrid(
-            key: emojiGridStateKey,
             emojis: [], // TODO: add recent
             emojiScrollShowBottomBar: widget.emojiScrollShowBottomBar,
             categoryIndicator: 0,

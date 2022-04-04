@@ -2,7 +2,6 @@ class Emoji {
   late String emojiDescription;
   late String emoji;
   late int amount;
-  bool hasComponent = false;
 
   Emoji(String emojiDescription, String emoji, int amount) {
     this.emojiDescription = emojiDescription;
@@ -12,10 +11,6 @@ class Emoji {
 
   increase() {
     this.amount += 1;
-  }
-
-  hasCompo() {
-    hasComponent = true;
   }
 
   Map<String, dynamic> toDbMap() {
