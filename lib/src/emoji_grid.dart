@@ -1,7 +1,7 @@
 import 'package:emoji_keyboard_flutter/src/test/component/component.dart';
 import 'package:emoji_keyboard_flutter/src/util/emoji.dart';
 import 'package:emoji_keyboard_flutter/src/util/popup_menu_override.dart';
-import 'package:emoji_keyboard_flutter/src/util/popup_menu_override.dart';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
@@ -55,13 +55,18 @@ class EmojiGridState extends State<EmojiGrid> {
   checkComponents() async {
     for (int i = 0; i < widget.emojis.length; i++) {
       if (componentsMap.containsKey(widget.emojis[i])) {
-        List<String> components = [];
-        components.addAll(componentsMap[widget.emojis[i]]);
 
-        List<Object?> availableEmojis = await platform
-            .invokeMethod("isAvailable", {"emojis": components});
+        if (Platform.isAndroid) {
+          List<String> components = [];
+          components.addAll(componentsMap[widget.emojis[i]]);
 
-        if (availableEmojis.length != 0) {
+          List<Object?> availableEmojis = await platform
+              .invokeMethod("isAvailable", {"emojis": components});
+
+          if (availableEmojis.length != 0) {
+            available[i] = true;
+          }
+        } else {
           available[i] = true;
         }
       }
@@ -176,12 +181,16 @@ class EmojiGridState extends State<EmojiGrid> {
     List<String> components = [emoji];
     components.addAll(componentsMap[emoji]);
 
-    var availableEmojis = await platform
-        .invokeMethod("isAvailable", {"emojis": components});
-
     List<String> finalComponents = [];
-    for (Object object in availableEmojis) {
-      finalComponents.add(object.toString());
+    if (Platform.isAndroid) {
+      var availableEmojis = await platform
+          .invokeMethod("isAvailable", {"emojis": components});
+
+      for (Object object in availableEmojis) {
+        finalComponents.add(object.toString());
+      }
+    } else {
+      finalComponents = components;
     }
 
     RenderBox? box = keyKey.currentContext!.findRenderObject() as RenderBox?;

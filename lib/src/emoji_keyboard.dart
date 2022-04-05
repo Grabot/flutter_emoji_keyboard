@@ -303,6 +303,7 @@ class EmojiBoard extends State<EmojiKeyboard> {
       baseOffset: textSelection.start + myTextLength,
       extentOffset: textSelection.start + myTextLength,
     );
+    rememberPosition = bromotionController!.selection;
   }
 
   /// This function is called when we want to see if any of the recent emojis
