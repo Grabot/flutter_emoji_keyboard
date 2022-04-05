@@ -436,11 +436,13 @@ Future<T?> showMenuOverride<T>({
 class ComponentDetailPopup extends PopupMenuEntry<int> {
 
   final List<String> components;
+  final void Function(String) addNewComponent;
 
   ComponentDetailPopup(
       {
         required Key key,
         required this.components,
+        required this.addNewComponent
       })
       : super(key: key);
 
@@ -476,12 +478,21 @@ class ComponentDetailPopupState extends State<ComponentDetailPopup> {
           color: Colors.grey,
           child: TextButton(
               onPressed: () {
-                print("press component $index");
+                buttonClickedComponent(widget.components[index], widget.addNewComponent);
               },
-              child: Text(widget.components[index], style: TextStyle(fontSize: 25))),
-              // child: Text(test2[index], style: TextStyle(fontSize: 25))),
+              child: FittedBox(
+                fit: BoxFit.fitWidth,
+                child: Text(
+                    widget.components[index],
+                    style: TextStyle(fontSize: 50)
+                ),
+              )),
         );
       })
     );
+  }
+
+  void buttonClickedComponent(String emoji, addNewComponent) {
+    addNewComponent(emoji);
   }
 }

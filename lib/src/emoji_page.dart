@@ -212,7 +212,7 @@ class EmojiPageState extends State<EmojiPage> {
       height: widget.emojiKeyboardHeight - 50,
       child: PageView(controller: pageController, children: [
         EmojiGrid(
-            emojis: [], // TODO: add recent
+            emojis: widget.recent,
             emojiScrollShowBottomBar: widget.emojiScrollShowBottomBar,
             categoryIndicator: 0,
             insertText: widget.insertText),

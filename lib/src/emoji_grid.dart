@@ -37,13 +37,38 @@ class EmojiGridState extends State<EmojiGrid> {
 
   static const platform = const MethodChannel("nl.emojikeyboard.emoji/available");
 
+  List<bool> available = [];
   @override
   void initState() {
     this.emojis = widget.emojis;
 
     scrollController.addListener(() => keyboardScrollListener());
 
+    if (widget.categoryIndicator == 1) {
+      // We only want to check available components for the first category
+      available = List.filled(emojis!.length, false, growable: false);
+      checkComponents();
+    }
     super.initState();
+  }
+
+  checkComponents() async {
+    for (int i = 0; i < widget.emojis.length; i++) {
+      if (componentsMap.containsKey(widget.emojis[i])) {
+        List<String> components = [];
+        components.addAll(componentsMap[widget.emojis[i]]);
+
+        List<Object?> availableEmojis = await platform
+            .invokeMethod("isAvailable", {"emojis": components});
+
+        if (availableEmojis.length != 0) {
+          available[i] = true;
+        }
+      }
+      if (mounted) {
+        setState(() {});
+      }
+    }
   }
 
   /// If the user scroll in the emoji we keep track of when the direction
@@ -122,8 +147,14 @@ class EmojiGridState extends State<EmojiGrid> {
                       _showPopupMenu(keys[index], emojis![index]);
                     }
                   },
-                  // TODO: Link fontsize to screenwidth
-                  child: Text(emojis![index], style: TextStyle(fontSize: 25))),
+                  child: FittedBox(
+                    fit: BoxFit.fitWidth,
+                    child: Text(
+                        emojis![index],
+                        style: TextStyle(fontSize: 50)
+                    ),
+                  )
+              ),
             ),
           );
         });
@@ -133,8 +164,8 @@ class EmojiGridState extends State<EmojiGrid> {
     if (widget.categoryIndicator != 1) {
       return false;
     } else {
-      if (componentsMap.containsKey(emoji)) {
-        return true;
+      if (available.length != 0) {
+        return available[emojis!.indexOf(emoji)];
       } else {
         return false;
       }
@@ -145,15 +176,13 @@ class EmojiGridState extends State<EmojiGrid> {
     List<String> components = [emoji];
     components.addAll(componentsMap[emoji]);
 
-    var test = await platform
+    var availableEmojis = await platform
         .invokeMethod("isAvailable", {"emojis": components});
 
     List<String> finalComponents = [];
-    for (Object object in test) {
+    for (Object object in availableEmojis) {
       finalComponents.add(object.toString());
     }
-
-    print("long press on emoji $emoji");
 
     RenderBox? box = keyKey.currentContext!.findRenderObject() as RenderBox?;
 
@@ -205,15 +234,18 @@ class EmojiGridState extends State<EmojiGrid> {
         items: [
           ComponentDetailPopup(
             key: UniqueKey(),
-            components: finalComponents
+            components: finalComponents,
+            addNewComponent: addNewComponent
           )
         ],
     ).then((value) {
-      print("value: $value");
       return;
     });
   }
 
+  addNewComponent(String emojiComponent) {
+    pressedEmoji(emojiComponent);
+  }
 }
 
 class BorderPainter extends CustomPainter {
