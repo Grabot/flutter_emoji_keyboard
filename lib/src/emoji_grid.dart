@@ -100,6 +100,7 @@ class EmojiGridState extends State<EmojiGrid> {
   /// Here it sends a trigger to the "insertText" function in the EmojiKeyboard
   /// to insert the text in the Textfield.
   void pressedEmoji(String emoji) {
+    print("pressed emoji: $emoji");
     widget.emojiScrollShowBottomBar(true);
     widget.insertText(emoji, widget.categoryIndicator);
   }
