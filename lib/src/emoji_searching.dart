@@ -1,11 +1,11 @@
-import 'emojis/activities.dart';
-import 'emojis/animals.dart';
-import 'emojis/flags.dart';
-import 'emojis/foods.dart';
-import 'emojis/objects.dart';
-import 'emojis/smileys.dart';
-import 'emojis/symbols.dart';
-import 'emojis/travel.dart';
+import 'test/activities.dart';
+import 'test/animals.dart';
+import 'test/flags.dart';
+import 'test/foods.dart';
+import 'test/objects.dart';
+import 'test/smileys.dart';
+import 'test/symbols.dart';
+import 'test/travel.dart';
 
 /// When this is called it receives a text and it return all the emojis which
 /// are related to that text and which the user might be looking for.
@@ -29,9 +29,10 @@ List<String> searchEmojis(String text) {
         int numSplitEqualKeyword = 0;
         int numSplitPartialKeyword = 0;
 
-        String description = emoji[0];
+        String emojiString = emoji[0];
+        String description = emoji[1];
+        List<String> splitName = emoji[2];
 
-        List<String> splitName = description.split(" ");
         splitName.forEach((splitName) {
           if (splitName.replaceAll(":", "").toLowerCase() ==
               text.toLowerCase()) {
@@ -44,13 +45,13 @@ List<String> searchEmojis(String text) {
           }
 
           if (numSplitEqualKeyword > 0) {
-            if (numSplitEqualKeyword == description.split(" ").length) {
+            if (numSplitEqualKeyword == splitName.length) {
               recommendedEmojis.add(
-                  SearchedEmoji(name: description, emoji: emoji[1], tier: 1));
+                  SearchedEmoji(name: description, emoji: emoji[0], tier: 1));
             } else {
               recommendedEmojis.add(SearchedEmoji(
                   name: description,
-                  emoji: emoji[1],
+                  emoji: emojiString,
                   tier: 2,
                   numSplitEqualKeyword: numSplitEqualKeyword,
                   numSplitPartialKeyword: numSplitPartialKeyword));
@@ -58,7 +59,7 @@ List<String> searchEmojis(String text) {
           } else if (numSplitPartialKeyword > 0) {
             recommendedEmojis.add(SearchedEmoji(
                 name: description,
-                emoji: emoji[1],
+                emoji: emojiString,
                 tier: 3,
                 numSplitPartialKeyword: numSplitPartialKeyword));
           }

@@ -10,7 +10,7 @@ import 'emoji.dart';
 /// - add a emoji emoji entry in the db.
 /// - update an existing emoji entry to increase the count.
 class Storage {
-  static const _dbName = "flutter_emoji_keyboard.db";
+  static const _dbName = "emoji_keyboard.db";
 
   static final Storage _instance = Storage._internal();
 
@@ -52,10 +52,9 @@ class Storage {
     await db.execute('''
     CREATE TABLE Emojis (
             id INTEGER PRIMARY KEY,
-            emojiDescription TEXT,
             emoji TEXT,
             amount INTEGER,
-            UNIQUE(emojiDescription) ON CONFLICT REPLACE
+            UNIQUE(emoji) ON CONFLICT REPLACE
           );
           ''');
   }
@@ -84,8 +83,8 @@ class Storage {
     return database.update(
       'Emojis',
       emoji.toDbMap(),
-      where: 'emojiDescription = ?',
-      whereArgs: [emoji.emojiDescription],
+      where: 'emoji = ?',
+      whereArgs: [emoji.emoji],
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
   }

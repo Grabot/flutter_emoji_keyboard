@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:ui';
 import 'package:emoji_keyboard_flutter/src/util/emoji.dart';
 import 'package:emoji_keyboard_flutter/src/util/storage.dart';
 import 'package:flutter/material.dart';
@@ -10,14 +11,14 @@ import 'bottom_bar.dart';
 import 'category_bar.dart';
 import 'emoji_page.dart';
 import 'emoji_searching.dart';
-import 'emojis/activities.dart';
-import 'emojis/animals.dart';
-import 'emojis/flags.dart';
-import 'emojis/foods.dart';
-import 'emojis/objects.dart';
-import 'emojis/smileys.dart';
-import 'emojis/symbols.dart';
-import 'emojis/travel.dart';
+import 'test/activities.dart';
+import 'test/animals.dart';
+import 'test/flags.dart';
+import 'test/foods.dart';
+import 'test/objects.dart';
+import 'test/smileys.dart';
+import 'test/symbols.dart';
+import 'test/travel.dart';
 
 /// The emoji keyboard. This holds all the components of the keyboard.
 /// This will include the:
@@ -220,7 +221,7 @@ class EmojiBoard extends State<EmojiKeyboard> {
   /// and shows it.
   updateEmojiSearch(String text) {
     List<String> finalEmojis = searchEmojis(text);
-    if (finalEmojis != null && finalEmojis != []) {
+    if (finalEmojis != []) {
       isAvailable(finalEmojis.toList());
     }
   }
@@ -245,7 +246,7 @@ class EmojiBoard extends State<EmojiKeyboard> {
         });
       });
     } else {
-      Emoji newEmoji = getEmoji(emoji, category);
+      Emoji newEmoji = Emoji(emoji, 1);
       storage.addEmoji(newEmoji).then((emotion) {
         recent.add(newEmoji);
         recent.sort((a, b) => b.amount.compareTo(a.amount));
@@ -272,82 +273,15 @@ class EmojiBoard extends State<EmojiKeyboard> {
         });
       });
     } else {
-      Emoji newEmoji = Emoji("", "", 1);
-      for (int i = 1; i <= 8; i++) {
-        Emoji foundEmoji = getEmoji(emoji, i);
-        if (foundEmoji.emojiDescription != "") {
-          newEmoji = foundEmoji;
-          break;
-        }
-      }
-      if (newEmoji.emojiDescription != "") {
-        storage.addEmoji(newEmoji).then((emotion) {
-          recent.add(newEmoji);
-          recent.sort((a, b) => b.amount.compareTo(a.amount));
-          setState(() {
-            recentEmojis = recent.map((emote) => emote.emoji).toList();
-          });
+      Emoji newEmoji = Emoji(emoji, 1);
+      storage.addEmoji(newEmoji).then((emotion) {
+        recent.add(newEmoji);
+        recent.sort((a, b) => b.amount.compareTo(a.amount));
+        setState(() {
+          recentEmojis = recent.map((emote) => emote.emoji).toList();
         });
-      }
+      });
     }
-  }
-
-  /// When we want to store a new emoji to the db we need to find it in our
-  /// emoji lists first. We use the category to quickly find the emoji
-  /// corresponding to the on the user entered and we store it in the db.
-  Emoji getEmoji(String emoji, int category) {
-    // Every time there is a new emoji we will look for the correct one in our
-    // emoji lists
-    if (category == 1) {
-      for (List<String> smileyEmojis in smileysList) {
-        if (emoji == smileyEmojis[1]) {
-          return Emoji(smileyEmojis[0], smileyEmojis[1], 1);
-        }
-      }
-    } else if (category == 2) {
-      for (List<String> animalEmojis in animalsList) {
-        if (emoji == animalEmojis[1]) {
-          return Emoji(animalEmojis[0], animalEmojis[1], 1);
-        }
-      }
-    } else if (category == 3) {
-      for (List<String> foodEmojis in foodsList) {
-        if (emoji == foodEmojis[1]) {
-          return Emoji(foodEmojis[0], foodEmojis[1], 1);
-        }
-      }
-    } else if (category == 4) {
-      for (List<String> activityEmojis in activitiesList) {
-        if (emoji == activityEmojis[1]) {
-          return Emoji(activityEmojis[0], activityEmojis[1], 1);
-        }
-      }
-    } else if (category == 5) {
-      for (List<String> travelEmojis in travelList) {
-        if (emoji == travelEmojis[1]) {
-          return Emoji(travelEmojis[0], travelEmojis[1], 1);
-        }
-      }
-    } else if (category == 6) {
-      for (List<String> objectEmojis in objectsList) {
-        if (emoji == objectEmojis[1]) {
-          return Emoji(objectEmojis[0], objectEmojis[1], 1);
-        }
-      }
-    } else if (category == 7) {
-      for (List<String> symbolEmojis in symbolsList) {
-        if (emoji == symbolEmojis[1]) {
-          return Emoji(symbolEmojis[0], symbolEmojis[1], 1);
-        }
-      }
-    } else if (category == 8) {
-      for (List<String> flagEmojis in flagsList) {
-        if (emoji == flagEmojis[1]) {
-          return Emoji(flagEmojis[0], flagEmojis[1], 1);
-        }
-      }
-    }
-    return Emoji("", "", 1);
   }
 
   /// If the user has searched for an emoji using the search functionality
@@ -369,6 +303,7 @@ class EmojiBoard extends State<EmojiKeyboard> {
       baseOffset: textSelection.start + myTextLength,
       extentOffset: textSelection.start + myTextLength,
     );
+    rememberPosition = bromotionController!.selection;
   }
 
   /// This function is called when we want to see if any of the recent emojis
@@ -443,7 +378,9 @@ class EmojiBoard extends State<EmojiKeyboard> {
                   ? emojiKeyboardHeight
                   : 150
               : 0,
-          color: this.darkMode ? Color(0xff262626) : Color(0xffe7e7e7),
+          color: this.darkMode
+              ? Color(0xff373737)
+              : Color(0xffc5c5c5),
           child: Column(children: [
             CategoryBar(
                 key: categoryBarStateKey,
@@ -468,7 +405,9 @@ class EmojiBoard extends State<EmojiKeyboard> {
         ),
         widget.showEmojiKeyboard && searchMode
             ? Container(
-                color: this.darkMode ? Color(0xff262626) : Color(0xffe7e7e7),
+                color: this.darkMode
+                    ? Color(0xff373737)
+                    : Color(0xffc5c5c5),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
@@ -484,8 +423,13 @@ class EmojiBoard extends State<EmojiKeyboard> {
                               onPressed: () {
                                 insertTextSearch(searchedEmojis[index]);
                               },
-                              child: Text(searchedEmojis[index],
-                                  style: TextStyle(fontSize: 25)));
+                              child: FittedBox(
+                                fit: BoxFit.fitWidth,
+                                child: Text(
+                                    searchedEmojis[index],
+                                    style: TextStyle(fontSize: 50)
+                                ),
+                              ));
                         },
                       ),
                     ),

@@ -1,5 +1,10 @@
+import 'package:emoji_keyboard_flutter/src/test/component/component.dart';
+import 'package:emoji_keyboard_flutter/src/util/emoji.dart';
+import 'package:emoji_keyboard_flutter/src/util/popup_menu_override.dart';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/services.dart';
 
 /// This is the Grid which will hold all the emojis
 class EmojiGrid extends StatefulWidget {
@@ -13,7 +18,7 @@ class EmojiGrid extends StatefulWidget {
     required this.emojis,
     required this.emojiScrollShowBottomBar,
     required this.categoryIndicator,
-    required this.insertText,
+    required this.insertText
   }) : super(key: key);
 
   @override
@@ -28,14 +33,47 @@ class EmojiGrid extends StatefulWidget {
 class EmojiGridState extends State<EmojiGrid> {
   List? emojis;
   ScrollController scrollController = new ScrollController();
+  ScrollController scrollPopupController = new ScrollController();
 
+  static const platform = const MethodChannel("nl.emojikeyboard.emoji/available");
+
+  List<bool> available = [];
   @override
   void initState() {
     this.emojis = widget.emojis;
 
     scrollController.addListener(() => keyboardScrollListener());
 
+    if (widget.categoryIndicator == 1) {
+      // We only want to check available components for the first category
+      available = List.filled(emojis!.length, false, growable: false);
+      checkComponents();
+    }
     super.initState();
+  }
+
+  checkComponents() async {
+    for (int i = 0; i < widget.emojis.length; i++) {
+      if (componentsMap.containsKey(widget.emojis[i])) {
+
+        if (Platform.isAndroid) {
+          List<String> components = [];
+          components.addAll(componentsMap[widget.emojis[i]]);
+
+          List<Object?> availableEmojis = await platform
+              .invokeMethod("isAvailable", {"emojis": components});
+
+          if (availableEmojis.length != 0) {
+            available[i] = true;
+          }
+        } else {
+          available[i] = true;
+        }
+      }
+      if (mounted) {
+        setState(() {});
+      }
+    }
   }
 
   /// If the user scroll in the emoji we keep track of when the direction
@@ -66,6 +104,10 @@ class EmojiGridState extends State<EmojiGrid> {
     widget.insertText(emoji, widget.categoryIndicator);
   }
 
+  void getExtraEmojiOptions(Emoji emoji) {
+    print(emoji.emoji);
+  }
+
   /// If the emojis are loaded the grid is already visible.
   /// We pass the emojis to the grid and we set the state to redraw the keyboard
   /// This will show the emojis correctly
@@ -81,6 +123,13 @@ class EmojiGridState extends State<EmojiGrid> {
 
   @override
   Widget build(BuildContext context) {
+    // Add global keys to the buttons to find the position
+    List<GlobalKey> keys = [];
+    for (int i = 0; i < emojis!.length; i++) {
+      GlobalKey key = GlobalKey();
+      keys.add(key);
+    }
+
     return GridView.builder(
         controller: scrollController,
         shrinkWrap: true,
@@ -90,11 +139,151 @@ class EmojiGridState extends State<EmojiGrid> {
         itemCount: emojis!.length,
         padding: EdgeInsets.only(bottom: 40),
         itemBuilder: (BuildContext ctx, index) {
-          return TextButton(
-              onPressed: () {
-                pressedEmoji(emojis![index]);
-              },
-              child: Text(emojis![index], style: TextStyle(fontSize: 25)));
+          return CustomPaint(
+            foregroundPainter: hasComponent(emojis![index]) ? BorderPainter() : null,
+            child: Container(
+              key: keys[index],
+              child: TextButton(
+                  onPressed: () {
+                    pressedEmoji(emojis![index]);
+                  },
+                  onLongPress: () {
+                    if (hasComponent(emojis![index])) {
+                      _showPopupMenu(keys[index], emojis![index]);
+                    }
+                  },
+                  child: FittedBox(
+                    fit: BoxFit.fitWidth,
+                    child: Text(
+                        emojis![index],
+                        style: TextStyle(fontSize: 50)
+                    ),
+                  )
+              ),
+            ),
+          );
         });
   }
+
+  hasComponent(String emoji) {
+    if (widget.categoryIndicator != 1) {
+      return false;
+    } else {
+      if (available.length != 0) {
+        return available[emojis!.indexOf(emoji)];
+      } else {
+        return false;
+      }
+    }
+  }
+
+  _showPopupMenu(GlobalKey keyKey, String emoji) async {
+    List<String> components = [emoji];
+    components.addAll(componentsMap[emoji]);
+
+    List<String> finalComponents = [];
+    if (Platform.isAndroid) {
+      var availableEmojis = await platform
+          .invokeMethod("isAvailable", {"emojis": components});
+
+      for (Object object in availableEmojis) {
+        finalComponents.add(object.toString());
+      }
+    } else {
+      finalComponents = components;
+    }
+
+    RenderBox? box = keyKey.currentContext!.findRenderObject() as RenderBox?;
+
+    Offset position = box!.localToGlobal(Offset.zero);
+
+    double xPos = position.dx;
+    double yPos = position.dy;
+    double emojiWidth = MediaQuery.of(context).size.width / 8;
+
+    // We want the width to be 6 buttons wide,
+    // the original emoji + 5 skin components
+    // You can have more components, but it will always be at least 6.
+    double widthPopup = (MediaQuery.of(context).size.width / 8) * 6;
+    double heightPopup = 0;
+    if (finalComponents.length <= 6) {
+      // Only 1 row needed. Show all emojis in a single row
+      heightPopup = (MediaQuery.of(context).size.width / 8);
+    } else if (finalComponents.length <= 12) {
+      // Only 2 rows needed. Show all emojis in 2 rows
+      heightPopup = (MediaQuery.of(context).size.width / 8) * 2;
+    } else {
+      // More rows needed. Show all emojis by showing 2.5 rows,
+      // showing that it can be scrolled
+      heightPopup = (MediaQuery.of(context).size.width / 8) * 2.5;
+    }
+
+    // The height of the position should reflect the height of the popup
+    double heightPosition = 0;
+    if (finalComponents.length <= 6) {
+      heightPosition = yPos - (emojiWidth * 1);
+    } else if (finalComponents.length <= 12) {
+      heightPosition = yPos - (emojiWidth * 2);
+    } else {
+      heightPosition = yPos - (emojiWidth * 2.5);
+    }
+
+    RelativeRect popupPosition = RelativeRect.fromLTRB(
+        xPos - (emojiWidth * 2) - (emojiWidth / 2),
+        heightPosition,
+        xPos + (emojiWidth * 3) + (emojiWidth / 2),
+        yPos
+    );
+
+    showMenuOverride(
+        context: context,
+        position: popupPosition,
+        widthPopup: widthPopup,
+        heightPopup: heightPopup,
+        items: [
+          ComponentDetailPopup(
+            key: UniqueKey(),
+            components: finalComponents,
+            addNewComponent: addNewComponent
+          )
+        ],
+    ).then((value) {
+      return;
+    });
+  }
+
+  addNewComponent(String emojiComponent) {
+    pressedEmoji(emojiComponent);
+  }
+}
+
+class BorderPainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    double sh = size.height;
+    double sw = size.width;
+    double cornerSide = sh * 0.05;
+    double strokeWidth = 1.5;
+    // strokewidth/2. This is so the indicator remains visible on the right side
+    double tinyOffset = strokeWidth/2;
+
+    Paint paint = Paint()
+      ..color = Colors.grey.shade500
+      ..strokeWidth = strokeWidth
+      ..style = PaintingStyle.stroke
+      ..strokeCap = StrokeCap.square;
+
+    Path path = Path()
+      ..moveTo(sw - cornerSide - tinyOffset, sh)
+      ..lineTo(sw - tinyOffset, sh)
+      ..lineTo(sw - tinyOffset, sh - cornerSide);
+
+    canvas.drawPath(path, paint);
+  }
+
+  @override
+  bool shouldRepaint(BorderPainter oldDelegate) => false;
+
+  @override
+  bool shouldRebuildSemantics(BorderPainter oldDelegate) => false;
 }
