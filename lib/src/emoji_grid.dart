@@ -11,7 +11,7 @@ class EmojiGrid extends StatefulWidget {
   final Function(bool) emojiScrollShowBottomBar;
   final Function(String, int) insertText;
   final int categoryIndicator;
-  List<bool>? available;
+  final List<bool>? available;
 
   EmojiGrid({
     Key? key,
@@ -36,7 +36,8 @@ class EmojiGridState extends State<EmojiGrid> {
   ScrollController scrollController = new ScrollController();
   ScrollController scrollPopupController = new ScrollController();
 
-  static const platform = const MethodChannel("nl.emojikeyboard.emoji/available");
+  static const platform =
+      const MethodChannel("nl.emojikeyboard.emoji/available");
 
   List<bool> available = [];
   @override
@@ -112,7 +113,8 @@ class EmojiGridState extends State<EmojiGrid> {
         padding: EdgeInsets.only(bottom: 40),
         itemBuilder: (BuildContext ctx, index) {
           return CustomPaint(
-            foregroundPainter: hasComponent(emojis![index], index) ? BorderPainter() : null,
+            foregroundPainter:
+                hasComponent(emojis![index], index) ? BorderPainter() : null,
             child: Container(
               key: keys[index],
               child: TextButton(
@@ -126,12 +128,8 @@ class EmojiGridState extends State<EmojiGrid> {
                   },
                   child: FittedBox(
                     fit: BoxFit.fitWidth,
-                    child: Text(
-                        emojis![index],
-                        style: TextStyle(fontSize: 50)
-                    ),
-                  )
-              ),
+                    child: Text(emojis![index], style: TextStyle(fontSize: 50)),
+                  )),
             ),
           );
         });
@@ -155,8 +153,8 @@ class EmojiGridState extends State<EmojiGrid> {
 
     List<String> finalComponents = [];
     if (Platform.isAndroid) {
-      var availableEmojis = await platform
-          .invokeMethod("isAvailable", {"emojis": components});
+      var availableEmojis =
+          await platform.invokeMethod("isAvailable", {"emojis": components});
 
       for (Object object in availableEmojis) {
         finalComponents.add(object.toString());
@@ -204,21 +202,19 @@ class EmojiGridState extends State<EmojiGrid> {
         xPos - (emojiWidth * 2) - (emojiWidth / 2),
         heightPosition,
         xPos + (emojiWidth * 3) + (emojiWidth / 2),
-        yPos
-    );
+        yPos);
 
     showMenuOverride(
-        context: context,
-        position: popupPosition,
-        widthPopup: widthPopup,
-        heightPopup: heightPopup,
-        items: [
-          ComponentDetailPopup(
+      context: context,
+      position: popupPosition,
+      widthPopup: widthPopup,
+      heightPopup: heightPopup,
+      items: [
+        ComponentDetailPopup(
             key: UniqueKey(),
             components: finalComponents,
-            addNewComponent: addNewComponent
-          )
-        ],
+            addNewComponent: addNewComponent)
+      ],
     ).then((value) {
       return;
     });
@@ -237,7 +233,7 @@ class BorderPainter extends CustomPainter {
     double cornerSide = sh * 0.05;
     double strokeWidth = 1.5;
     // strokewidth/2. This is so the indicator remains visible on the right side
-    double tinyOffset = strokeWidth/2;
+    double tinyOffset = strokeWidth / 2;
 
     Paint paint = Paint()
       ..color = Colors.grey.shade500

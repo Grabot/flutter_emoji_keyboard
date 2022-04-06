@@ -189,8 +189,8 @@ class EmojiBoard extends State<EmojiKeyboard> {
     List<SearchedEmoji> recommendedEmojis = [];
     if (recentEmojis != []) {
       for (var recentEmoji in recentEmojis) {
-        recommendedEmojis.add(
-            SearchedEmoji(emoji: recentEmoji.toString(), tier: 1));
+        recommendedEmojis
+            .add(SearchedEmoji(emoji: recentEmoji.toString(), tier: 1));
         if (recommendedEmojis.length >= 20) {
           break;
         }
@@ -373,9 +373,7 @@ class EmojiBoard extends State<EmojiKeyboard> {
                   ? emojiKeyboardHeight
                   : 150
               : 0,
-          color: this.darkMode
-              ? Color(0xff373737)
-              : Color(0xffc5c5c5),
+          color: this.darkMode ? Color(0xff373737) : Color(0xffc5c5c5),
           child: Column(children: [
             CategoryBar(
                 key: categoryBarStateKey,
@@ -400,9 +398,7 @@ class EmojiBoard extends State<EmojiKeyboard> {
         ),
         widget.showEmojiKeyboard && searchMode
             ? Container(
-                color: this.darkMode
-                    ? Color(0xff373737)
-                    : Color(0xffc5c5c5),
+                color: this.darkMode ? Color(0xff373737) : Color(0xffc5c5c5),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
@@ -420,10 +416,8 @@ class EmojiBoard extends State<EmojiKeyboard> {
                               },
                               child: FittedBox(
                                 fit: BoxFit.fitWidth,
-                                child: Text(
-                                    searchedEmojis[index],
-                                    style: TextStyle(fontSize: 50)
-                                ),
+                                child: Text(searchedEmojis[index],
+                                    style: TextStyle(fontSize: 50)),
                               ));
                         },
                       ),

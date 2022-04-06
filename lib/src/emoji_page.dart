@@ -85,7 +85,6 @@ class EmojiPageState extends State<EmojiPage> {
     availableSmileys = List.filled(smileyList.length, false, growable: false);
     for (int i = 0; i < smileyList.length; i++) {
       if (componentsMap.containsKey(smileyList[i])) {
-
         if (Platform.isAndroid) {
           List<String> components = [];
           // We are checking if the components are able to be drawn by Android.
@@ -147,7 +146,8 @@ class EmojiPageState extends State<EmojiPage> {
         getAvailableFlags()
       ]).then((var value) {
         if (emojiGridStateKey.currentState != null) {
-          emojiGridStateKey.currentState!.forceUpdate(this.smileys, availableSmileys);
+          emojiGridStateKey.currentState!
+              .forceUpdate(this.smileys, availableSmileys);
         }
       });
     } else {
@@ -185,8 +185,8 @@ class EmojiPageState extends State<EmojiPage> {
 
   /// Here we load the activities emojis and filter out the ones we can't show
   Future getAvailableActivities() async {
-    this.activities = await platform
-        .invokeMethod("isAvailable", {"emojis": getEmojisString(activitiesList)});
+    this.activities = await platform.invokeMethod(
+        "isAvailable", {"emojis": getEmojisString(activitiesList)});
   }
 
   /// Here we load the travels emojis and filter out the ones we can't show

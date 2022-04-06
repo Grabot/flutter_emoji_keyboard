@@ -28,7 +28,8 @@ class _MenuItem extends SingleChildRenderObjectWidget {
   }
 
   @override
-  void updateRenderObject(BuildContext context, covariant _RenderMenuItem renderObject) {
+  void updateRenderObject(
+      BuildContext context, covariant _RenderMenuItem renderObject) {
     renderObject.onLayout = onLayout;
   }
 }
@@ -61,13 +62,13 @@ class _RenderMenuItem extends RenderShiftedBox {
 }
 
 class _PopupMenu<T> extends StatelessWidget {
-  const _PopupMenu({
-    Key? key,
-    required this.route,
-    required this.semanticLabel,
-    required this.widthPopup,
-    required this.heightPopup
-  }) : super(key: key);
+  const _PopupMenu(
+      {Key? key,
+      required this.route,
+      required this.semanticLabel,
+      required this.widthPopup,
+      required this.heightPopup})
+      : super(key: key);
 
   final _PopupMenuRoute<T> route;
   final double widthPopup;
@@ -81,7 +82,6 @@ class _PopupMenu<T> extends StatelessWidget {
     final PopupMenuThemeData popupMenuTheme = PopupMenuTheme.of(context);
 
     for (int i = 0; i < route.items.length; i += 1) {
-
       final double start = (i + 1) * unit;
       final double end = (start + 1.5 * unit).clamp(0.0, 1.0);
       final CurvedAnimation opacity = CurvedAnimation(
@@ -89,7 +89,8 @@ class _PopupMenu<T> extends StatelessWidget {
         curve: Interval(start, end),
       );
       Widget item = route.items[i];
-      if (route.initialValue != null && route.items[i].represents(route.initialValue)) {
+      if (route.initialValue != null &&
+          route.items[i].represents(route.initialValue)) {
         item = Container(
           color: Theme.of(context).highlightColor,
           child: item,
@@ -108,9 +109,11 @@ class _PopupMenu<T> extends StatelessWidget {
       );
     }
 
-    final CurveTween opacity = CurveTween(curve: const Interval(0.0, 1.0 / 3.0));
+    final CurveTween opacity =
+        CurveTween(curve: const Interval(0.0, 1.0 / 3.0));
     final CurveTween width = CurveTween(curve: Interval(0.0, unit));
-    final CurveTween height = CurveTween(curve: Interval(0.0, unit * route.items.length));
+    final CurveTween height =
+        CurveTween(curve: Interval(0.0, unit * route.items.length));
 
     final Widget child = Container(
       width: widthPopup,
@@ -158,12 +161,12 @@ class _PopupMenu<T> extends StatelessWidget {
 // Positioning of the menu on the screen.
 class _PopupMenuRouteLayout extends SingleChildLayoutDelegate {
   _PopupMenuRouteLayout(
-      this.position,
-      this.itemSizes,
-      this.selectedItemIndex,
-      this.textDirection,
-      this.padding,
-      );
+    this.position,
+    this.itemSizes,
+    this.selectedItemIndex,
+    this.textDirection,
+    this.padding,
+  );
 
   // Rectangle of underlying button, relative to the overlay's dimensions.
   final RelativeRect position;
@@ -236,12 +239,14 @@ class _PopupMenuRouteLayout extends SingleChildLayoutDelegate {
     // edge of the screen in every direction.
     if (x < _kMenuScreenPadding + padding.left)
       x = _kMenuScreenPadding + padding.left;
-    else if (x + childSize.width > size.width - _kMenuScreenPadding - padding.right)
-      x = size.width - childSize.width - _kMenuScreenPadding - padding.right  ;
+    else if (x + childSize.width >
+        size.width - _kMenuScreenPadding - padding.right)
+      x = size.width - childSize.width - _kMenuScreenPadding - padding.right;
     if (y < _kMenuScreenPadding + padding.top)
       y = _kMenuScreenPadding + padding.top;
-    else if (y + childSize.height > size.height - _kMenuScreenPadding - padding.bottom)
-      y = size.height - padding.bottom - _kMenuScreenPadding - childSize.height ;
+    else if (y + childSize.height >
+        size.height - _kMenuScreenPadding - padding.bottom)
+      y = size.height - padding.bottom - _kMenuScreenPadding - childSize.height;
 
     return Offset(x, y);
   }
@@ -251,11 +256,11 @@ class _PopupMenuRouteLayout extends SingleChildLayoutDelegate {
     // If called when the old and new itemSizes have been initialized then
     // we expect them to have the same length because there's no practical
     // way to change length of the items list once the menu has been shown.
-    return position != oldDelegate.position
-        || selectedItemIndex != oldDelegate.selectedItemIndex
-        || textDirection != oldDelegate.textDirection
-        || !listEquals(itemSizes, oldDelegate.itemSizes)
-        || padding != oldDelegate.padding;
+    return position != oldDelegate.position ||
+        selectedItemIndex != oldDelegate.selectedItemIndex ||
+        textDirection != oldDelegate.textDirection ||
+        !listEquals(itemSizes, oldDelegate.itemSizes) ||
+        padding != oldDelegate.padding;
   }
 }
 
@@ -308,13 +313,14 @@ class _PopupMenuRoute<T> extends PopupRoute<T> {
   final String barrierLabel;
 
   @override
-  Widget buildPage(BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation) {
-
+  Widget buildPage(BuildContext context, Animation<double> animation,
+      Animation<double> secondaryAnimation) {
     int? selectedItemIndex;
     if (initialValue != null) {
-      for (int index = 0; selectedItemIndex == null && index < items.length; index += 1) {
-        if (items[index].represents(initialValue))
-          selectedItemIndex = index;
+      for (int index = 0;
+          selectedItemIndex == null && index < items.length;
+          index += 1) {
+        if (items[index].represents(initialValue)) selectedItemIndex = index;
       }
     }
 
@@ -322,8 +328,7 @@ class _PopupMenuRoute<T> extends PopupRoute<T> {
         route: this,
         widthPopup: widthPopup,
         heightPopup: heightPopup,
-        semanticLabel: semanticLabel
-    );
+        semanticLabel: semanticLabel);
     final MediaQueryData mediaQuery = MediaQuery.of(context);
     return MediaQuery.removePadding(
       context: context,
@@ -417,8 +422,8 @@ Future<T?> showMenuOverride<T>({
   Color? color,
   bool useRootNavigator = false,
 }) {
-
-  final NavigatorState navigator = Navigator.of(context, rootNavigator: useRootNavigator);
+  final NavigatorState navigator =
+      Navigator.of(context, rootNavigator: useRootNavigator);
   return navigator.push(_PopupMenuRoute<T>(
     position: position,
     items: items,
@@ -430,21 +435,19 @@ Future<T?> showMenuOverride<T>({
     color: color,
     widthPopup: widthPopup,
     heightPopup: heightPopup,
-    capturedThemes: InheritedTheme.capture(from: context, to: navigator.context),
+    capturedThemes:
+        InheritedTheme.capture(from: context, to: navigator.context),
   ));
 }
 
 class ComponentDetailPopup extends PopupMenuEntry<int> {
-
   final List<String> components;
   final void Function(String) addNewComponent;
 
   ComponentDetailPopup(
-      {
-        required Key key,
-        required this.components,
-        required this.addNewComponent
-      })
+      {required Key key,
+      required this.components,
+      required this.addNewComponent})
       : super(key: key);
 
   @override
@@ -458,7 +461,6 @@ class ComponentDetailPopup extends PopupMenuEntry<int> {
 }
 
 class ComponentDetailPopupState extends State<ComponentDetailPopup> {
-
   ScrollController scrollPopupController = new ScrollController();
 
   @override
@@ -484,31 +486,29 @@ class ComponentDetailPopupState extends State<ComponentDetailPopup> {
     return Container(
         color: Colors.grey,
         child: GridView.builder(
-          controller: scrollPopupController,
-          shrinkWrap: true,
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 6,
-      ),
-      itemCount: widget.components.length,
-      itemBuilder: (BuildContext ctx, index) {
-        return Container(
-          height: MediaQuery.of(context).size.width / 8,
-          width: MediaQuery.of(context).size.width / 8,
-          color: Colors.grey,
-          child: TextButton(
-              onPressed: () {
-                buttonClickedComponent(widget.components[index], widget.addNewComponent);
-              },
-              child: FittedBox(
-                fit: BoxFit.fitWidth,
-                child: Text(
-                    widget.components[index],
-                    style: TextStyle(fontSize: 50)
-                ),
-              )),
-        );
-      })
-    );
+            controller: scrollPopupController,
+            shrinkWrap: true,
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 6,
+            ),
+            itemCount: widget.components.length,
+            itemBuilder: (BuildContext ctx, index) {
+              return Container(
+                height: MediaQuery.of(context).size.width / 8,
+                width: MediaQuery.of(context).size.width / 8,
+                color: Colors.grey,
+                child: TextButton(
+                    onPressed: () {
+                      buttonClickedComponent(
+                          widget.components[index], widget.addNewComponent);
+                    },
+                    child: FittedBox(
+                      fit: BoxFit.fitWidth,
+                      child: Text(widget.components[index],
+                          style: TextStyle(fontSize: 50)),
+                    )),
+              );
+            }));
   }
 
   void buttonClickedComponent(String emoji, addNewComponent) {
