@@ -16,7 +16,7 @@ It's a keyboard the way you expect it and more! But with less letters and only e
 
 ## Key features
 
-Smooth and intuitive keyboard layout all the emojis up to unicode 14.0.0 in 8 categories with a 'recent chosen' tab.
+Smooth and intuitive keyboard layout with all the emojis up to unicode 14.0.0 available in separate 8 categories with a 'recent chosen' tab.
 
 You can easily switch between categories by swiping or selecting the category from the top bar.
 
