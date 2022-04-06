@@ -103,8 +103,9 @@ class EmojiBoard extends State<EmojiKeyboard> {
     keyboardVisibilityController.onChange.listen((bool visible) {
       if (!visible) {
         if (searchMode) {
-          setState(() {
-            searchMode = false;
+          searchMode = false;
+          Future.delayed(const Duration(milliseconds: 100), () {
+            setState(() {});
           });
         }
       }
@@ -121,8 +122,9 @@ class EmojiBoard extends State<EmojiKeyboard> {
   /// back functionality will apply.
   bool myInterceptor(bool stopDefaultButtonEvent, RouteInfo info) {
     if (searchMode) {
-      setState(() {
-        searchMode = false;
+      searchMode = false;
+      Future.delayed(const Duration(milliseconds: 100), () {
+        setState(() {});
       });
       return true;
     } else {
@@ -350,8 +352,11 @@ class EmojiBoard extends State<EmojiKeyboard> {
 
   pressedBackSearch() {
     if (searchMode) {
-      setState(() {
-        searchMode = false;
+      // Hide the keyboard
+      FocusManager.instance.primaryFocus?.unfocus();
+      searchMode = false;
+      Future.delayed(const Duration(milliseconds: 100), () {
+        setState(() {});
       });
     }
   }
