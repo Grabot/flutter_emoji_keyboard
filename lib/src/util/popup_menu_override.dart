@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:back_button_interceptor/back_button_interceptor.dart';
 
 const Duration _kMenuDuration = Duration(milliseconds: 300);
 const double _kMenuCloseIntervalEnd = 2.0 / 3.0;
@@ -459,6 +460,24 @@ class ComponentDetailPopup extends PopupMenuEntry<int> {
 class ComponentDetailPopupState extends State<ComponentDetailPopup> {
 
   ScrollController scrollPopupController = new ScrollController();
+
+  @override
+  void initState() {
+    BackButtonInterceptor.add(myInterceptor);
+
+    super.initState();
+  }
+
+  bool myInterceptor(bool stopDefaultButtonEvent, RouteInfo info) {
+    Navigator.of(context).pop();
+    return true;
+  }
+
+  @override
+  void dispose() {
+    BackButtonInterceptor.remove(myInterceptor);
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
