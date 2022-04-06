@@ -1,3 +1,11 @@
+## [1.3.0] 06-04-2022
+
+Added all the emojis up to unicode v14.0.0.
+Added skin components to people emojis. A corner indicator is placed on the emoji and you can access 
+the skin component options by long press. This gives a popup window containing the components.
+Improved the search slightly to also include multiple search word options.
+Resolved some minor issues.
+
 ## [1.2.8] 02-03-2022
 
 Since the keyboard is conventionally placed on the bottom I have added a SafeArea on the bottom, 

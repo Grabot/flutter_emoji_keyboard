@@ -1,18 +1,17 @@
 import 'dart:io';
-import 'package:emoji_keyboard_flutter/src/test/component/component.dart';
-import 'package:emoji_keyboard_flutter/src/util/emoji.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
+import 'emoji/component/component.dart';
 import 'emoji_grid.dart';
-import 'test/activities.dart';
-import 'test/animals.dart';
-import 'test/flags.dart';
-import 'test/foods.dart';
-import 'test/objects.dart';
-import 'test/smileys.dart';
-import 'test/symbols.dart';
-import 'test/travel.dart';
+import 'emoji/activities.dart';
+import 'emoji/animals.dart';
+import 'emoji/flags.dart';
+import 'emoji/foods.dart';
+import 'emoji/objects.dart';
+import 'emoji/smileys.dart';
+import 'emoji/symbols.dart';
+import 'emoji/travel.dart';
 
 /// This is the emoji page. This holds all the emoji grids.
 class EmojiPage extends StatefulWidget {
@@ -60,6 +59,8 @@ class EmojiPageState extends State<EmojiPage> {
   List symbols = [];
   List flags = [];
 
+  List<bool> availableSmileys = [];
+
   PageController pageController = new PageController(initialPage: 1);
   TextEditingController? bromotionController;
 
@@ -76,6 +77,32 @@ class EmojiPageState extends State<EmojiPage> {
     super.initState();
   }
 
+  /// We check the component availability of the smiley category.
+  /// We do that here because we don't want to constantly check it every time
+  /// the user opens the category.
+  /// We keep a boolean array in memory here of which emojis have components.
+  checkComponentsSmileys(List smileyList) async {
+    availableSmileys = List.filled(smileyList.length, false, growable: false);
+    for (int i = 0; i < smileyList.length; i++) {
+      if (componentsMap.containsKey(smileyList[i])) {
+
+        if (Platform.isAndroid) {
+          List<String> components = [];
+          // We are checking if the components are able to be drawn by Android.
+          components.addAll(componentsMap[smileyList[i]]);
+          List<Object?> availableEmojis = await platform
+              .invokeMethod("isAvailable", {"emojis": components});
+          // If none can be drawn than we don't set availability
+          if (availableEmojis.length != 0) {
+            availableSmileys[i] = true;
+          }
+        } else {
+          availableSmileys[i] = true;
+        }
+      }
+    }
+  }
+
   /// We load the emojis from the emoji dart files we have included in the
   /// package.
   /// Here we also store the name given to the emoji. Since we don't show it
@@ -89,6 +116,8 @@ class EmojiPageState extends State<EmojiPage> {
     return onlyEmoji;
   }
 
+  /// This function gets the emoji String from the original list
+  /// which includes description and keywords, the emoji is the first entry.
   List<String> getEmojisString(emojiList) {
     List<String> onlyEmoji = [];
     for (var emoji in emojiList) {
@@ -118,7 +147,7 @@ class EmojiPageState extends State<EmojiPage> {
         getAvailableFlags()
       ]).then((var value) {
         if (emojiGridStateKey.currentState != null) {
-          emojiGridStateKey.currentState!.forceUpdate(this.smileys);
+          emojiGridStateKey.currentState!.forceUpdate(this.smileys, availableSmileys);
         }
       });
     } else {
@@ -139,6 +168,7 @@ class EmojiPageState extends State<EmojiPage> {
   Future getAvailableSmileys() async {
     this.smileys = await platform
         .invokeMethod("isAvailable", {"emojis": getEmojisString(smileysList)});
+    await checkComponentsSmileys(this.smileys);
   }
 
   /// Here we load the animal emojis and filter out the ones we can't show
@@ -221,7 +251,8 @@ class EmojiPageState extends State<EmojiPage> {
             emojis: smileys,
             emojiScrollShowBottomBar: widget.emojiScrollShowBottomBar,
             categoryIndicator: 1,
-            insertText: widget.insertText),
+            insertText: widget.insertText,
+            available: availableSmileys),
         EmojiGrid(
             emojis: animals,
             emojiScrollShowBottomBar: widget.emojiScrollShowBottomBar,

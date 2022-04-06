@@ -1,24 +1,14 @@
 import 'dart:io';
-import 'dart:ui';
 import 'package:emoji_keyboard_flutter/src/util/emoji.dart';
 import 'package:emoji_keyboard_flutter/src/util/storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:back_button_interceptor/back_button_interceptor.dart';
 import 'bottom_bar.dart';
 import 'category_bar.dart';
 import 'emoji_page.dart';
 import 'emoji_searching.dart';
-import 'test/activities.dart';
-import 'test/animals.dart';
-import 'test/flags.dart';
-import 'test/foods.dart';
-import 'test/objects.dart';
-import 'test/smileys.dart';
-import 'test/symbols.dart';
-import 'test/travel.dart';
 
 /// The emoji keyboard. This holds all the components of the keyboard.
 /// This will include the:
@@ -198,7 +188,7 @@ class EmojiBoard extends State<EmojiKeyboard> {
     if (recentEmojis != []) {
       for (var recentEmoji in recentEmojis) {
         recommendedEmojis.add(
-            SearchedEmoji(name: "", emoji: recentEmoji.toString(), tier: 1));
+            SearchedEmoji(emoji: recentEmoji.toString(), tier: 1));
         if (recommendedEmojis.length >= 20) {
           break;
         }

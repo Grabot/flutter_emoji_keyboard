@@ -1,11 +1,11 @@
-import 'test/activities.dart';
-import 'test/animals.dart';
-import 'test/flags.dart';
-import 'test/foods.dart';
-import 'test/objects.dart';
-import 'test/smileys.dart';
-import 'test/symbols.dart';
-import 'test/travel.dart';
+import 'emoji/activities.dart';
+import 'emoji/animals.dart';
+import 'emoji/flags.dart';
+import 'emoji/foods.dart';
+import 'emoji/objects.dart';
+import 'emoji/smileys.dart';
+import 'emoji/symbols.dart';
+import 'emoji/travel.dart';
 
 /// When this is called it receives a text and it return all the emojis which
 /// are related to that text and which the user might be looking for.
@@ -26,44 +26,26 @@ List<String> searchEmojis(String text) {
     ];
     allEmojis.forEach((emojiList) {
       emojiList.forEach((emoji) {
-        int numSplitEqualKeyword = 0;
-        int numSplitPartialKeyword = 0;
 
         String emojiString = emoji[0];
         String description = emoji[1];
+        List<String> descriptionSplit = description.replaceAll(":", "").replaceAll("-", " ").split(" ");
         List<String> splitName = emoji[2];
+        splitName.addAll(descriptionSplit);
 
-        splitName.forEach((splitName) {
-          if (splitName.replaceAll(":", "").toLowerCase() ==
-              text.toLowerCase()) {
-            numSplitEqualKeyword += 1;
-          } else if (splitName
-              .replaceAll(":", "")
-              .toLowerCase()
-              .contains(text.toLowerCase())) {
-            numSplitPartialKeyword += 1;
-          }
+        splitName = splitName.toSet().toList();
 
-          if (numSplitEqualKeyword > 0) {
-            if (numSplitEqualKeyword == splitName.length) {
-              recommendedEmojis.add(
-                  SearchedEmoji(name: description, emoji: emoji[0], tier: 1));
-            } else {
-              recommendedEmojis.add(SearchedEmoji(
-                  name: description,
-                  emoji: emojiString,
-                  tier: 2,
-                  numSplitEqualKeyword: numSplitEqualKeyword,
-                  numSplitPartialKeyword: numSplitPartialKeyword));
+        if (text.contains(" ")) {
+          getRecommendedEmojis(recommendedEmojis, splitName, text, emojiString);
+          text.split(" ").forEach((textSplit) {
+            if (textSplit != "") {
+              getRecommendedEmojis(
+                  recommendedEmojis, splitName, textSplit, emojiString);
             }
-          } else if (numSplitPartialKeyword > 0) {
-            recommendedEmojis.add(SearchedEmoji(
-                name: description,
-                emoji: emojiString,
-                tier: 3,
-                numSplitPartialKeyword: numSplitPartialKeyword));
-          }
-        });
+          });
+        } else {
+          getRecommendedEmojis(recommendedEmojis, splitName, text, emojiString);
+        }
       });
     });
 
@@ -73,15 +55,7 @@ List<String> searchEmojis(String text) {
       } else if (a.tier > b.tier) {
         return 1;
       } else {
-        if (a.tier == 1) {
-          if (a.name.split(" ").length > b.name.split(" ").length) {
-            return -1;
-          } else if (a.name.split(" ").length < b.name.split(" ").length) {
-            return 1;
-          } else {
-            return 0;
-          }
-        } else if (a.tier == 2) {
+        if (a.tier == 1 && b.tier == 1) {
           if (a.numSplitEqualKeyword > b.numSplitEqualKeyword) {
             return -1;
           } else if (a.numSplitEqualKeyword < b.numSplitEqualKeyword) {
@@ -92,37 +66,87 @@ List<String> searchEmojis(String text) {
             } else if (a.numSplitPartialKeyword < b.numSplitPartialKeyword) {
               return 1;
             } else {
-              if (a.name.split(" ").length < b.name.split(" ").length) {
+              if (a.searchHits < b.searchHits) {
                 return -1;
-              } else if (a.name.split(" ").length > b.name.split(" ").length) {
+              } else if (a.searchHits > b.searchHits) {
                 return 1;
               } else {
                 return 0;
               }
             }
           }
-        } else if (a.tier == 3) {
+        } else {
           if (a.numSplitPartialKeyword > b.numSplitPartialKeyword) {
             return -1;
           } else if (a.numSplitPartialKeyword < b.numSplitPartialKeyword) {
             return 1;
           } else {
-            return 0;
+            if (a.searchHits < b.searchHits) {
+              return -1;
+            } else if (a.searchHits > b.searchHits) {
+              return 1;
+            } else {
+              return 0;
+            }
           }
         }
       }
-
-      return 0;
     });
 
-    Set<String> finalEmojis = {};
-    recommendedEmojis.forEach((element) {
-      finalEmojis.add(element.emoji);
-    });
-    return finalEmojis.toList();
+    return recommendedEmojis.map((emote) => emote.emoji).toList();
   } else {
     return [];
   }
+
+}
+
+getRecommendedEmojis(List<SearchedEmoji> recommendedEmojis, List<String> splitName, String text, String emojiString) {
+  int numSplitEqualKeyword = 0;
+  int numSplitPartialKeyword = 0;
+  splitName.forEach((splitName) {
+    if (splitName == text.toLowerCase()) {
+      numSplitEqualKeyword += 1;
+    } else if (splitName.toLowerCase().contains(text.toLowerCase())) {
+      numSplitPartialKeyword += 1;
+    }
+
+    if (numSplitEqualKeyword > 0) {
+      List<String> searchedEmojiList = recommendedEmojis.map((emote) => emote.emoji).toList();
+      if (searchedEmojiList.contains(emojiString)) {
+        SearchedEmoji currentSearchedEmoji = recommendedEmojis.firstWhere((emote) => emote.emoji == emojiString);
+        currentSearchedEmoji.setTier(1);
+
+        currentSearchedEmoji.addSearchHit();
+        currentSearchedEmoji.addNumSplitEqualKeyword(numSplitEqualKeyword);
+        currentSearchedEmoji.addNumSplitPartialKeyword(numSplitPartialKeyword);
+      } else {
+        recommendedEmojis.add(
+          SearchedEmoji(
+            emoji: emojiString,
+            tier: 1,
+            numSplitEqualKeyword: numSplitEqualKeyword,
+            numSplitPartialKeyword: numSplitPartialKeyword,
+            searchHits: 1
+        ));
+      }
+    } else if (numSplitPartialKeyword > 0) {
+      List<String> searchedEmojiList = recommendedEmojis.map((emote) => emote.emoji).toList();
+      if (searchedEmojiList.contains(emojiString)) {
+        SearchedEmoji currentSearchedEmoji = recommendedEmojis.firstWhere((emote) => emote.emoji == emojiString);
+        currentSearchedEmoji.addSearchHit();
+        currentSearchedEmoji.addNumSplitEqualKeyword(numSplitEqualKeyword);
+        currentSearchedEmoji.addNumSplitPartialKeyword(numSplitPartialKeyword);
+      } else {
+        recommendedEmojis.add(
+          SearchedEmoji(
+            emoji: emojiString,
+            tier: 2,
+            numSplitPartialKeyword: numSplitPartialKeyword,
+            searchHits: 1
+        ));
+      }
+    }
+  });
 }
 
 /// Here we store the emoji that the user searched for. We store the tier and
@@ -131,16 +155,34 @@ List<String> searchEmojis(String text) {
 /// The searched word is matched with how well it matches the emoji name.
 /// If the word matches exact it will be a stronger factor than partially
 class SearchedEmoji {
-  final String name;
   final String emoji;
-  final int tier;
-  final int numSplitEqualKeyword;
-  final int numSplitPartialKeyword;
+  int tier;
+  int numSplitEqualKeyword;
+  int numSplitPartialKeyword;
+  int searchHits;
 
   SearchedEmoji(
-      {required this.name,
-      required this.emoji,
-      required this.tier,
-      this.numSplitEqualKeyword = 0,
-      this.numSplitPartialKeyword = 0});
+      {
+        required this.emoji,
+        required this.tier,
+        this.numSplitEqualKeyword = 0,
+        this.numSplitPartialKeyword = 0,
+        this.searchHits = 0
+      });
+
+  setTier(int tier) {
+    this.tier = tier;
+  }
+
+  addSearchHit() {
+    this.searchHits += 1;
+  }
+
+  addNumSplitEqualKeyword(int addedNumSplit) {
+    this.numSplitEqualKeyword += addedNumSplit;
+  }
+
+  addNumSplitPartialKeyword(int addedNumSplit) {
+    this.numSplitPartialKeyword += addedNumSplit;
+  }
 }

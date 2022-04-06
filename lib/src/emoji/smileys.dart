@@ -1,3 +1,8 @@
+// List smileysList = [
+//   ['🙍', 'person frowning', ['frown', 'gesture', 'person frowning']],
+//   ['🤟', 'love-you gesture', ['hand', 'ILY', 'love-you gesture']],
+//   ['🫰', '⊛ hand with index finger and thumb crossed', ['expensive', 'heart', 'love', 'money', 'snap']],
+// ];
 List smileysList = [
   ['😀', 'grinning face', ['face', 'grin', 'grinning face']],
   ['😃', 'grinning face with big eyes', ['face', 'grinning face with big eyes', 'mouth', 'open', 'smile']],
@@ -392,7 +397,7 @@ List smileysList = [
   ['🧟', 'zombie', ['undead', 'walking dead', 'zombie', '(non-human color)']],
   ['🧟‍♂️', 'man zombie', ['man zombie', 'undead', 'walking dead']],
   ['🧟‍♀️', 'woman zombie', ['undead', 'walking dead', 'woman zombie']],
-  ['🧌', '⊛ troll', ['fairy tale', 'fantasy', 'monster']],
+  ['🧌', '⊛ troll', ['fairy tale', 'fantasy', 'monster', 'troll']],
   ['💆', 'person getting massage', ['face', 'massage', 'person getting massage', 'salon']],
   ['💆‍♂️', 'man getting massage', ['face', 'man', 'man getting massage', 'massage']],
   ['💆‍♀️', 'woman getting massage', ['face', 'massage', 'woman', 'woman getting massage']],

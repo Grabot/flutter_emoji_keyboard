@@ -1,5 +1,4 @@
-import 'package:emoji_keyboard_flutter/src/test/component/component.dart';
-import 'package:emoji_keyboard_flutter/src/util/emoji.dart';
+import 'package:emoji_keyboard_flutter/src/emoji/component/component.dart';
 import 'package:emoji_keyboard_flutter/src/util/popup_menu_override.dart';
 import 'dart:io';
 import 'package:flutter/material.dart';
@@ -12,13 +11,15 @@ class EmojiGrid extends StatefulWidget {
   final Function(bool) emojiScrollShowBottomBar;
   final Function(String, int) insertText;
   final int categoryIndicator;
+  List<bool>? available;
 
   EmojiGrid({
     Key? key,
     required this.emojis,
     required this.emojiScrollShowBottomBar,
     required this.categoryIndicator,
-    required this.insertText
+    required this.insertText,
+    this.available,
   }) : super(key: key);
 
   @override
@@ -41,39 +42,13 @@ class EmojiGridState extends State<EmojiGrid> {
   @override
   void initState() {
     this.emojis = widget.emojis;
+    if (widget.available != null) {
+      this.available = widget.available!;
+    }
 
     scrollController.addListener(() => keyboardScrollListener());
 
-    if (widget.categoryIndicator == 1) {
-      // We only want to check available components for the first category
-      available = List.filled(emojis!.length, false, growable: false);
-      checkComponents();
-    }
     super.initState();
-  }
-
-  checkComponents() async {
-    for (int i = 0; i < widget.emojis.length; i++) {
-      if (componentsMap.containsKey(widget.emojis[i])) {
-
-        if (Platform.isAndroid) {
-          List<String> components = [];
-          components.addAll(componentsMap[widget.emojis[i]]);
-
-          List<Object?> availableEmojis = await platform
-              .invokeMethod("isAvailable", {"emojis": components});
-
-          if (availableEmojis.length != 0) {
-            available[i] = true;
-          }
-        } else {
-          available[i] = true;
-        }
-      }
-      if (mounted) {
-        setState(() {});
-      }
-    }
   }
 
   /// If the user scroll in the emoji we keep track of when the direction
@@ -100,20 +75,16 @@ class EmojiGridState extends State<EmojiGrid> {
   /// Here it sends a trigger to the "insertText" function in the EmojiKeyboard
   /// to insert the text in the Textfield.
   void pressedEmoji(String emoji) {
-    print("pressed emoji: $emoji");
     widget.emojiScrollShowBottomBar(true);
     widget.insertText(emoji, widget.categoryIndicator);
-  }
-
-  void getExtraEmojiOptions(Emoji emoji) {
-    print(emoji.emoji);
   }
 
   /// If the emojis are loaded the grid is already visible.
   /// We pass the emojis to the grid and we set the state to redraw the keyboard
   /// This will show the emojis correctly
-  void forceUpdate(emojis) {
+  void forceUpdate(emojis, available) {
     setState(() {
+      this.available = available;
       this.emojis = emojis;
     });
   }
@@ -141,7 +112,7 @@ class EmojiGridState extends State<EmojiGrid> {
         padding: EdgeInsets.only(bottom: 40),
         itemBuilder: (BuildContext ctx, index) {
           return CustomPaint(
-            foregroundPainter: hasComponent(emojis![index]) ? BorderPainter() : null,
+            foregroundPainter: hasComponent(emojis![index], index) ? BorderPainter() : null,
             child: Container(
               key: keys[index],
               child: TextButton(
@@ -149,7 +120,7 @@ class EmojiGridState extends State<EmojiGrid> {
                     pressedEmoji(emojis![index]);
                   },
                   onLongPress: () {
-                    if (hasComponent(emojis![index])) {
+                    if (hasComponent(emojis![index], index)) {
                       _showPopupMenu(keys[index], emojis![index]);
                     }
                   },
@@ -166,12 +137,12 @@ class EmojiGridState extends State<EmojiGrid> {
         });
   }
 
-  hasComponent(String emoji) {
+  hasComponent(String emoji, int index) {
     if (widget.categoryIndicator != 1) {
       return false;
     } else {
       if (available.length != 0) {
-        return available[emojis!.indexOf(emoji)];
+        return available[index];
       } else {
         return false;
       }
