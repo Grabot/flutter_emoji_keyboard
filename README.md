@@ -28,6 +28,8 @@ From this keyboard you can also delete an emoji from the position of the cursor 
 
 Determine the height of the keyboard and show or hide it using a simple variable
 
+The emojis have an indicator which shows if you can add a skin component to them. If this is the case you can add one by long pressing the emoji and selecting a skin component from the resulting popup window.
+
 Change the default light setting to dark mode
 
 <a href="https://raw.githubusercontent.com/Grabot/flutter_emoji_keyboard/main/example_images/Screenshot_1649253828.png"><img src="https://raw.githubusercontent.com/Grabot/flutter_emoji_keyboard/main/example_images/Screenshot_1621415774.png" width="200"></a>
