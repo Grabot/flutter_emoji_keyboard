@@ -160,6 +160,7 @@ class EmojiPageState extends State<EmojiPage> {
         this.objects = getEmojisString(objectsList);
         this.symbols = getEmojisString(symbolsList);
         this.flags = getEmojisString(flagsList);
+        checkComponentsSmileys(this.smileys);
       });
     }
   }
