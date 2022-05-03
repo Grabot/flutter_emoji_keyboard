@@ -1,3 +1,7 @@
+## [1.3.1] 03-05-2022
+
+Found an issue where the IOS would not have the components available.
+
 ## [1.3.0] 06-04-2022
 
 Added all the emojis up to unicode v14.0.0.
