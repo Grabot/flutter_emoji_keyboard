@@ -1,4 +1,4 @@
-## [1.4.0] 24-01-2025
+## [1.4.1] 24-01-2025
 
 Fixed the ios version of the package
 
