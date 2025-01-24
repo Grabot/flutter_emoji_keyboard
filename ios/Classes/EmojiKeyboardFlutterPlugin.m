@@ -10,6 +10,6 @@
 
 @implementation EmojiKeyboardFlutterPlugin
 + (void)registerWithRegistrar:(NSObject<FlutterPluginRegistrar>*)registrar {
-    [SwiftEmojiKeyboardFlutterPlugin registerWithRegistrar:registrar];
+    [EmojiKeyboardFlutterPlugin registerWithRegistrar:registrar];
 }
 @end
