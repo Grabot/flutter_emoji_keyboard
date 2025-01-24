@@ -1,14 +1,19 @@
 import Flutter
 import UIKit
 
-public class SwiftEmojiKeyboardFlutterPlugin: NSObject, FlutterPlugin {
+public class HelloPlugin: NSObject, FlutterPlugin {
   public static func register(with registrar: FlutterPluginRegistrar) {
     let channel = FlutterMethodChannel(name: "emoji_keyboard_flutter", binaryMessenger: registrar.messenger())
-    let instance = SwiftEmojiKeyboardFlutterPlugin()
+    let instance = HelloPlugin()
     registrar.addMethodCallDelegate(instance, channel: channel)
   }
 
   public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
-    result("iOS " + UIDevice.current.systemVersion)
+    switch call.method {
+    case "getPlatformVersion":
+      result("iOS " + UIDevice.current.systemVersion)
+    default:
+      result(FlutterMethodNotImplemented)
+    }
   }
 }
