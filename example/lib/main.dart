@@ -16,13 +16,16 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(title: 'Emoji Keyboard'),
+      home: MyHomePage(key: UniqueKey(), title: 'Emoji Keyboard'),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+  MyHomePage({
+    required Key key,
+    required this.title
+  }) : super(key: key);
   final String title;
 
   @override
@@ -30,7 +33,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  bool showEmojiKeyboard;
+  bool showEmojiKeyboard = false;
   final TextEditingController controller = TextEditingController();
 
   @override

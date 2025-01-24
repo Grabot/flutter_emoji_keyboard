@@ -3,7 +3,6 @@ import 'package:emoji_keyboard_flutter/src/util/emoji.dart';
 import 'package:emoji_keyboard_flutter/src/util/storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:back_button_interceptor/back_button_interceptor.dart';
 import 'bottom_bar.dart';
 import 'category_bar.dart';
@@ -98,10 +97,8 @@ class EmojiBoard extends State<EmojiKeyboard> {
       }
     });
 
-    var keyboardVisibilityController = KeyboardVisibilityController();
-
-    keyboardVisibilityController.onChange.listen((bool visible) {
-      if (!visible) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (MediaQuery.of(context).viewInsets.bottom == 0) {
         if (searchMode) {
           searchMode = false;
           Future.delayed(const Duration(milliseconds: 100), () {
