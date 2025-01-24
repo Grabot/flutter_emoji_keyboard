@@ -4,12 +4,14 @@ version: 1.4.0
 homepage: https://github.com/Grabot/flutter_emoji_keyboard
 
 environment:
-  sdk: ">=2.12.0"
+  sdk: ">=2.12.0 <3.7.0"
+  flutter: ">=1.20.0"
 
 dependencies:
 
   back_button_interceptor: ^8.0.3
   sqflite: ^2.4.1
+  path: ^1.9.0
 
   flutter:
     sdk: flutter

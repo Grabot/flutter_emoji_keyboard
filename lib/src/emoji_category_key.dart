@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 /// This is the widget for a single category key.
 /// Each of the 9 categories described in the category bar will have a number
