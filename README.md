@@ -7,10 +7,10 @@ A Flutter package that provides a keyboard where you can only type with emojis!
 It's a keyboard the way you expect it and more! But with less letters and only emojis.
 
 
-<a href="https://raw.githubusercontent.com/Grabot/flutter_emoji_keyboard/main/example_images/Screenshot_1649252939.png"><img src="https://raw.githubusercontent.com/Grabot/flutter_emoji_keyboard/main/example_images/Screenshot_1649252939.png" width="150"></a>
-<a href="https://raw.githubusercontent.com/Grabot/flutter_emoji_keyboard/main/example_images/Screenshot_1649253604.png"><img src="https://raw.githubusercontent.com/Grabot/flutter_emoji_keyboard/main/example_images/Screenshot_1649253604.png" width="150"></a>
-<a href="https://raw.githubusercontent.com/Grabot/flutter_emoji_keyboard/main/example_images/Screenshot_1649253641.png"><img src="https://raw.githubusercontent.com/Grabot/flutter_emoji_keyboard/main/example_images/Screenshot_1649253641.png" width="150"></a>
-<a href="https://raw.githubusercontent.com/Grabot/flutter_emoji_keyboard/main/example_images/Screenshot_1649252768.png"><img src="https://raw.githubusercontent.com/Grabot/flutter_emoji_keyboard/main/example_images/Screenshot_1649252768.png" width="150"></a>
+<a href="https://raw.githubusercontent.com/Grabot/flutter_emoji_keyboard/34c7a4bab33d8d4c9004d83402b432baa42ffcf4/example_images/Screenshot_1649252768.png" width="100"></a>
+<a href="https://raw.githubusercontent.com/Grabot/flutter_emoji_keyboard/34c7a4bab33d8d4c9004d83402b432baa42ffcf4/example_images/Screenshot_1649252939.png" width="100"></a>
+<a href="https://raw.githubusercontent.com/Grabot/flutter_emoji_keyboard/34c7a4bab33d8d4c9004d83402b432baa42ffcf4/example_images/Screenshot_1649253604.png" width="100"></a>
+<a href="https://raw.githubusercontent.com/Grabot/flutter_emoji_keyboard/34c7a4bab33d8d4c9004d83402b432baa42ffcf4/example_images/Screenshot_1649253641.png" width="100"></a>
 
 
 
@@ -32,7 +32,7 @@ The emojis have an indicator which shows if you can add a skin component to them
 
 Change the default light setting to dark mode
 
-<a href="https://raw.githubusercontent.com/Grabot/flutter_emoji_keyboard/main/example_images/Screenshot_1649253828.png"><img src="https://raw.githubusercontent.com/Grabot/flutter_emoji_keyboard/main/example_images/Screenshot_1649253828.png" width="150"></a>
+<a href="https://raw.githubusercontent.com/Grabot/flutter_emoji_keyboard/34c7a4bab33d8d4c9004d83402b432baa42ffcf4/example_images/Screenshot_1649253828.png" width="100"></a>
 
 
 ## Usage

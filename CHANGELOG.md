@@ -1,5 +1,9 @@
 ## [1.4.0] 24-01-2025
 
+Fixed the ios version of the package
+
+## [1.4.0] 24-01-2025
+
 Updated the versions of the dependencies to the latest versions.
 
 ## [1.3.1] 03-05-2022
