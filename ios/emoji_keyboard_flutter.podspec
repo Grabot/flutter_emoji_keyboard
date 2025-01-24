@@ -11,7 +11,7 @@ A keyboard for only emojis
                        DESC
   s.homepage         = 'http://zwaar.dev'
   s.license          = { :file => '../LICENSE' }
-  s.author           = { 'Your Company' => 'SanderKools@zwaar.dev' }
+  s.author           = { 'Zwaar Developers' => 'SanderKools@zwaar.dev' }
   s.source           = { :path => '.' }
   s.source_files = 'Classes/**/*'
   s.dependency 'Flutter'
@@ -25,5 +25,5 @@ A keyboard for only emojis
   # required reason APIs, update the PrivacyInfo.xcprivacy file to describe your
   # plugin's privacy impact, and then uncomment this line. For more information,
   # see https://developer.apple.com/documentation/bundleresources/privacy_manifest_files
-  # s.resource_bundles = {'hello_privacy' => ['Resources/PrivacyInfo.xcprivacy']}
+  # s.resource_bundles = {'emoji_keyboard_flutter_privacy' => ['Resources/PrivacyInfo.xcprivacy']}
 end

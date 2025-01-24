@@ -1,10 +1,10 @@
 import Flutter
 import UIKit
 
-public class HelloPlugin: NSObject, FlutterPlugin {
+public class EmojiKeyboardFlutterPlugin: NSObject, FlutterPlugin {
   public static func register(with registrar: FlutterPluginRegistrar) {
     let channel = FlutterMethodChannel(name: "emoji_keyboard_flutter", binaryMessenger: registrar.messenger())
-    let instance = HelloPlugin()
+    let instance = EmojiKeyboardFlutterPlugin()
     registrar.addMethodCallDelegate(instance, channel: channel)
   }
 
