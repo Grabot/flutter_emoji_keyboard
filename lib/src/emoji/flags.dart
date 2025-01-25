@@ -295,6 +295,11 @@ List flagsList = [
     ['flag']
   ],
   [
+    '🇨🇶',
+    'flag: Sark',
+    ['flag']
+  ],
+  [
     '🇨🇷',
     'flag: Costa Rica',
     ['flag']

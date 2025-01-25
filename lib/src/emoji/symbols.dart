@@ -308,6 +308,11 @@ List symbolsList = [
     ['dotted six-pointed star', 'fortune', 'star']
   ],
   [
+    '🪯',
+    'Khanda',
+    ['Khanda', 'sikhism', 'religion']
+  ],
+  [
     '♈',
     'Aries',
     ['Aries', 'ram', 'zodiac']
@@ -487,6 +492,11 @@ List symbolsList = [
     '📶',
     'antenna bars',
     ['antenna', 'antenna bars', 'bar', 'cell', 'mobile', 'phone']
+  ],
+  [
+    '🛜',
+    'wireless',
+    ['wireless', 'wifi', 'internet', 'contactless', 'signal']
   ],
   [
     '📳',
@@ -708,6 +718,11 @@ List symbolsList = [
     '™',
     'trade mark',
     ['mark', 'tm', 'trade mark', 'trademark']
+  ],
+  [
+    '🫟',
+    'splatter',
+    ['drip', 'holi', 'ink', 'liquid', 'mess', 'paint', 'spill', 'stain']
   ],
   [
     '#️⃣',

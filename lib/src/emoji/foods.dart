@@ -25,6 +25,11 @@ List foodsList = [
     ['citrus', 'fruit', 'lemon']
   ],
   [
+    '🍋‍🟩',
+    'lime',
+    ['acidity', 'citrus', 'cocktail', 'fruit', 'garnish', 'key', 'margarita', 'mojito', 'refreshing', 'salsa', 'sour', 'tangy', 'tequila', 'tropical', 'zest']
+  ],
+  [
     '🍌',
     'banana',
     ['banana', 'fruit']
@@ -160,6 +165,11 @@ List foodsList = [
     ['mushroom', 'toadstool']
   ],
   [
+    '🪾',
+    'leafless tree',
+    ['bare', 'barren', 'branches', 'dead', 'drought', 'leafless', 'tree', 'trunk', 'winter', 'wood']
+  ],
+  [
     '🥜',
     'peanuts',
     ['food', 'nut', 'peanut', 'peanuts', 'vegetable']
@@ -173,6 +183,26 @@ List foodsList = [
     '🌰',
     'chestnut',
     ['chestnut', 'plant']
+  ],
+  [
+    '🫚',
+    'ginger root',
+    ['ginger root', 'spice', 'yellow', 'cooking', 'gingerbread']
+  ],
+  [
+    '🫛',
+    'pea pod',
+    ['pea pod', 'cozy', 'green']
+  ],
+  [
+    '🍄‍🟫',
+    'brown mushroom',
+    ['food', 'fungi', 'fungus', 'mushroom', 'nature', 'pizza', 'portobello', 'shiitake', 'shroom', 'spore', 'sprout', 'toppings', 'truffle', 'vegetable', 'vegetarian', 'veggie']
+  ],
+  [
+    '🫜',
+    'root vegetable',
+    ['beet', 'food', 'garden', 'radish', 'root', 'salad', 'turnip', 'vegetable', 'vegetarian']
   ],
   [
     '🍞',

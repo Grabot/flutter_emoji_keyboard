@@ -1,3 +1,7 @@
+## [1.4.2] 24-01-2025
+
+Added all the emojis up to unicode v16.0.0. 
+
 ## [1.4.1] 24-01-2025
 
 Fixed the ios version of the package

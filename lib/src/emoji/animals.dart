@@ -100,6 +100,16 @@ List animalsList = [
     ['face', 'horse']
   ],
   [
+    '🫎',
+    'moose',
+    ['moose', 'shrek', 'canada', 'sweden', 'sven', 'cool']
+  ],
+  [
+    '🫏',
+    'donkey',
+    ['donkey', 'eeyore', 'mule']
+  ],
+  [
     '🐎',
     'horse',
     ['equestrian', 'horse', 'racehorse', 'racing']
@@ -410,6 +420,26 @@ List animalsList = [
     ['bird', 'parrot', 'pirate', 'talk']
   ],
   [
+    '🪽',
+    'wing',
+    ['wing', 'angel', 'birds', 'flying']
+  ],
+  [
+    '🐦‍⬛',
+    'black bird',
+    ['black bird', 'crow']
+  ],
+  [
+    '🪿',
+    'goose',
+    ['goose', 'silly', 'jemima', 'goosebumps']
+  ],
+  [
+    '🐦‍🔥',
+    'phoenix',
+    ['ascend', 'ascension', 'emerge', 'fantasy', 'firebird', 'glory', 'immortal', 'rebirth', 'reincarnation', 'reinvent', 'renewal', 'revival', 'revive', 'rise', 'transform']
+  ],
+  [
     '🐸',
     'frog',
     ['face', 'frog']
@@ -508,6 +538,11 @@ List animalsList = [
     '🪸',
     '⊛ coral',
     ['ocean', 'reef']
+  ],
+  [
+    '🪼',
+    'jellyfish',
+    ['jellyfish', 'sting', 'tentacles']
   ],
   [
     '🐌',
@@ -643,6 +678,11 @@ List animalsList = [
     '🌷',
     'tulip',
     ['flower', 'tulip']
+  ],
+  [
+    '🪻',
+    'hyacinth',
+    ['hyacinth', 'flower', 'lavender']
   ],
   [
     '🌱',

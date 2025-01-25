@@ -100,6 +100,11 @@ List objectsList = [
     ['clothing', 'woman', 'woman’s clothes']
   ],
   [
+    '🪭',
+    'folding hand fan',
+    ['folding hand fan', 'flamenco', 'hot']
+  ],
+  [
     '👛',
     'purse',
     ['clothing', 'coin', 'purse']
@@ -175,6 +180,11 @@ List objectsList = [
     '👢',
     'woman’s boot',
     ['boot', 'clothing', 'shoe', 'woman', 'woman’s boot']
+  ],
+  [
+    '🪮',
+    'hair pick',
+    ['hair pick', 'afro', 'comb']
   ],
   [
     '👑',
@@ -365,6 +375,21 @@ List objectsList = [
     '🪘',
     'long drum',
     ['beat', 'conga', 'drum', 'long drum', 'rhythm']
+  ],
+  [
+    '🪇',
+    'maracas',
+    ['maracas', 'music', 'instrument', 'percussion']
+  ],
+  [
+    '🪈',
+    'flute',
+    ['flute', 'bamboo', 'music', 'instrument', 'pied piper']
+  ],
+  [
+    '🪉',
+    'harp',
+    ['cupid', 'instrument', 'love', 'music', 'orchestra']
   ],
   [
     '📱',
@@ -1041,6 +1066,11 @@ List objectsList = [
     ['link']
   ],
   [
+    '⛓️‍💥',
+    'broken chain',
+    ['break', 'breaking', 'broken', 'chain', 'cuffs', 'freedom']
+  ],
+  [
     '⛓',
     'chains',
     ['chain', 'chains']
@@ -1064,6 +1094,11 @@ List objectsList = [
     '🪜',
     'ladder',
     ['climb', 'ladder', 'rung', 'step']
+  ],
+  [
+    '🪏',
+    'shovel',
+    ['bury', 'dig', 'garden', 'hole', 'plant', 'scoop', 'snow', 'spade']
   ],
   [
     '⚗',

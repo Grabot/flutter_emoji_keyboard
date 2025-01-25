@@ -287,6 +287,20 @@ List smileysList = [
     ['face', 'lie', 'lying face', 'pinocchio']
   ],
   [
+    '🫨',
+    'shaking face',
+    ['shaking face', 'dizzy', 'shock', 'blurry', 'earthquake']
+  ],
+  [
+    '🙂‍↔️',
+    'head shaking horizontally',
+    ['head', 'horizontally','no', 'shake', 'shaking']
+  ],
+  [
+    '🙂‍↕️',
+    ['head', 'nod', 'shaking vertically', 'yes']
+  ],
+  [
     '😌',
     'relieved face',
     ['face', 'relieved']
@@ -310,6 +324,11 @@ List smileysList = [
     '😴',
     'sleeping face',
     ['face', 'sleep', 'sleeping face', 'zzz']
+  ],
+  [
+    '🫩',
+    'face with bags under eyes',
+    ['bags', 'bored', 'exhausted', 'eyes', 'face', 'fatigued', 'late', 'sleepy', 'tired', 'weary']
   ],
   [
     '😷',
@@ -790,6 +809,11 @@ List smileysList = [
     ['heart', 'red heart']
   ],
   [
+    '🩷',
+    'pink heart',
+    ['pink heart', 'valentines']
+  ],
+  [
     '🧡',
     'orange heart',
     ['orange', 'orange heart']
@@ -810,6 +834,11 @@ List smileysList = [
     ['blue', 'blue heart']
   ],
   [
+    '🩵',
+    'light blue heart',
+    ['light blue heart', 'ice', 'baby blue']
+  ],
+  [
     '💜',
     'purple heart',
     ['purple', 'purple heart']
@@ -823,6 +852,11 @@ List smileysList = [
     '🖤',
     'black heart',
     ['black', 'black heart', 'evil', 'wicked']
+  ],
+  [
+    '🩶',
+    'grey heart',
+    ['grey heart', 'silver', 'monochrome']
   ],
   [
     '🤍',
@@ -943,6 +977,16 @@ List smileysList = [
     '🫴',
     '⊛ palm up hand',
     ['beckon', 'catch', 'come', 'offer']
+  ],
+  [
+    '🫷',
+    'leftwards pushing hand',
+    ['leftwards pushing hand', 'highfive', 'pressing', 'stop']
+  ],
+  [
+    '🫸',
+    'rightwards pushing hand',
+    ['rightwards pushing hand', 'highfive', 'pressing', 'stop']
   ],
   [
     '👌',
@@ -2166,6 +2210,21 @@ List smileysList = [
     ['hike', 'walk', 'woman', 'woman walking']
   ],
   [
+    '🚶‍➡️',
+    'person walking facing right',
+    ['amble', 'gait', 'hike', 'man', 'pace', 'pedestrian', 'person', 'stride', 'stroll', 'walk', 'walking']
+  ],
+  [
+    '🚶‍♀️‍➡️',
+    'woman walking facing right',
+    ['amble', 'gait', 'hike', 'man', 'pace', 'pedestrian', 'stride', 'stroll', 'walk', 'walking', 'woman']
+  ],
+  [
+    '🚶‍♂️‍➡️',
+    'man walking facing right',
+    ['amble', 'gait', 'hike', 'man', 'pace', 'pedestrian', 'stride', 'stroll', 'walk', 'walking']
+  ],
+  [
     '🧍',
     'person standing',
     ['person standing', 'stand', 'standing']
@@ -2196,9 +2255,29 @@ List smileysList = [
     ['kneeling', 'woman']
   ],
   [
+    '🧎‍➡️',
+    'person kneeling facing right',
+    ['kneel', 'kneeling', 'knees', 'person']
+  ],
+  [
+    '🧎‍♀️‍➡️',
+    'woman kneeling facing right',
+    ['kneel', 'kneeling', 'knees', 'woman']
+  ],
+  [
+    '🧎‍♂️‍➡️',
+    'man kneeling facing right',
+    ['kneel', 'kneeling', 'knees', 'man']
+  ],
+  [
     '🧑‍🦯',
     'person with white cane',
     ['accessibility', 'blind', 'person with white cane']
+  ],
+  [
+    '🧑‍🦯‍➡️',
+    'person with white cane facing right',
+    ['accessibility', 'blind', 'cane', 'person', 'probing']
   ],
   [
     '👨‍🦯',
@@ -2206,9 +2285,19 @@ List smileysList = [
     ['accessibility', 'blind', 'man', 'man with white cane']
   ],
   [
+    '👨‍🦯‍➡️',
+    'man with white cane facing right',
+    ['accessibility', 'blind', 'cane', 'man', 'probing']
+  ],
+  [
     '👩‍🦯',
     'woman with white cane',
     ['accessibility', 'blind', 'woman', 'woman with white cane']
+  ],
+  [
+    '👩‍🦯‍➡️',
+    'woman with white cane facing right',
+    ['accessibility', 'blind', 'cane', 'probing', 'white']
   ],
   [
     '🧑‍🦼',
@@ -2216,9 +2305,19 @@ List smileysList = [
     ['accessibility', 'person in motorized wheelchair', 'wheelchair']
   ],
   [
+    '🧑‍🦼‍➡️',
+    'person in motorized wheelchair facing right',
+    ['accessibility', 'motorized', 'person', 'wheelchair']
+  ],
+  [
     '👨‍🦼',
     'man in motorized wheelchair',
     ['accessibility', 'man', 'man in motorized wheelchair', 'wheelchair']
+  ],
+  [
+    '👨‍🦼‍➡️',
+    'man in motorized wheelchair facing right',
+    ['accessibility', 'man', 'motorized', 'wheelchair']
   ],
   [
     '👩‍🦼',
@@ -2226,9 +2325,19 @@ List smileysList = [
     ['accessibility', 'wheelchair', 'woman', 'woman in motorized wheelchair']
   ],
   [
+    '👩‍🦼‍➡️',
+    'woman in motorized wheelchair facing right',
+    ['accessibility', 'motorized', 'wheelchair', 'woman']
+  ],
+  [
     '🧑‍🦽',
     'person in manual wheelchair',
     ['accessibility', 'person in manual wheelchair', 'wheelchair']
+  ],
+  [
+    '🧑‍🦽‍➡️',
+    'person in manual wheelchair facing right',
+    ['accessibility', 'manual', 'person', 'wheelchair']
   ],
   [
     '👨‍🦽',
@@ -2236,9 +2345,19 @@ List smileysList = [
     ['accessibility', 'man', 'man in manual wheelchair', 'wheelchair']
   ],
   [
+    '👨‍🦽‍➡️',
+    'man in manual wheelchair facing right',
+    ['accessibility', 'man', 'manual', 'wheelchair']
+  ],
+  [
     '👩‍🦽',
     'woman in manual wheelchair',
     ['accessibility', 'wheelchair', 'woman', 'woman in manual wheelchair']
+  ],
+  [
+    '👩‍🦽‍➡️',
+    'woman in manual wheelchair facing right',
+    ['accessibility', 'manual', 'wheelchair', 'woman']
   ],
   [
     '🏃',
@@ -2254,6 +2373,21 @@ List smileysList = [
     '🏃‍♀️',
     'woman running',
     ['marathon', 'racing', 'running', 'woman']
+  ],
+  [
+    '🏃‍➡️',
+    'person running facing right',
+    ['fast', 'hurry', 'marathon', 'move', 'person', 'quick', 'race', 'racing', 'run', 'rush', 'speed']
+  ],
+  [
+    '🏃‍♀️‍➡️',
+    '	woman running facing right',
+    ['fast', 'hurry', 'marathon', 'move', 'quick', 'race', 'racing', 'run', 'rush', 'speed', 'woman']
+  ],
+  [
+    '🏃‍♂️‍➡️',
+    'man running facing right',
+    ['fast', 'hurry', 'man', 'marathon', 'move', 'quick', 'race', 'racing', 'run', 'rush', 'speed']
   ],
   [
     '💃',
@@ -2652,6 +2786,26 @@ List smileysList = [
     ['family']
   ],
   [
+    '🧑‍🧑‍🧒',
+    'family: adult, adult, child',
+    ['adult', 'child', 'family']
+  ],
+  [
+    '🧑‍🧑‍🧒‍🧒',
+    'family: adult, adult, child, child',
+    ['adult', 'child', 'family']
+  ],
+  [
+    '🧑‍🧒',
+    'family: adult, child',
+    ['adult', 'child', 'family']
+  ],
+  [
+    '🧑‍🧒‍🧒',
+    'family: adult, child, child',
+    ['adult', 'child', 'family']
+  ],
+  [
     '👨‍👩‍👦',
     'family: man, woman, boy',
     ['boy', 'family', 'man', 'woman']
@@ -2801,4 +2955,9 @@ List smileysList = [
     'footprints',
     ['clothing', 'footprint', 'footprints', 'print']
   ],
+  [
+    '🫆',
+    'fingerprint',
+    ['clue', 'crime', 'detective', 'forensics', 'identity', 'mystery', 'print', 'safety', 'trace']
+  ]
 ];
