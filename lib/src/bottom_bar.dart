@@ -6,7 +6,7 @@ class BottomBar extends StatefulWidget {
   final Function emojiSearch;
   final bool darkMode;
 
-  BottomBar(
+  const BottomBar(
       {Key? key,
       required this.emojiController,
       required this.emojiSearch,
@@ -30,7 +30,7 @@ class BottomBarState extends State<BottomBar> {
 
   @override
   void initState() {
-    this.emojiController = widget.emojiController;
+    emojiController = widget.emojiController;
     super.initState();
   }
 
@@ -62,7 +62,7 @@ class BottomBarState extends State<BottomBar> {
     }
 
     if (textSelection.start == 0) {
-      if (text.length == 0) {
+      if (text.isEmpty) {
         return;
       } else {
         // Eagerly selects all but the last count characters
@@ -121,7 +121,7 @@ class BottomBarState extends State<BottomBar> {
   void emojiScrollShowBottomBar(bool show) {
     if (show != showBottomBar) {
       setState(() {
-        this.showBottomBar = show;
+        showBottomBar = show;
       });
     }
   }
@@ -136,7 +136,7 @@ class BottomBarState extends State<BottomBar> {
           curve: Curves.fastOutSlowIn,
           height: showBottomBar ? 40 : 0,
           width: MediaQuery.of(context).size.width,
-          duration: new Duration(seconds: 1),
+          duration: Duration(seconds: 1),
           child: Container(
             color: widget.darkMode ? Color(0xff171717) : Color(0xffdbdbdb),
             alignment: Alignment.bottomCenter,

@@ -23,7 +23,7 @@ class EmojiKeyboard extends StatefulWidget {
   final bool showEmojiKeyboard;
   final bool darkMode;
 
-  EmojiKeyboard(
+  const EmojiKeyboard(
       {Key? key,
       required this.emojiController,
       this.emojiKeyboardHeight = 350,
@@ -31,6 +31,7 @@ class EmojiKeyboard extends StatefulWidget {
       this.darkMode = false})
       : super(key: key);
 
+  @override
   EmojiBoard createState() => EmojiBoard();
 }
 
@@ -43,7 +44,7 @@ class EmojiBoard extends State<EmojiKeyboard> {
   /// This function will see if it can be shown in the Android version
   /// that the user is currently using.
   /// (See MainActivity in the android project for the implementation)
-  static const platform = const MethodChannel("nl.emojikeyboard.emoji/available");
+  static const platform = MethodChannel("nl.emojikeyboard.emoji/available");
 
   final GlobalKey<CategoryBarState> categoryBarStateKey =
       GlobalKey<CategoryBarState>();
@@ -73,9 +74,9 @@ class EmojiBoard extends State<EmojiKeyboard> {
 
   @override
   void initState() {
-    this.emojiController = widget.emojiController;
-    this.emojiKeyboardHeight = widget.emojiKeyboardHeight;
-    this.darkMode = widget.darkMode;
+    emojiController = widget.emojiController;
+    emojiKeyboardHeight = widget.emojiKeyboardHeight;
+    darkMode = widget.darkMode;
 
     storage.fetchAllEmojis().then((emojis) {
       if (emojis.isNotEmpty) {
@@ -148,11 +149,11 @@ class EmojiBoard extends State<EmojiKeyboard> {
   /// user scrolls up or down on the emoji page. It sends this trigger to the
   /// bottom bar
   void emojiScrollShowBottomBar(bool emojiScrollShowBottomBar) {
-    if (this.showBottomBar != emojiScrollShowBottomBar) {
-      this.showBottomBar = emojiScrollShowBottomBar;
+    if (showBottomBar != emojiScrollShowBottomBar) {
+      showBottomBar = emojiScrollShowBottomBar;
       if (bottomBarStateKey.currentState != null) {
         bottomBarStateKey.currentState!
-            .emojiScrollShowBottomBar(this.showBottomBar);
+            .emojiScrollShowBottomBar(showBottomBar);
       }
     }
   }
@@ -173,7 +174,7 @@ class EmojiBoard extends State<EmojiKeyboard> {
   void emojiSearch() {
     setInitialSearchEmojis();
     setState(() {
-      this.searchMode = true;
+      searchMode = true;
     });
     rememberPosition = emojiController!.selection;
     focusSearchEmoji.requestFocus();
@@ -193,9 +194,9 @@ class EmojiBoard extends State<EmojiKeyboard> {
         }
       }
       List<String> finalEmojis = [];
-      recommendedEmojis.forEach((element) {
+      for (var element in recommendedEmojis) {
         finalEmojis.add(element.emoji.toString());
-      });
+      }
       isAvailable(finalEmojis);
       setState(() {
         searchedEmojis = finalEmojis;
@@ -304,7 +305,7 @@ class EmojiBoard extends State<EmojiKeyboard> {
       });
     } else {
       setState(() {
-        this.searchedEmojis = recentEmojis;
+        searchedEmojis = recentEmojis;
       });
     }
   }
@@ -318,7 +319,7 @@ class EmojiBoard extends State<EmojiKeyboard> {
     for (var avail in availableResult) {
       availables.add(avail.toString());
     }
-    this.searchedEmojis = availables;
+    searchedEmojis = availables;
   }
 
   /// If the user selects an emoji from the grid a trigger is send to this
@@ -362,94 +363,92 @@ class EmojiBoard extends State<EmojiKeyboard> {
   Widget build(BuildContext context) {
     return SafeArea(
       bottom: true,
-      child: Container(
-          child: Column(mainAxisSize: MainAxisSize.min, children: [
-        Container(
-          height: widget.showEmojiKeyboard && !searchMode
-              ? isPortrait()
-                  ? emojiKeyboardHeight
-                  : 150
-              : 0,
-          color: this.darkMode ? Color(0xff373737) : Color(0xffc5c5c5),
-          child: Column(children: [
-            CategoryBar(
-                key: categoryBarStateKey,
-                categoryHandler: categoryHandler,
-                darkMode: darkMode),
-            Stack(children: [
-              EmojiPage(
-                  key: emojiPageStateKey,
-                  emojiKeyboardHeight: isPortrait() ? emojiKeyboardHeight : 150,
-                  emojiController: emojiController!,
-                  emojiScrollShowBottomBar: emojiScrollShowBottomBar,
-                  insertText: insertText,
-                  recent: recentEmojis,
-                  switchedPage: switchedPage),
-              BottomBar(
-                  key: bottomBarStateKey,
-                  emojiController: emojiController!,
-                  emojiSearch: emojiSearch,
-                  darkMode: darkMode),
-            ])
-          ]),
-        ),
-        widget.showEmojiKeyboard && searchMode
-            ? Container(
-                color: this.darkMode ? Color(0xff373737) : Color(0xffc5c5c5),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Container(
-                      height: isPortrait()
-                          ? MediaQuery.of(context).size.width / 8
-                          : 50,
-                      child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        itemCount: searchedEmojis.length,
-                        itemBuilder: (context, index) {
-                          return TextButton(
-                              onPressed: () {
-                                insertTextSearch(searchedEmojis[index]);
-                              },
-                              child: FittedBox(
-                                fit: BoxFit.fitWidth,
-                                child: Text(searchedEmojis[index],
-                                    style: TextStyle(fontSize: 50)),
-                              ));
-                        },
-                      ),
-                    ),
-                    Row(children: [
-                      Container(
-                          child: IconButton(
-                        icon: Icon(Icons.arrow_back),
-                        color: Colors.grey.shade600,
-                        onPressed: () {
-                          pressedBackSearch();
-                        },
-                      )),
-                      Expanded(
-                        child: TextFormField(
-                            focusNode: focusSearchEmoji,
-                            onChanged: (text) {
-                              updateEmojiSearch(text);
-                            },
-                            style: TextStyle(
-                              color: darkMode ? Colors.white : Colors.black,
-                            ),
-                            decoration: new InputDecoration(
-                                border: InputBorder.none,
-                                focusedBorder: InputBorder.none,
-                                enabledBorder: InputBorder.none,
-                                errorBorder: InputBorder.none,
-                                disabledBorder: InputBorder.none)),
-                      ),
-                    ]),
-                  ],
+      child: Column(mainAxisSize: MainAxisSize.min, children: [
+              Container(
+      height: widget.showEmojiKeyboard && !searchMode
+          ? isPortrait()
+              ? emojiKeyboardHeight
+              : 150
+          : 0,
+      color: darkMode ? Color(0xff373737) : Color(0xffc5c5c5),
+      child: Column(children: [
+        CategoryBar(
+            key: categoryBarStateKey,
+            categoryHandler: categoryHandler,
+            darkMode: darkMode),
+        Stack(children: [
+          EmojiPage(
+              key: emojiPageStateKey,
+              emojiKeyboardHeight: isPortrait() ? emojiKeyboardHeight : 150,
+              emojiController: emojiController!,
+              emojiScrollShowBottomBar: emojiScrollShowBottomBar,
+              insertText: insertText,
+              recent: recentEmojis,
+              switchedPage: switchedPage),
+          BottomBar(
+              key: bottomBarStateKey,
+              emojiController: emojiController!,
+              emojiSearch: emojiSearch,
+              darkMode: darkMode),
+        ])
+      ]),
+              ),
+              widget.showEmojiKeyboard && searchMode
+        ? Container(
+            color: darkMode ? Color(0xff373737) : Color(0xffc5c5c5),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                SizedBox(
+                  height: isPortrait()
+                      ? MediaQuery.of(context).size.width / 8
+                      : 50,
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: searchedEmojis.length,
+                    itemBuilder: (context, index) {
+                      return TextButton(
+                          onPressed: () {
+                            insertTextSearch(searchedEmojis[index]);
+                          },
+                          child: FittedBox(
+                            fit: BoxFit.fitWidth,
+                            child: Text(searchedEmojis[index],
+                                style: TextStyle(fontSize: 50)),
+                          ));
+                    },
+                  ),
                 ),
-              )
-            : Container(),
-      ])),
+                Row(children: [
+                  IconButton(
+                    icon: Icon(Icons.arrow_back),
+                    color: Colors.grey.shade600,
+                    onPressed: () {
+                      pressedBackSearch();
+                      },
+                  ),
+                  Expanded(
+                    child: TextFormField(
+                        focusNode: focusSearchEmoji,
+                        onChanged: (text) {
+                          updateEmojiSearch(text);
+                        },
+                        style: TextStyle(
+                          color: darkMode ? Colors.white : Colors.black,
+                        ),
+                        decoration: InputDecoration(
+                            border: InputBorder.none,
+                            focusedBorder: InputBorder.none,
+                            enabledBorder: InputBorder.none,
+                            errorBorder: InputBorder.none,
+                            disabledBorder: InputBorder.none)),
+                  ),
+                ]),
+              ],
+            ),
+          )
+        : Container(),
+            ]),
     );
   }
 }

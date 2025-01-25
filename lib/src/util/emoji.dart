@@ -2,17 +2,14 @@ class Emoji {
   late String emoji;
   late int amount;
 
-  Emoji(String emoji, int amount) {
-    this.emoji = emoji;
-    this.amount = amount;
-  }
+  Emoji(this.emoji, this.amount);
 
   increase() {
-    this.amount += 1;
+    amount += 1;
   }
 
   Map<String, dynamic> toDbMap() {
-    var map = Map<String, dynamic>();
+    var map = <String, dynamic>{};
     map['emoji'] = emoji;
     map['amount'] = amount;
     return map;

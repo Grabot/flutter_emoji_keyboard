@@ -22,6 +22,7 @@ class EmojiCategoryKey extends StatelessWidget {
   final int categoryNumber;
   final bool active;
 
+  @override
   Widget build(BuildContext context) {
     return Container(
       decoration: active

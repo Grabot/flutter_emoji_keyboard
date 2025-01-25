@@ -1,3 +1,7 @@
+## [1.5.2] 25-01-2025
+
+Added LICENCE and applied flutter linting to the project
+
 ## [1.5.1] 25-01-2025
 
 Fixed the readme file

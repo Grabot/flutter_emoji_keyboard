@@ -13,7 +13,7 @@ class EmojiGrid extends StatefulWidget {
   final int categoryIndicator;
   final List<bool>? available;
 
-  EmojiGrid({
+  const EmojiGrid({
     Key? key,
     required this.emojis,
     required this.emojiScrollShowBottomBar,
@@ -33,23 +33,30 @@ class EmojiGrid extends StatefulWidget {
 /// to be loaded immediately but are loaded if the user scrolls.
 class EmojiGridState extends State<EmojiGrid> {
   List? emojis;
-  ScrollController scrollController = new ScrollController();
-  ScrollController scrollPopupController = new ScrollController();
+  ScrollController scrollController = ScrollController();
+  ScrollController scrollPopupController = ScrollController();
 
   static const platform =
-      const MethodChannel("nl.emojikeyboard.emoji/available");
+      MethodChannel("nl.emojikeyboard.emoji/available");
 
   List<bool> available = [];
+
+  late double emojiSize;
   @override
   void initState() {
-    this.emojis = widget.emojis;
+    emojis = widget.emojis;
     if (widget.available != null) {
-      this.available = widget.available!;
+      available = widget.available!;
     }
 
     scrollController.addListener(() => keyboardScrollListener());
 
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      setState(() {
+        emojiSize = MediaQuery.of(context).size.width / 8;
+      });
+    });
   }
 
   /// If the user scroll in the emoji we keep track of when the direction
@@ -139,7 +146,7 @@ class EmojiGridState extends State<EmojiGrid> {
     if (widget.categoryIndicator != 1) {
       return false;
     } else {
-      if (available.length != 0) {
+      if (available.isNotEmpty) {
         return available[index];
       } else {
         return false;
@@ -169,23 +176,23 @@ class EmojiGridState extends State<EmojiGrid> {
 
     double xPos = position.dx;
     double yPos = position.dy;
-    double emojiWidth = MediaQuery.of(context).size.width / 8;
+    double emojiWidth = emojiSize;
 
     // We want the width to be 6 buttons wide,
     // the original emoji + 5 skin components
     // You can have more components, but it will always be at least 6.
-    double widthPopup = (MediaQuery.of(context).size.width / 8) * 6;
+    double widthPopup = emojiSize * 6;
     double heightPopup = 0;
     if (finalComponents.length <= 6) {
       // Only 1 row needed. Show all emojis in a single row
-      heightPopup = (MediaQuery.of(context).size.width / 8);
+      heightPopup = emojiSize;
     } else if (finalComponents.length <= 12) {
       // Only 2 rows needed. Show all emojis in 2 rows
-      heightPopup = (MediaQuery.of(context).size.width / 8) * 2;
+      heightPopup = emojiSize * 2;
     } else {
       // More rows needed. Show all emojis by showing 2.5 rows,
       // showing that it can be scrolled
-      heightPopup = (MediaQuery.of(context).size.width / 8) * 2.5;
+      heightPopup = emojiSize * 2.5;
     }
 
     // The height of the position should reflect the height of the popup
@@ -204,20 +211,22 @@ class EmojiGridState extends State<EmojiGrid> {
         xPos + (emojiWidth * 3) + (emojiWidth / 2),
         yPos);
 
-    showMenuOverride(
-      context: context,
-      position: popupPosition,
-      widthPopup: widthPopup,
-      heightPopup: heightPopup,
-      items: [
-        ComponentDetailPopup(
-            key: UniqueKey(),
-            components: finalComponents,
-            addNewComponent: addNewComponent)
-      ],
-    ).then((value) {
-      return;
-    });
+    if (mounted) {
+      showMenuOverride(
+        context: context,
+        position: popupPosition,
+        widthPopup: widthPopup,
+        heightPopup: heightPopup,
+        items: [
+          ComponentDetailPopup(
+              key: UniqueKey(),
+              components: finalComponents,
+              addNewComponent: addNewComponent)
+        ],
+      ).then((value) {
+        return;
+      });
+    }
   }
 
   addNewComponent(String emojiComponent) {

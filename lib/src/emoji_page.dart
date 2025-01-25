@@ -15,7 +15,7 @@ import 'emoji/travel.dart';
 
 /// This is the emoji page. This holds all the emoji grids.
 class EmojiPage extends StatefulWidget {
-  EmojiPage(
+  const EmojiPage(
       {Key? key,
       required this.emojiKeyboardHeight,
       required this.emojiController,
@@ -44,7 +44,7 @@ class EmojiPage extends StatefulWidget {
 /// for that phone cannot show that emoji.
 class EmojiPageState extends State<EmojiPage> {
   static const platform =
-      const MethodChannel("nl.emojikeyboard.emoji/available");
+      MethodChannel("nl.emojikeyboard.emoji/available");
   static String recentEmojisKey = "recentEmojis";
 
   final GlobalKey<EmojiGridState> emojiGridStateKey =
@@ -61,14 +61,14 @@ class EmojiPageState extends State<EmojiPage> {
 
   List<bool> availableSmileys = [];
 
-  PageController pageController = new PageController(initialPage: 1);
+  PageController pageController = PageController(initialPage: 1);
   TextEditingController? emojiController;
 
   bool showBottomBar = true;
 
   @override
   void initState() {
-    this.emojiController = widget.emojiController;
+    emojiController = widget.emojiController;
 
     isAvailable();
 
@@ -92,7 +92,7 @@ class EmojiPageState extends State<EmojiPage> {
           List<Object?> availableEmojis = await platform
               .invokeMethod("isAvailable", {"emojis": components});
           // If none can be drawn than we don't set availability
-          if (availableEmojis.length != 0) {
+          if (availableEmojis.isNotEmpty) {
             availableSmileys[i] = true;
           }
         } else {
@@ -147,70 +147,70 @@ class EmojiPageState extends State<EmojiPage> {
       ]).then((var value) {
         if (emojiGridStateKey.currentState != null) {
           emojiGridStateKey.currentState!
-              .forceUpdate(this.smileys, availableSmileys);
+              .forceUpdate(smileys, availableSmileys);
         }
       });
     } else {
       setState(() {
-        this.smileys = getEmojisString(smileysList);
-        this.animals = getEmojisString(animalsList);
-        this.foods = getEmojisString(foodsList);
-        this.activities = getEmojisString(activitiesList);
-        this.travel = getEmojisString(travelList);
-        this.objects = getEmojisString(objectsList);
-        this.symbols = getEmojisString(symbolsList);
-        this.flags = getEmojisString(flagsList);
-        checkComponentsSmileys(this.smileys);
+        smileys = getEmojisString(smileysList);
+        animals = getEmojisString(animalsList);
+        foods = getEmojisString(foodsList);
+        activities = getEmojisString(activitiesList);
+        travel = getEmojisString(travelList);
+        objects = getEmojisString(objectsList);
+        symbols = getEmojisString(symbolsList);
+        flags = getEmojisString(flagsList);
+        checkComponentsSmileys(smileys);
       });
     }
   }
 
   /// Here we load the smiley emojis and filter out the ones we can't show
   Future getAvailableSmileys() async {
-    this.smileys = await platform
+    smileys = await platform
         .invokeMethod("isAvailable", {"emojis": getEmojisString(smileysList)});
-    await checkComponentsSmileys(this.smileys);
+    await checkComponentsSmileys(smileys);
   }
 
   /// Here we load the animal emojis and filter out the ones we can't show
   Future getAvailableAnimals() async {
-    this.animals = await platform
+    animals = await platform
         .invokeMethod("isAvailable", {"emojis": getEmojisString(animalsList)});
   }
 
   /// Here we load the food emojis and filter out the ones we can't show
   Future getAvailableFoods() async {
-    this.foods = await platform
+    foods = await platform
         .invokeMethod("isAvailable", {"emojis": getEmojisString(foodsList)});
   }
 
   /// Here we load the activities emojis and filter out the ones we can't show
   Future getAvailableActivities() async {
-    this.activities = await platform.invokeMethod(
+    activities = await platform.invokeMethod(
         "isAvailable", {"emojis": getEmojisString(activitiesList)});
   }
 
   /// Here we load the travels emojis and filter out the ones we can't show
   Future getAvailableTravels() async {
-    this.travel = await platform
+    travel = await platform
         .invokeMethod("isAvailable", {"emojis": getEmojisString(travelList)});
   }
 
   /// Here we load the object emojis and filter out the ones we can't show
   Future getAvailableObjects() async {
-    this.objects = await platform
+    objects = await platform
         .invokeMethod("isAvailable", {"emojis": getEmojisString(objectsList)});
   }
 
   /// Here we load the symbols emojis and filter out the ones we can't show
   Future getAvailableSymbols() async {
-    this.symbols = await platform
+    symbols = await platform
         .invokeMethod("isAvailable", {"emojis": getEmojisString(symbolsList)});
   }
 
   /// Here we load the flags emojis and filter out the ones we can't show
   Future getAvailableFlags() async {
-    this.flags = await platform
+    flags = await platform
         .invokeMethod("isAvailable", {"emojis": getEmojisString(flagsList)});
   }
 
@@ -239,7 +239,7 @@ class EmojiPageState extends State<EmojiPage> {
   @override
   Widget build(BuildContext context) {
     // Here we build the emoji page. We have 8 categories and a recent tab for a total of 9 pages
-    return Container(
+    return SizedBox(
       height: widget.emojiKeyboardHeight - 50,
       child: PageView(controller: pageController, children: [
         EmojiGrid(

@@ -115,7 +115,7 @@ class _PopupMenu<T> extends StatelessWidget {
     final CurveTween height =
         CurveTween(curve: Interval(0.0, unit * route.items.length));
 
-    final Widget child = Container(
+    final Widget child = SizedBox(
       width: widthPopup,
       height: heightPopup,
       child: IntrinsicWidth(
@@ -209,8 +209,9 @@ class _PopupMenuRouteLayout extends SingleChildLayoutDelegate {
     double y = position.top;
     if (selectedItemIndex != null) {
       double selectedItemOffset = _kMenuVerticalPadding;
-      for (int index = 0; index < selectedItemIndex!; index += 1)
+      for (int index = 0; index < selectedItemIndex!; index += 1) {
         selectedItemOffset += itemSizes[index]!.height;
+      }
       selectedItemOffset += itemSizes[selectedItemIndex!]!.height / 2;
       y = y + buttonHeight / 2.0 - selectedItemOffset;
     }
@@ -237,16 +238,18 @@ class _PopupMenuRouteLayout extends SingleChildLayoutDelegate {
 
     // Avoid going outside an area defined as the rectangle 8.0 pixels from the
     // edge of the screen in every direction.
-    if (x < _kMenuScreenPadding + padding.left)
+    if (x < _kMenuScreenPadding + padding.left) {
       x = _kMenuScreenPadding + padding.left;
-    else if (x + childSize.width >
-        size.width - _kMenuScreenPadding - padding.right)
+    } else if (x + childSize.width >
+        size.width - _kMenuScreenPadding - padding.right) {
       x = size.width - childSize.width - _kMenuScreenPadding - padding.right;
-    if (y < _kMenuScreenPadding + padding.top)
+    }
+    if (y < _kMenuScreenPadding + padding.top) {
       y = _kMenuScreenPadding + padding.top;
-    else if (y + childSize.height >
-        size.height - _kMenuScreenPadding - padding.bottom)
+    } else if (y + childSize.height >
+        size.height - _kMenuScreenPadding - padding.bottom) {
       y = size.height - padding.bottom - _kMenuScreenPadding - childSize.height;
+    }
 
     return Offset(x, y);
   }
@@ -444,14 +447,14 @@ class ComponentDetailPopup extends PopupMenuEntry<int> {
   final List<String> components;
   final void Function(String) addNewComponent;
 
-  ComponentDetailPopup(
+  const ComponentDetailPopup(
       {required Key key,
       required this.components,
       required this.addNewComponent})
       : super(key: key);
 
   @override
-  bool represents(int? n) => n == 1 || n == -1;
+  bool represents(int? value) => value == 1 || value == -1;
 
   @override
   ComponentDetailPopupState createState() => ComponentDetailPopupState();
@@ -461,7 +464,7 @@ class ComponentDetailPopup extends PopupMenuEntry<int> {
 }
 
 class ComponentDetailPopupState extends State<ComponentDetailPopup> {
-  ScrollController scrollPopupController = new ScrollController();
+  ScrollController scrollPopupController = ScrollController();
 
   @override
   void initState() {

@@ -14,7 +14,7 @@ class Storage {
 
   static final Storage _instance = Storage._internal();
 
-  var based;
+  Database? based;
 
   factory Storage() {
     return _instance;
@@ -23,9 +23,9 @@ class Storage {
   Storage._internal();
 
   Future<Database> get database async {
-    if (based != null) return based;
+    if (based != null) return based!;
     based = await _initDatabase();
-    return based;
+    return based!;
   }
 
   /// Creates and opens the database.
