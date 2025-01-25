@@ -18,14 +18,14 @@ import 'emoji_searching.dart';
 ///   - emoji pages
 ///     These hold all the emojis in 9 separate listviews.
 class EmojiKeyboard extends StatefulWidget {
-  final TextEditingController emotionController;
+  final TextEditingController emojiController;
   final double emojiKeyboardHeight;
   final bool showEmojiKeyboard;
   final bool darkMode;
 
   EmojiKeyboard(
       {Key? key,
-      required this.emotionController,
+      required this.emojiController,
       this.emojiKeyboardHeight = 350,
       this.showEmojiKeyboard = true,
       this.darkMode = false})
@@ -43,7 +43,7 @@ class EmojiBoard extends State<EmojiKeyboard> {
   /// This function will see if it can be shown in the Android version
   /// that the user is currently using.
   /// (See MainActivity in the android project for the implementation)
-  static const platform = const MethodChannel("nl.brocast.emoji/available");
+  static const platform = const MethodChannel("nl.emojikeyboard.emoji/available");
 
   final GlobalKey<CategoryBarState> categoryBarStateKey =
       GlobalKey<CategoryBarState>();
@@ -61,7 +61,7 @@ class EmojiBoard extends State<EmojiKeyboard> {
 
   double emojiKeyboardHeight = 350;
 
-  TextEditingController? bromotionController;
+  TextEditingController? emojiController;
 
   bool showBottomBar = true;
   bool searchMode = false;
@@ -73,7 +73,7 @@ class EmojiBoard extends State<EmojiKeyboard> {
 
   @override
   void initState() {
-    this.bromotionController = widget.emotionController;
+    this.emojiController = widget.emojiController;
     this.emojiKeyboardHeight = widget.emojiKeyboardHeight;
     this.darkMode = widget.darkMode;
 
@@ -175,7 +175,7 @@ class EmojiBoard extends State<EmojiKeyboard> {
     setState(() {
       this.searchMode = true;
     });
-    rememberPosition = bromotionController!.selection;
+    rememberPosition = emojiController!.selection;
     focusSearchEmoji.requestFocus();
   }
 
@@ -279,7 +279,7 @@ class EmojiBoard extends State<EmojiKeyboard> {
   /// The emoji is added where the cursor was when the user pressed search.
   void insertTextSearch(String myText) {
     addRecentEmojiSearch(myText);
-    final text = bromotionController!.text;
+    final text = emojiController!.text;
     final textSelection = rememberPosition;
     final newText = text.replaceRange(
       textSelection.start,
@@ -287,12 +287,12 @@ class EmojiBoard extends State<EmojiKeyboard> {
       myText,
     );
     final myTextLength = myText.length;
-    bromotionController!.text = newText;
-    bromotionController!.selection = textSelection.copyWith(
+    emojiController!.text = newText;
+    emojiController!.selection = textSelection.copyWith(
       baseOffset: textSelection.start + myTextLength,
       extentOffset: textSelection.start + myTextLength,
     );
-    rememberPosition = bromotionController!.selection;
+    rememberPosition = emojiController!.selection;
   }
 
   /// This function is called when we want to see if any of the recent emojis
@@ -328,16 +328,16 @@ class EmojiBoard extends State<EmojiKeyboard> {
   void insertText(String myText, int category) {
     addRecentEmoji(myText, category);
     emojiScrollShowBottomBar(true);
-    final text = bromotionController!.text;
-    final textSelection = bromotionController!.selection;
+    final text = emojiController!.text;
+    final textSelection = emojiController!.selection;
     final newText = text.replaceRange(
       textSelection.start,
       textSelection.end,
       myText,
     );
     final myTextLength = myText.length;
-    bromotionController!.text = newText;
-    bromotionController!.selection = textSelection.copyWith(
+    emojiController!.text = newText;
+    emojiController!.selection = textSelection.copyWith(
       baseOffset: textSelection.start + myTextLength,
       extentOffset: textSelection.start + myTextLength,
     );
@@ -380,14 +380,14 @@ class EmojiBoard extends State<EmojiKeyboard> {
               EmojiPage(
                   key: emojiPageStateKey,
                   emojiKeyboardHeight: isPortrait() ? emojiKeyboardHeight : 150,
-                  bromotionController: bromotionController!,
+                  emojiController: emojiController!,
                   emojiScrollShowBottomBar: emojiScrollShowBottomBar,
                   insertText: insertText,
                   recent: recentEmojis,
                   switchedPage: switchedPage),
               BottomBar(
                   key: bottomBarStateKey,
-                  bromotionController: bromotionController!,
+                  emojiController: emojiController!,
                   emojiSearch: emojiSearch,
                   darkMode: darkMode),
             ])

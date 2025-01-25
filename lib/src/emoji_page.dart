@@ -18,7 +18,7 @@ class EmojiPage extends StatefulWidget {
   EmojiPage(
       {Key? key,
       required this.emojiKeyboardHeight,
-      required this.bromotionController,
+      required this.emojiController,
       required this.emojiScrollShowBottomBar,
       required this.insertText,
       required this.switchedPage,
@@ -26,7 +26,7 @@ class EmojiPage extends StatefulWidget {
       : super(key: key);
 
   final double emojiKeyboardHeight;
-  final TextEditingController bromotionController;
+  final TextEditingController emojiController;
   final Function(bool) emojiScrollShowBottomBar;
   final Function(String, int) insertText;
   final Function(int) switchedPage;
@@ -62,13 +62,13 @@ class EmojiPageState extends State<EmojiPage> {
   List<bool> availableSmileys = [];
 
   PageController pageController = new PageController(initialPage: 1);
-  TextEditingController? bromotionController;
+  TextEditingController? emojiController;
 
   bool showBottomBar = true;
 
   @override
   void initState() {
-    this.bromotionController = widget.bromotionController;
+    this.emojiController = widget.emojiController;
 
     isAvailable();
 

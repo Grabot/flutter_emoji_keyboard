@@ -298,6 +298,7 @@ List smileysList = [
   ],
   [
     '🙂‍↕️',
+    'head shaking vertically',
     ['head', 'nod', 'shaking vertically', 'yes']
   ],
   [

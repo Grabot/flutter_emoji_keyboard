@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 
 /// This is the Bottom Bar of the Emoji Keyboard
 class BottomBar extends StatefulWidget {
-  final TextEditingController bromotionController;
+  final TextEditingController emojiController;
   final Function emojiSearch;
   final bool darkMode;
 
   BottomBar(
       {Key? key,
-      required this.bromotionController,
+      required this.emojiController,
       required this.emojiSearch,
       required this.darkMode})
       : super(key: key);
@@ -24,13 +24,13 @@ class BottomBar extends StatefulWidget {
 /// The bottom bar has the "search" button with which the user can
 /// search for a particular emoji using a regular keyboard.
 class BottomBarState extends State<BottomBar> {
-  TextEditingController? bromotionController;
+  TextEditingController? emojiController;
   final double bottomBarHeight = 50;
   bool showBottomBar = true;
 
   @override
   void initState() {
-    this.bromotionController = widget.bromotionController;
+    this.emojiController = widget.emojiController;
     super.initState();
   }
 
@@ -44,8 +44,8 @@ class BottomBarState extends State<BottomBar> {
   /// if the user has the cursor in the beginning or nothing is in the
   /// Textfield nothing happens
   void onBackspace() {
-    final text = bromotionController!.text;
-    final textSelection = bromotionController!.selection;
+    final text = emojiController!.text;
+    final textSelection = emojiController!.selection;
     final selectionLength = textSelection.end - textSelection.start;
     if (selectionLength > 0) {
       final newText = text.replaceRange(
@@ -53,8 +53,8 @@ class BottomBarState extends State<BottomBar> {
         textSelection.end,
         '',
       );
-      bromotionController!.text = newText;
-      bromotionController!.selection = textSelection.copyWith(
+      emojiController!.text = newText;
+      emojiController!.selection = textSelection.copyWith(
         baseOffset: textSelection.start,
         extentOffset: textSelection.start,
       );
@@ -70,8 +70,8 @@ class BottomBarState extends State<BottomBar> {
         // So if the result is empty there was only 1 character
         if (finalCharacter == "") {
           // If there was only 1 character we remove that one.
-          bromotionController!.text = "";
-          bromotionController!.selection = textSelection.copyWith(
+          emojiController!.text = "";
+          emojiController!.selection = textSelection.copyWith(
             baseOffset: 0,
             extentOffset: 0,
           );
@@ -90,8 +90,8 @@ class BottomBarState extends State<BottomBar> {
       newEnd,
       '',
     );
-    bromotionController!.text = newText;
-    bromotionController!.selection = textSelection.copyWith(
+    emojiController!.text = newText;
+    emojiController!.selection = textSelection.copyWith(
       baseOffset: newStart,
       extentOffset: newStart,
     );
@@ -99,15 +99,15 @@ class BottomBarState extends State<BottomBar> {
 
   /// If the user presses the Spacebar it will simply add a space
   void onSpacebar() {
-    final text = bromotionController!.text;
-    final textSelection = bromotionController!.selection;
+    final text = emojiController!.text;
+    final textSelection = emojiController!.selection;
     final newText = text.replaceRange(
       textSelection.start,
       textSelection.end,
       " ",
     );
-    bromotionController!.text = newText;
-    bromotionController!.selection = textSelection.copyWith(
+    emojiController!.text = newText;
+    emojiController!.selection = textSelection.copyWith(
       baseOffset: textSelection.start + 1,
       extentOffset: textSelection.start + 1,
     );

@@ -10,7 +10,7 @@ packages:
     source: hosted
     version: "2.11.0"
   back_button_interceptor:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: back_button_interceptor
       sha256: "50d775cee2f75e8788b0577b71261c28638f47c4faf04d5aa566f13c6b19baa3"
@@ -63,7 +63,7 @@ packages:
       path: ".."
       relative: true
     source: path
-    version: "1.4.0"
+    version: "1.4.2"
   fake_async:
     dependency: transitive
     description:
