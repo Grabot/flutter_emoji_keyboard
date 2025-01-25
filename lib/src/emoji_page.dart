@@ -43,8 +43,7 @@ class EmojiPage extends StatefulWidget {
 /// For Android, a check is added te remove any emoji which the api version
 /// for that phone cannot show that emoji.
 class EmojiPageState extends State<EmojiPage> {
-  static const platform =
-      MethodChannel("nl.emojikeyboard.emoji/available");
+  static const platform = MethodChannel("nl.emojikeyboard.emoji/available");
   static String recentEmojisKey = "recentEmojis";
 
   final GlobalKey<EmojiGridState> emojiGridStateKey =

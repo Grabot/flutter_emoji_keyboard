@@ -27,7 +27,23 @@ List foodsList = [
   [
     '🍋‍🟩',
     'lime',
-    ['acidity', 'citrus', 'cocktail', 'fruit', 'garnish', 'key', 'margarita', 'mojito', 'refreshing', 'salsa', 'sour', 'tangy', 'tequila', 'tropical', 'zest']
+    [
+      'acidity',
+      'citrus',
+      'cocktail',
+      'fruit',
+      'garnish',
+      'key',
+      'margarita',
+      'mojito',
+      'refreshing',
+      'salsa',
+      'sour',
+      'tangy',
+      'tequila',
+      'tropical',
+      'zest'
+    ]
   ],
   [
     '🍌',
@@ -167,7 +183,18 @@ List foodsList = [
   [
     '🪾',
     'leafless tree',
-    ['bare', 'barren', 'branches', 'dead', 'drought', 'leafless', 'tree', 'trunk', 'winter', 'wood']
+    [
+      'bare',
+      'barren',
+      'branches',
+      'dead',
+      'drought',
+      'leafless',
+      'tree',
+      'trunk',
+      'winter',
+      'wood'
+    ]
   ],
   [
     '🥜',
@@ -197,12 +224,39 @@ List foodsList = [
   [
     '🍄‍🟫',
     'brown mushroom',
-    ['food', 'fungi', 'fungus', 'mushroom', 'nature', 'pizza', 'portobello', 'shiitake', 'shroom', 'spore', 'sprout', 'toppings', 'truffle', 'vegetable', 'vegetarian', 'veggie']
+    [
+      'food',
+      'fungi',
+      'fungus',
+      'mushroom',
+      'nature',
+      'pizza',
+      'portobello',
+      'shiitake',
+      'shroom',
+      'spore',
+      'sprout',
+      'toppings',
+      'truffle',
+      'vegetable',
+      'vegetarian',
+      'veggie'
+    ]
   ],
   [
     '🫜',
     'root vegetable',
-    ['beet', 'food', 'garden', 'radish', 'root', 'salad', 'turnip', 'vegetable', 'vegetarian']
+    [
+      'beet',
+      'food',
+      'garden',
+      'radish',
+      'root',
+      'salad',
+      'turnip',
+      'vegetable',
+      'vegetarian'
+    ]
   ],
   [
     '🍞',

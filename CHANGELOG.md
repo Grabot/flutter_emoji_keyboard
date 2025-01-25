@@ -1,3 +1,7 @@
+## [1.5.3] 25-01-2025
+
+Applied dart formatting
+
 ## [1.5.2] 25-01-2025
 
 Added LICENCE and applied flutter linting to the project

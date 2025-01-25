@@ -294,7 +294,7 @@ List smileysList = [
   [
     '🙂‍↔️',
     'head shaking horizontally',
-    ['head', 'horizontally','no', 'shake', 'shaking']
+    ['head', 'horizontally', 'no', 'shake', 'shaking']
   ],
   [
     '🙂‍↕️',
@@ -329,7 +329,18 @@ List smileysList = [
   [
     '🫩',
     'face with bags under eyes',
-    ['bags', 'bored', 'exhausted', 'eyes', 'face', 'fatigued', 'late', 'sleepy', 'tired', 'weary']
+    [
+      'bags',
+      'bored',
+      'exhausted',
+      'eyes',
+      'face',
+      'fatigued',
+      'late',
+      'sleepy',
+      'tired',
+      'weary'
+    ]
   ],
   [
     '😷',
@@ -2213,17 +2224,52 @@ List smileysList = [
   [
     '🚶‍➡️',
     'person walking facing right',
-    ['amble', 'gait', 'hike', 'man', 'pace', 'pedestrian', 'person', 'stride', 'stroll', 'walk', 'walking']
+    [
+      'amble',
+      'gait',
+      'hike',
+      'man',
+      'pace',
+      'pedestrian',
+      'person',
+      'stride',
+      'stroll',
+      'walk',
+      'walking'
+    ]
   ],
   [
     '🚶‍♀️‍➡️',
     'woman walking facing right',
-    ['amble', 'gait', 'hike', 'man', 'pace', 'pedestrian', 'stride', 'stroll', 'walk', 'walking', 'woman']
+    [
+      'amble',
+      'gait',
+      'hike',
+      'man',
+      'pace',
+      'pedestrian',
+      'stride',
+      'stroll',
+      'walk',
+      'walking',
+      'woman'
+    ]
   ],
   [
     '🚶‍♂️‍➡️',
     'man walking facing right',
-    ['amble', 'gait', 'hike', 'man', 'pace', 'pedestrian', 'stride', 'stroll', 'walk', 'walking']
+    [
+      'amble',
+      'gait',
+      'hike',
+      'man',
+      'pace',
+      'pedestrian',
+      'stride',
+      'stroll',
+      'walk',
+      'walking'
+    ]
   ],
   [
     '🧍',
@@ -2378,17 +2424,53 @@ List smileysList = [
   [
     '🏃‍➡️',
     'person running facing right',
-    ['fast', 'hurry', 'marathon', 'move', 'person', 'quick', 'race', 'racing', 'run', 'rush', 'speed']
+    [
+      'fast',
+      'hurry',
+      'marathon',
+      'move',
+      'person',
+      'quick',
+      'race',
+      'racing',
+      'run',
+      'rush',
+      'speed'
+    ]
   ],
   [
     '🏃‍♀️‍➡️',
     '	woman running facing right',
-    ['fast', 'hurry', 'marathon', 'move', 'quick', 'race', 'racing', 'run', 'rush', 'speed', 'woman']
+    [
+      'fast',
+      'hurry',
+      'marathon',
+      'move',
+      'quick',
+      'race',
+      'racing',
+      'run',
+      'rush',
+      'speed',
+      'woman'
+    ]
   ],
   [
     '🏃‍♂️‍➡️',
     'man running facing right',
-    ['fast', 'hurry', 'man', 'marathon', 'move', 'quick', 'race', 'racing', 'run', 'rush', 'speed']
+    [
+      'fast',
+      'hurry',
+      'man',
+      'marathon',
+      'move',
+      'quick',
+      'race',
+      'racing',
+      'run',
+      'rush',
+      'speed'
+    ]
   ],
   [
     '💃',
@@ -2959,6 +3041,16 @@ List smileysList = [
   [
     '🫆',
     'fingerprint',
-    ['clue', 'crime', 'detective', 'forensics', 'identity', 'mystery', 'print', 'safety', 'trace']
+    [
+      'clue',
+      'crime',
+      'detective',
+      'forensics',
+      'identity',
+      'mystery',
+      'print',
+      'safety',
+      'trace'
+    ]
   ]
 ];

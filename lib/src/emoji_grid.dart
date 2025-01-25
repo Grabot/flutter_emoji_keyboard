@@ -36,8 +36,7 @@ class EmojiGridState extends State<EmojiGrid> {
   ScrollController scrollController = ScrollController();
   ScrollController scrollPopupController = ScrollController();
 
-  static const platform =
-      MethodChannel("nl.emojikeyboard.emoji/available");
+  static const platform = MethodChannel("nl.emojikeyboard.emoji/available");
 
   List<bool> available = [];
 

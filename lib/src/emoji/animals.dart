@@ -437,7 +437,23 @@ List animalsList = [
   [
     '🐦‍🔥',
     'phoenix',
-    ['ascend', 'ascension', 'emerge', 'fantasy', 'firebird', 'glory', 'immortal', 'rebirth', 'reincarnation', 'reinvent', 'renewal', 'revival', 'revive', 'rise', 'transform']
+    [
+      'ascend',
+      'ascension',
+      'emerge',
+      'fantasy',
+      'firebird',
+      'glory',
+      'immortal',
+      'rebirth',
+      'reincarnation',
+      'reinvent',
+      'renewal',
+      'revival',
+      'revive',
+      'rise',
+      'transform'
+    ]
   ],
   [
     '🐸',
