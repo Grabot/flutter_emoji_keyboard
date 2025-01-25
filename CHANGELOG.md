@@ -1,11 +1,15 @@
+## [1.5.1] 25-01-2025
+
+Fixed the readme file
+
 ## [1.5.0] 25-01-2025
 
-Resolved issues with the search on Android. Applied all the unicode v16.0.0 emojis.
+Resolved issues with the search on Android. Applied all the unicode v16.0 emojis.
 Changed the TextController of the keyboard from `emotionController` to `emojiController`.
 
 ## [1.4.2] 25-01-2025
 
-Added all the emojis up to unicode v16.0.0.
+Added all the emojis up to unicode v16.0.
 
 ## [1.4.1] 24-01-2025
 

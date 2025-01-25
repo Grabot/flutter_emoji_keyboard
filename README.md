@@ -7,16 +7,16 @@ A Flutter package that provides a keyboard where you can only type with emojis!
 It's a keyboard the way you expect it and more! But with less letters and only emojis.
 
 
-<a href="https://raw.githubusercontent.com/Grabot/flutter_emoji_keyboard/34c7a4bab33d8d4c9004d83402b432baa42ffcf4/example_images/Screenshot_1649252768.png" width="100"></a>
-<a href="https://raw.githubusercontent.com/Grabot/flutter_emoji_keyboard/34c7a4bab33d8d4c9004d83402b432baa42ffcf4/example_images/Screenshot_1649252939.png" width="100"></a>
-<a href="https://raw.githubusercontent.com/Grabot/flutter_emoji_keyboard/34c7a4bab33d8d4c9004d83402b432baa42ffcf4/example_images/Screenshot_1649253604.png" width="100"></a>
-<a href="https://raw.githubusercontent.com/Grabot/flutter_emoji_keyboard/34c7a4bab33d8d4c9004d83402b432baa42ffcf4/example_images/Screenshot_1649253641.png" width="100"></a>
+<img src="https://raw.githubusercontent.com/Grabot/flutter_emoji_keyboard/34c7a4bab33d8d4c9004d83402b432baa42ffcf4/example_images/Screenshot_1649252768.png" alt="Alt Text" width="200">
+<img src="https://raw.githubusercontent.com/Grabot/flutter_emoji_keyboard/34c7a4bab33d8d4c9004d83402b432baa42ffcf4/example_images/Screenshot_1649252939.png" alt="Alt Text" width="200">
+<img src="https://raw.githubusercontent.com/Grabot/flutter_emoji_keyboard/34c7a4bab33d8d4c9004d83402b432baa42ffcf4/example_images/Screenshot_1649253604.png" alt="Alt Text" width="200">
+<img src="https://raw.githubusercontent.com/Grabot/flutter_emoji_keyboard/34c7a4bab33d8d4c9004d83402b432baa42ffcf4/example_images/Screenshot_1649253641.png" alt="Alt Text" width="200">
 
 
 
 ## Key features
 
-Smooth and intuitive keyboard layout with all the emojis up to unicode 14.0.0 available in separate 8 categories with a 'recent chosen' tab.
+Smooth and intuitive keyboard layout with all the emojis up to unicode 16.0 available in separate 8 categories with a 'recent chosen' tab.
 
 You can easily switch between categories by swiping or selecting the category from the top bar.
 
@@ -32,7 +32,7 @@ The emojis have an indicator which shows if you can add a skin component to them
 
 Change the default light setting to dark mode
 
-<a href="https://raw.githubusercontent.com/Grabot/flutter_emoji_keyboard/34c7a4bab33d8d4c9004d83402b432baa42ffcf4/example_images/Screenshot_1649253828.png" width="100"></a>
+<img src="https://raw.githubusercontent.com/Grabot/flutter_emoji_keyboard/34c7a4bab33d8d4c9004d83402b432baa42ffcf4/example_images/Screenshot_1649253828.png" alt="Alt Text" width="250">
 
 
 ## Usage
@@ -86,7 +86,7 @@ class _MyHomePageState extends State<MyHomePage> {
             Align(
               alignment: Alignment.bottomCenter,
               child: EmojiKeyboard(
-                  emotionController: controller,
+                  emojiController: controller,
                   emojiKeyboardHeight: 400,
                   showEmojiKeyboard: showEmojiKeyboard,
                   darkMode: true),
