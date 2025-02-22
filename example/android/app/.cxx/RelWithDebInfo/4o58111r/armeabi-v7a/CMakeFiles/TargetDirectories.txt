@@ -1,0 +1,2 @@
+/home/zwaar/ZwaarProjects/bro_cast/flutter_emoji_keyboard/example/android/app/.cxx/RelWithDebInfo/4o58111r/armeabi-v7a/CMakeFiles/edit_cache.dir
+/home/zwaar/ZwaarProjects/bro_cast/flutter_emoji_keyboard/example/android/app/.cxx/RelWithDebInfo/4o58111r/armeabi-v7a/CMakeFiles/rebuild_cache.dir

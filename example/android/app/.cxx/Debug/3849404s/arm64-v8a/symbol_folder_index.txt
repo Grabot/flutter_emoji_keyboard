@@ -1,0 +1,1 @@
+/home/zwaar/ZwaarProjects/bro_cast/flutter_emoji_keyboard/example/build/app/intermediates/cxx/Debug/3849404s/obj/arm64-v8a

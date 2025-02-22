@@ -25,7 +25,7 @@ class BottomBar extends StatefulWidget {
 /// search for a particular emoji using a regular keyboard.
 class BottomBarState extends State<BottomBar> {
   TextEditingController? emojiController;
-  final double bottomBarHeight = 50;
+  final double bottomBarHeight = 40;
   bool showBottomBar = true;
 
   @override
@@ -134,19 +134,19 @@ class BottomBarState extends State<BottomBar> {
         left: 0.0,
         child: AnimatedContainer(
           curve: Curves.fastOutSlowIn,
-          height: showBottomBar ? 40 : 0,
+          height: showBottomBar ? (bottomBarHeight + MediaQuery.of(context).padding.bottom) : 0,
           width: MediaQuery.of(context).size.width,
           duration: Duration(seconds: 1),
           child: Container(
             color: widget.darkMode ? Color(0xff171717) : Color(0xffdbdbdb),
-            alignment: Alignment.bottomCenter,
-            child: SizedBox(
+            alignment: Alignment.topCenter,
+            child: showBottomBar ? SizedBox(
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   SizedBox(
-                      width: MediaQuery.of(context).size.width / 8,
+                      width: (MediaQuery.of(context).size.width / 8) * 2,
                       height: MediaQuery.of(context).size.width / 8,
                       child: TextButton(
                           onPressed: () {
@@ -162,7 +162,7 @@ class BottomBarState extends State<BottomBar> {
                           },
                           child: Icon(Icons.space_bar))),
                   SizedBox(
-                      width: MediaQuery.of(context).size.width / 8,
+                      width: (MediaQuery.of(context).size.width / 8) * 2,
                       height: MediaQuery.of(context).size.width / 8,
                       child: TextButton(
                           onPressed: () {
@@ -171,7 +171,7 @@ class BottomBarState extends State<BottomBar> {
                           child: Icon(Icons.backspace)))
                 ],
               ),
-            ),
+            ) : Container(),
           ),
         ));
   }

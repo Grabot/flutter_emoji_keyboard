@@ -7,12 +7,10 @@ A Flutter package that provides a keyboard where you can only type with emojis!
 It's a keyboard the way you expect it and more! But with less letters and only emojis.
 
 
-<img src="https://raw.githubusercontent.com/Grabot/flutter_emoji_keyboard/34c7a4bab33d8d4c9004d83402b432baa42ffcf4/example_images/Screenshot_1649252768.png" alt="Alt Text" width="200">
-<img src="https://raw.githubusercontent.com/Grabot/flutter_emoji_keyboard/34c7a4bab33d8d4c9004d83402b432baa42ffcf4/example_images/Screenshot_1649252939.png" alt="Alt Text" width="200">
-<img src="https://raw.githubusercontent.com/Grabot/flutter_emoji_keyboard/34c7a4bab33d8d4c9004d83402b432baa42ffcf4/example_images/Screenshot_1649253604.png" alt="Alt Text" width="200">
-<img src="https://raw.githubusercontent.com/Grabot/flutter_emoji_keyboard/34c7a4bab33d8d4c9004d83402b432baa42ffcf4/example_images/Screenshot_1649253641.png" alt="Alt Text" width="200">
-
-
+![random_emoji_selection.png](flutter_emoji_keyboard_screens/random_emoji_selection.png)
+![skin_selection.png](flutter_emoji_keyboard_screens/skin_selection.png)
+![search_options.png](flutter_emoji_keyboard_screens/search_options.png)
+![recent_page.png](flutter_emoji_keyboard_screens/recent_page.png)
 
 ## Key features
 
@@ -32,71 +30,108 @@ The emojis have an indicator which shows if you can add a skin component to them
 
 Change the default light setting to dark mode
 
-<img src="https://raw.githubusercontent.com/Grabot/flutter_emoji_keyboard/34c7a4bab33d8d4c9004d83402b432baa42ffcf4/example_images/Screenshot_1649253828.png" alt="Alt Text" width="250">
-
+![dark_mode.png](flutter_emoji_keyboard_screens/dark_mode.png)
 
 ## Usage
 To use this plugin, add `emoji_keyboard_flutter` as dependency in your pubspec.yaml file.
 
-## Sample Usage
+## Full Sample Usage
 ```
+import 'dart:io';
 import 'package:emoji_keyboard_flutter/emoji_keyboard_flutter.dart';
-
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 void main() {
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Emoji Keyboard',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: MyHomePage(title: 'Emoji Keyboard'),
+      home: MyHomePage(key: UniqueKey(), title: 'Emoji Keyboard'),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+  const MyHomePage({required Key key, required this.title}) : super(key: key);
   final String title;
 
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  MyHomePageState createState() => MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class MyHomePageState extends State<MyHomePage> {
+  bool showEmojiKeyboard = false;
+  final TextEditingController controller = TextEditingController();
 
-......
+  backButtonFunctionality() {
+    if (showEmojiKeyboard) {
+      setState(() {
+        showEmojiKeyboard = false;
+      });
+    } else {
+      if (Platform.isAndroid) {
+        SystemNavigator.pop();
+      } else {
+        exit(0);
+      }
+    }
+  }
+
+  void onTapEmojiField() {
+    if (!showEmojiKeyboard) {
+      setState(() {
+        showEmojiKeyboard = true;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: Stack(
-
-          .....
-
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: EmojiKeyboard(
-                  emojiController: controller,
-                  emojiKeyboardHeight: 400,
-                  showEmojiKeyboard: showEmojiKeyboard,
-                  darkMode: true),
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (bool didPop, result) {
+        if (!didPop) {
+          backButtonFunctionality();
+        }
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(widget.title),
+        ),
+        body: Stack(children: [
+          Container(
+            alignment: Alignment.topCenter,
+            padding: const EdgeInsets.all(6),
+            child: TextFormField(
+              onTap: () {
+                onTapEmojiField();
+              },
+              controller: controller,
+              decoration: const InputDecoration(border: OutlineInputBorder()),
+              readOnly: true,
+              showCursor: true,
             ),
-          ]
+          ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: EmojiKeyboard(
+                emojiController: controller,
+                emojiKeyboardHeight: 440,
+                showEmojiKeyboard: showEmojiKeyboard,
+                darkMode: true),
+          ),
+        ]),
       ),
     );
   }
 }
-
-
 ```
 See the `example` directory for the complete sample app.

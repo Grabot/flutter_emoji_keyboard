@@ -1,6 +1,7 @@
-import 'package:back_button_interceptor/back_button_interceptor.dart';
+import 'dart:io';
 import 'package:emoji_keyboard_flutter/emoji_keyboard_flutter.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 void main() {
   runApp(MyApp());
@@ -14,10 +15,6 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Emoji Keyboard',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
       home: MyHomePage(key: UniqueKey(), title: 'Emoji Keyboard'),
     );
   }
@@ -35,27 +32,17 @@ class MyHomePageState extends State<MyHomePage> {
   bool showEmojiKeyboard = false;
   final TextEditingController controller = TextEditingController();
 
-  @override
-  void initState() {
-    showEmojiKeyboard = false;
-    BackButtonInterceptor.add(myInterceptor);
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    BackButtonInterceptor.remove(myInterceptor);
-    super.dispose();
-  }
-
-  bool myInterceptor(bool stopDefaultButtonEvent, RouteInfo info) {
+  backButtonFunctionality() {
     if (showEmojiKeyboard) {
       setState(() {
         showEmojiKeyboard = false;
       });
-      return true;
     } else {
-      return false;
+      if (Platform.isAndroid) {
+        SystemNavigator.pop();
+      } else {
+        exit(0);
+      }
     }
   }
 
@@ -69,34 +56,41 @@ class MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: Stack(children: [
-        Container(
-          color: Colors.white,
-          alignment: Alignment.topCenter,
-          padding: const EdgeInsets.all(6),
-          child: TextFormField(
-            onTap: () {
-              onTapEmojiField();
-            },
-            controller: controller,
-            decoration: const InputDecoration(border: OutlineInputBorder()),
-            readOnly: true,
-            showCursor: true,
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (bool didPop, result) {
+        if (!didPop) {
+          backButtonFunctionality();
+        }
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(widget.title),
+        ),
+        body: Stack(children: [
+          Container(
+            alignment: Alignment.topCenter,
+            padding: const EdgeInsets.all(6),
+            child: TextFormField(
+              onTap: () {
+                onTapEmojiField();
+              },
+              controller: controller,
+              decoration: const InputDecoration(border: OutlineInputBorder()),
+              readOnly: true,
+              showCursor: true,
+            ),
           ),
-        ),
-        Align(
-          alignment: Alignment.bottomCenter,
-          child: EmojiKeyboard(
-              emojiController: controller,
-              emojiKeyboardHeight: 400,
-              showEmojiKeyboard: showEmojiKeyboard,
-              darkMode: true),
-        ),
-      ]),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: EmojiKeyboard(
+                emojiController: controller,
+                emojiKeyboardHeight: 440,
+                showEmojiKeyboard: showEmojiKeyboard,
+                darkMode: true),
+          ),
+        ]),
+      ),
     );
   }
 }

@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:emoji_keyboard_flutter/src/emoji/component/component.dart';
 import 'package:emoji_keyboard_flutter/src/util/popup_menu_override.dart';
 import 'dart:io';
@@ -11,6 +13,7 @@ class EmojiGrid extends StatefulWidget {
   final Function(bool) emojiScrollShowBottomBar;
   final Function(String, int) insertText;
   final int categoryIndicator;
+  final double emojiSize;
   final List<bool>? available;
 
   const EmojiGrid({
@@ -19,6 +22,7 @@ class EmojiGrid extends StatefulWidget {
     required this.emojiScrollShowBottomBar,
     required this.categoryIndicator,
     required this.insertText,
+    required this.emojiSize,
     this.available,
   }) : super(key: key);
 
@@ -40,7 +44,6 @@ class EmojiGridState extends State<EmojiGrid> {
 
   List<bool> available = [];
 
-  late double emojiSize;
   @override
   void initState() {
     emojis = widget.emojis;
@@ -48,14 +51,16 @@ class EmojiGridState extends State<EmojiGrid> {
       available = widget.available!;
     }
 
-    scrollController.addListener(() => keyboardScrollListener());
-
+    scrollController.addListener(keyboardScrollListener);
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      setState(() {
-        emojiSize = MediaQuery.of(context).size.width / 8;
-      });
-    });
+  }
+
+  @override
+  void dispose() {
+    scrollController.removeListener(keyboardScrollListener);
+    scrollController.dispose();
+    scrollPopupController.dispose();
+    super.dispose();
   }
 
   /// If the user scroll in the emoji we keep track of when the direction
@@ -96,10 +101,6 @@ class EmojiGridState extends State<EmojiGrid> {
     });
   }
 
-  bool isPortrait() {
-    return MediaQuery.of(context).orientation == Orientation.portrait;
-  }
-
   @override
   Widget build(BuildContext context) {
     // Add global keys to the buttons to find the position
@@ -109,22 +110,48 @@ class EmojiGridState extends State<EmojiGrid> {
       keys.add(key);
     }
 
+    bool isPortrait() {
+      return MediaQuery.of(context).orientation == Orientation.portrait;
+    }
+
+    bool isTablet() {
+      final display = PlatformDispatcher.instance.views.first.display;
+      return display.size.shortestSide / display.devicePixelRatio < 600 ? false : true;
+    }
+
+    int getEmojiWidthCount() {
+      if (isTablet()) {
+        if (isPortrait()) {
+          return 16;
+        } else {
+          return 32;
+        }
+      } else {
+        if (isPortrait()) {
+          return 8;
+        } else {
+          return 16;
+        }
+      }
+    }
+
     return GridView.builder(
         controller: scrollController,
         shrinkWrap: true,
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: isPortrait() ? 8 : 16,
+          crossAxisCount: getEmojiWidthCount(),
         ),
         itemCount: emojis!.length,
-        padding: EdgeInsets.only(bottom: 40),
+        padding: EdgeInsets.only(bottom: 60),
         itemBuilder: (BuildContext ctx, index) {
           return CustomPaint(
             foregroundPainter:
                 hasComponent(emojis![index], index) ? BorderPainter() : null,
             child: Container(
-              key: keys[index],
-              child: TextButton(
-                  onPressed: () {
+              child: new Material(
+                child: new InkWell(
+                  splashColor: Color(0xff898989),
+                  onTap: () {
                     pressedEmoji(emojis![index]);
                   },
                   onLongPress: () {
@@ -132,10 +159,18 @@ class EmojiGridState extends State<EmojiGrid> {
                       _showPopupMenu(keys[index], emojis![index]);
                     }
                   },
-                  child: FittedBox(
-                    fit: BoxFit.fitWidth,
-                    child: Text(emojis![index], style: TextStyle(fontSize: 50)),
-                  )),
+                  child: new Container(
+                    key: keys[index],
+                    padding: EdgeInsets.all(4),
+                    child: FittedBox(
+                      fit: BoxFit.fitWidth,
+                      child: Text(emojis![index], style: TextStyle(fontSize: 500)),
+                    ),
+                  ),
+                ),
+                color: Colors.transparent,
+              ),
+              color: Colors.transparent,
             ),
           );
         });
@@ -175,23 +210,23 @@ class EmojiGridState extends State<EmojiGrid> {
 
     double xPos = position.dx;
     double yPos = position.dy;
-    double emojiWidth = emojiSize;
+    double emojiWidth = widget.emojiSize;
 
     // We want the width to be 6 buttons wide,
     // the original emoji + 5 skin components
     // You can have more components, but it will always be at least 6.
-    double widthPopup = emojiSize * 6;
+    double widthPopup = widget.emojiSize * 6;
     double heightPopup = 0;
     if (finalComponents.length <= 6) {
       // Only 1 row needed. Show all emojis in a single row
-      heightPopup = emojiSize;
+      heightPopup = widget.emojiSize;
     } else if (finalComponents.length <= 12) {
       // Only 2 rows needed. Show all emojis in 2 rows
-      heightPopup = emojiSize * 2;
+      heightPopup = widget.emojiSize * 2;
     } else {
       // More rows needed. Show all emojis by showing 2.5 rows,
       // showing that it can be scrolled
-      heightPopup = emojiSize * 2.5;
+      heightPopup = widget.emojiSize * 2.5;
     }
 
     // The height of the position should reflect the height of the popup
@@ -210,22 +245,20 @@ class EmojiGridState extends State<EmojiGrid> {
         xPos + (emojiWidth * 3) + (emojiWidth / 2),
         yPos);
 
-    if (mounted) {
-      showMenuOverride(
-        context: context,
-        position: popupPosition,
-        widthPopup: widthPopup,
-        heightPopup: heightPopup,
-        items: [
-          ComponentDetailPopup(
-              key: UniqueKey(),
-              components: finalComponents,
-              addNewComponent: addNewComponent)
-        ],
-      ).then((value) {
-        return;
-      });
-    }
+    showMenuOverride(
+      context: context,
+      position: popupPosition,
+      widthPopup: widthPopup,
+      heightPopup: heightPopup,
+      items: [
+        ComponentDetailPopup(
+            key: UniqueKey(),
+            components: finalComponents,
+            addNewComponent: addNewComponent)
+      ],
+    ).then((value) {
+      return;
+    });
   }
 
   addNewComponent(String emojiComponent) {
@@ -233,6 +266,8 @@ class EmojiGridState extends State<EmojiGrid> {
   }
 }
 
+// The arrow in the bottom right to indicate that there are,
+// for instance, skin components on that emoji
 class BorderPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {

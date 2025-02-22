@@ -21,16 +21,16 @@ class EmojiPage extends StatefulWidget {
       required this.emojiController,
       required this.emojiScrollShowBottomBar,
       required this.insertText,
-      required this.switchedPage,
-      required this.recent})
+      required this.recent,
+      required this.switchedPage})
       : super(key: key);
 
   final double emojiKeyboardHeight;
   final TextEditingController emojiController;
   final Function(bool) emojiScrollShowBottomBar;
   final Function(String, int) insertText;
-  final Function(int) switchedPage;
   final List<String> recent;
+  final Function(int) switchedPage;
 
   @override
   EmojiPageState createState() => EmojiPageState();
@@ -46,8 +46,10 @@ class EmojiPageState extends State<EmojiPage> {
   static const platform = MethodChannel("nl.emojikeyboard.emoji/available");
   static String recentEmojisKey = "recentEmojis";
 
-  final GlobalKey<EmojiGridState> emojiGridStateKey =
+  final GlobalKey<EmojiGridState> smileyStateKey =
       GlobalKey<EmojiGridState>();
+  final GlobalKey<EmojiGridState> recentStateKey =
+  GlobalKey<EmojiGridState>();
 
   List smileys = [];
   List animals = [];
@@ -71,9 +73,16 @@ class EmojiPageState extends State<EmojiPage> {
 
     isAvailable();
 
-    pageController.addListener(() => pageScrollListener());
+    pageController = PageController(initialPage: 1);
+    pageController.addListener(pageScrollListener);
 
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    pageController.removeListener(pageScrollListener);
+    super.dispose();
   }
 
   /// We check the component availability of the smiley category.
@@ -144,9 +153,16 @@ class EmojiPageState extends State<EmojiPage> {
         getAvailableSymbols(),
         getAvailableFlags()
       ]).then((var value) {
-        if (emojiGridStateKey.currentState != null) {
-          emojiGridStateKey.currentState!
+        if (smileyStateKey.currentState != null) {
+          smileyStateKey.currentState!
               .forceUpdate(smileys, availableSmileys);
+        }
+        if (recentStateKey.currentState != null) {
+          // We know that all the emojis in 'recent' have been used before.
+          // So we generate a list of 'true' values for the 'recent' emojis.
+          List<bool> recentAvailable = List.filled(widget.recent.length, true, growable: false);
+          recentStateKey.currentState!
+              .forceUpdate(widget.recent, recentAvailable);
         }
       });
     } else {
@@ -238,56 +254,67 @@ class EmojiPageState extends State<EmojiPage> {
   @override
   Widget build(BuildContext context) {
     // Here we build the emoji page. We have 8 categories and a recent tab for a total of 9 pages
+    double emojiSize = MediaQuery.of(context).size.width / 8;
     return SizedBox(
       height: widget.emojiKeyboardHeight - 50,
       child: PageView(controller: pageController, children: [
         EmojiGrid(
+            key: recentStateKey,
             emojis: widget.recent,
             emojiScrollShowBottomBar: widget.emojiScrollShowBottomBar,
             categoryIndicator: 0,
-            insertText: widget.insertText),
+            insertText: widget.insertText,
+            emojiSize: emojiSize),
         EmojiGrid(
-            key: emojiGridStateKey,
+            key: smileyStateKey,
             emojis: smileys,
             emojiScrollShowBottomBar: widget.emojiScrollShowBottomBar,
             categoryIndicator: 1,
             insertText: widget.insertText,
+            emojiSize: emojiSize,
             available: availableSmileys),
         EmojiGrid(
             emojis: animals,
             emojiScrollShowBottomBar: widget.emojiScrollShowBottomBar,
             categoryIndicator: 2,
-            insertText: widget.insertText),
+            insertText: widget.insertText,
+            emojiSize: emojiSize),
         EmojiGrid(
             emojis: foods,
             emojiScrollShowBottomBar: widget.emojiScrollShowBottomBar,
             categoryIndicator: 3,
-            insertText: widget.insertText),
+            insertText: widget.insertText,
+            emojiSize: emojiSize),
         EmojiGrid(
             emojis: activities,
             emojiScrollShowBottomBar: widget.emojiScrollShowBottomBar,
             categoryIndicator: 4,
-            insertText: widget.insertText),
+            insertText: widget.insertText,
+            emojiSize: emojiSize),
         EmojiGrid(
             emojis: travel,
             emojiScrollShowBottomBar: widget.emojiScrollShowBottomBar,
             categoryIndicator: 5,
-            insertText: widget.insertText),
+            insertText: widget.insertText,
+            emojiSize: emojiSize),
         EmojiGrid(
             emojis: objects,
             emojiScrollShowBottomBar: widget.emojiScrollShowBottomBar,
             categoryIndicator: 6,
-            insertText: widget.insertText),
+            insertText: widget.insertText,
+            emojiSize: emojiSize),
         EmojiGrid(
             emojis: symbols,
             emojiScrollShowBottomBar: widget.emojiScrollShowBottomBar,
             categoryIndicator: 7,
-            insertText: widget.insertText),
+            insertText: widget.insertText,
+            emojiSize: emojiSize),
         EmojiGrid(
             emojis: flags,
             emojiScrollShowBottomBar: widget.emojiScrollShowBottomBar,
             categoryIndicator: 8,
-            insertText: widget.insertText)
+            insertText: widget.insertText,
+            emojiSize: emojiSize)
       ]),
     );
   }

@@ -1,3 +1,17 @@
+## [1.6.0] 22-02-2025
+
+Reworked how the emojis are shown, they appear slightly bigger in the grid. There is also a 
+more prominent ripple when the user clicks on an emoji.
+Changed the drawing of the keyboard to include the bottom notch. This will allow the emojis to be 
+visible and clickable in this area. The bottom bar, when visible, will be drawn above this notch.
+Added tablet support. For tablets the default amount on a emoji row is 16 to make use of the larger 
+size of the tablet. When using landscape mode the amount of emojis on a row will be 32.
+Restructured some of the old code, removed some variable placements and usages for a more clean
+and understandable codebase.
+The `back_button_interceptor` and `path` dependencies are removed from this plugin. These are no 
+longer used. For the `sqflite` dependency The version is loosened up. The most recent version of 
+this package is recommended but lower versions should have been allowed.
+
 ## [1.5.3] 25-01-2025
 
 Applied dart formatting

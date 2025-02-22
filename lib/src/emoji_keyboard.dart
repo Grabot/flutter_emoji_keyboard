@@ -3,7 +3,6 @@ import 'package:emoji_keyboard_flutter/src/util/emoji.dart';
 import 'package:emoji_keyboard_flutter/src/util/storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:back_button_interceptor/back_button_interceptor.dart';
 import 'bottom_bar.dart';
 import 'category_bar.dart';
 import 'emoji_page.dart';
@@ -55,7 +54,6 @@ class EmojiBoard extends State<EmojiKeyboard> {
 
   FocusNode focusSearchEmoji = FocusNode();
 
-  final TextEditingController searchController = TextEditingController();
   List<String> searchedEmojis = [];
 
   late TextSelection rememberPosition;
@@ -83,13 +81,10 @@ class EmojiBoard extends State<EmojiKeyboard> {
         recent = emojis;
         recent.sort((a, b) => b.amount.compareTo(a.amount));
         recentEmojis = recent.map((emote) => emote.emoji).toList();
-
-        if (mounted) {
-          setState(() {});
-        }
+        setState(() {});
       }
 
-      if (recent.isEmpty) {
+      if (recentEmojis.isEmpty) {
         categoryHandler(1);
         switchedPage(1);
       } else {
@@ -98,42 +93,12 @@ class EmojiBoard extends State<EmojiKeyboard> {
       }
     });
 
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (MediaQuery.of(context).viewInsets.bottom == 0) {
-        if (searchMode) {
-          searchMode = false;
-          Future.delayed(const Duration(milliseconds: 100), () {
-            setState(() {});
-          });
-        }
-      }
-    });
-
-    BackButtonInterceptor.add(myInterceptor);
-
     super.initState();
-  }
-
-  /// We intercept any back button trigger. If the user has the emoji keyboard
-  /// open it will first override the back functionality by just hiding the
-  /// emoji keyboard first. If the back button is called again the normal
-  /// back functionality will apply.
-  bool myInterceptor(bool stopDefaultButtonEvent, RouteInfo info) {
-    if (searchMode) {
-      searchMode = false;
-      Future.delayed(const Duration(milliseconds: 100), () {
-        setState(() {});
-      });
-      return true;
-    } else {
-      return false;
-    }
   }
 
   @override
   void dispose() {
     focusSearchEmoji.dispose();
-    BackButtonInterceptor.remove(myInterceptor);
     super.dispose();
   }
 
@@ -360,14 +325,12 @@ class EmojiBoard extends State<EmojiKeyboard> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      bottom: true,
-      child: Column(mainAxisSize: MainAxisSize.min, children: [
+    return Column(mainAxisSize: MainAxisSize.min, children: [
         Container(
           height: widget.showEmojiKeyboard && !searchMode
               ? isPortrait()
                   ? emojiKeyboardHeight
-                  : 150
+                  : (emojiKeyboardHeight / 3) * 2
               : 0,
           color: darkMode ? Color(0xff373737) : Color(0xffc5c5c5),
           child: Column(children: [
@@ -378,7 +341,7 @@ class EmojiBoard extends State<EmojiKeyboard> {
             Stack(children: [
               EmojiPage(
                   key: emojiPageStateKey,
-                  emojiKeyboardHeight: isPortrait() ? emojiKeyboardHeight : 150,
+                  emojiKeyboardHeight: isPortrait() ? emojiKeyboardHeight : (emojiKeyboardHeight / 3) * 2,
                   emojiController: emojiController!,
                   emojiScrollShowBottomBar: emojiScrollShowBottomBar,
                   insertText: insertText,
@@ -400,25 +363,43 @@ class EmojiBoard extends State<EmojiKeyboard> {
                   children: [
                     SizedBox(
                       height: isPortrait()
-                          ? MediaQuery.of(context).size.width / 8
+                          ? (MediaQuery.of(context).size.width / 8)
                           : 50,
                       child: ListView.builder(
                         scrollDirection: Axis.horizontal,
                         itemCount: searchedEmojis.length,
                         itemBuilder: (context, index) {
-                          return TextButton(
-                              onPressed: () {
+                          return new Material(
+                            child: new InkWell(
+                              splashColor: Color(0xff898989),
+                              onTap: () {
                                 insertTextSearch(searchedEmojis[index]);
                               },
-                              child: FittedBox(
-                                fit: BoxFit.fitWidth,
-                                child: Text(searchedEmojis[index],
-                                    style: TextStyle(fontSize: 50)),
-                              ));
+                              child: new Container(
+                                padding: EdgeInsets.all(4),
+                                child: FittedBox(
+                                  fit: BoxFit.fitWidth,
+                                  child: Text(searchedEmojis[index],
+                                      style: TextStyle(fontSize: 50)),
+                                )
+                              ),
+                            ),
+                            color: Colors.transparent,
+                          );
+                          // return TextButton(
+                          //     onPressed: () {
+                          //       insertTextSearch(searchedEmojis[index]);
+                          //     },
+                          //     child: FittedBox(
+                          //       fit: BoxFit.fitWidth,
+                          //       child: Text(searchedEmojis[index],
+                          //           style: TextStyle(fontSize: 50)),
+                          //     ));
                         },
                       ),
                     ),
-                    Row(children: [
+                    Row(
+                        children: [
                       IconButton(
                         icon: Icon(Icons.arrow_back),
                         color: Colors.grey.shade600,
@@ -442,12 +423,16 @@ class EmojiBoard extends State<EmojiKeyboard> {
                                 errorBorder: InputBorder.none,
                                 disabledBorder: InputBorder.none)),
                       ),
-                    ]),
+                    ]
+                    ),
+                    SizedBox(
+                      height: MediaQuery.of(context).padding.bottom,
+                    )
                   ],
                 ),
               )
             : Container(),
-      ]),
+      ]
     );
   }
 }

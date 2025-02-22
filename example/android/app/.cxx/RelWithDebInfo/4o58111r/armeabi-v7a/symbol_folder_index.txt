@@ -1,0 +1,1 @@
+/home/zwaar/ZwaarProjects/bro_cast/flutter_emoji_keyboard/example/build/app/intermediates/cxx/RelWithDebInfo/4o58111r/obj/armeabi-v7a

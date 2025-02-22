@@ -1,7 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:back_button_interceptor/back_button_interceptor.dart';
 
 const Duration _kMenuDuration = Duration(milliseconds: 300);
 const double _kMenuCloseIntervalEnd = 2.0 / 3.0;
@@ -464,32 +463,12 @@ class ComponentDetailPopup extends PopupMenuEntry<int> {
 }
 
 class ComponentDetailPopupState extends State<ComponentDetailPopup> {
-  ScrollController scrollPopupController = ScrollController();
-
-  @override
-  void initState() {
-    BackButtonInterceptor.add(myInterceptor);
-
-    super.initState();
-  }
-
-  bool myInterceptor(bool stopDefaultButtonEvent, RouteInfo info) {
-    Navigator.of(context).pop();
-    return true;
-  }
-
-  @override
-  void dispose() {
-    BackButtonInterceptor.remove(myInterceptor);
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
     return Container(
         color: Colors.grey,
         child: GridView.builder(
-            controller: scrollPopupController,
             shrinkWrap: true,
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 6,
@@ -500,16 +479,24 @@ class ComponentDetailPopupState extends State<ComponentDetailPopup> {
                 height: MediaQuery.of(context).size.width / 8,
                 width: MediaQuery.of(context).size.width / 8,
                 color: Colors.grey,
-                child: TextButton(
-                    onPressed: () {
+                child: new Material(
+                  child: new InkWell(
+                    splashColor: Color(0xff898989),
+                    onTap: () {
                       buttonClickedComponent(
                           widget.components[index], widget.addNewComponent);
                     },
-                    child: FittedBox(
-                      fit: BoxFit.fitWidth,
-                      child: Text(widget.components[index],
-                          style: TextStyle(fontSize: 50)),
-                    )),
+                    child: new Container(
+                      padding: EdgeInsets.all(4),
+                        child: FittedBox(
+                          fit: BoxFit.fitWidth,
+                          child: Text(widget.components[index],
+                              style: TextStyle(fontSize: 50)),
+                        ),
+                    ),
+                  ),
+                  color: Colors.transparent,
+                ),
               );
             }));
   }
