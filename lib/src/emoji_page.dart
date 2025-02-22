@@ -46,10 +46,8 @@ class EmojiPageState extends State<EmojiPage> {
   static const platform = MethodChannel("nl.emojikeyboard.emoji/available");
   static String recentEmojisKey = "recentEmojis";
 
-  final GlobalKey<EmojiGridState> smileyStateKey =
-      GlobalKey<EmojiGridState>();
-  final GlobalKey<EmojiGridState> recentStateKey =
-  GlobalKey<EmojiGridState>();
+  final GlobalKey<EmojiGridState> smileyStateKey = GlobalKey<EmojiGridState>();
+  final GlobalKey<EmojiGridState> recentStateKey = GlobalKey<EmojiGridState>();
 
   List smileys = [];
   List animals = [];
@@ -154,13 +152,13 @@ class EmojiPageState extends State<EmojiPage> {
         getAvailableFlags()
       ]).then((var value) {
         if (smileyStateKey.currentState != null) {
-          smileyStateKey.currentState!
-              .forceUpdate(smileys, availableSmileys);
+          smileyStateKey.currentState!.forceUpdate(smileys, availableSmileys);
         }
         if (recentStateKey.currentState != null) {
           // We know that all the emojis in 'recent' have been used before.
           // So we generate a list of 'true' values for the 'recent' emojis.
-          List<bool> recentAvailable = List.filled(widget.recent.length, true, growable: false);
+          List<bool> recentAvailable =
+              List.filled(widget.recent.length, true, growable: false);
           recentStateKey.currentState!
               .forceUpdate(widget.recent, recentAvailable);
         }

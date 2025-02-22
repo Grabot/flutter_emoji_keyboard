@@ -1,3 +1,7 @@
+## [1.6.2] 22-02-2025
+
+Applied consistent dart formatting to the project.
+
 ## [1.6.1] 22-02-2025
 
 Fixed some issue with context loading.

@@ -462,7 +462,6 @@ class ComponentDetailPopup extends PopupMenuEntry<int> {
 }
 
 class ComponentDetailPopupState extends State<ComponentDetailPopup> {
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -488,11 +487,11 @@ class ComponentDetailPopupState extends State<ComponentDetailPopup> {
                     },
                     child: Container(
                       padding: EdgeInsets.all(4),
-                        child: FittedBox(
-                          fit: BoxFit.fitWidth,
-                          child: Text(widget.components[index],
-                              style: TextStyle(fontSize: 50)),
-                        ),
+                      child: FittedBox(
+                        fit: BoxFit.fitWidth,
+                        child: Text(widget.components[index],
+                            style: TextStyle(fontSize: 50)),
+                      ),
                     ),
                   ),
                 ),

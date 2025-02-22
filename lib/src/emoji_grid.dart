@@ -61,7 +61,8 @@ class EmojiGridState extends State<EmojiGrid> {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       navigator = Navigator.of(context, rootNavigator: false);
       barrierLabel = MaterialLocalizations.of(context).modalBarrierDismissLabel;
-      capturedThemes = InheritedTheme.capture(from: context, to: navigator!.context);
+      capturedThemes =
+          InheritedTheme.capture(from: context, to: navigator!.context);
     });
 
     super.initState();
@@ -128,7 +129,9 @@ class EmojiGridState extends State<EmojiGrid> {
 
     bool isTablet() {
       final display = PlatformDispatcher.instance.views.first.display;
-      return display.size.shortestSide / display.devicePixelRatio < 600 ? false : true;
+      return display.size.shortestSide / display.devicePixelRatio < 600
+          ? false
+          : true;
     }
 
     int getEmojiWidthCount() {
@@ -178,7 +181,8 @@ class EmojiGridState extends State<EmojiGrid> {
                     padding: EdgeInsets.all(4),
                     child: FittedBox(
                       fit: BoxFit.fitWidth,
-                      child: Text(emojis![index], style: TextStyle(fontSize: 500)),
+                      child:
+                          Text(emojis![index], style: TextStyle(fontSize: 500)),
                     ),
                   ),
                 ),

@@ -134,44 +134,48 @@ class BottomBarState extends State<BottomBar> {
         left: 0.0,
         child: AnimatedContainer(
           curve: Curves.fastOutSlowIn,
-          height: showBottomBar ? (bottomBarHeight + MediaQuery.of(context).padding.bottom) : 0,
+          height: showBottomBar
+              ? (bottomBarHeight + MediaQuery.of(context).padding.bottom)
+              : 0,
           width: MediaQuery.of(context).size.width,
           duration: Duration(seconds: 1),
           child: Container(
             color: widget.darkMode ? Color(0xff171717) : Color(0xffdbdbdb),
             alignment: Alignment.topCenter,
-            child: showBottomBar ? SizedBox(
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  SizedBox(
-                      width: (MediaQuery.of(context).size.width / 8) * 2,
-                      height: MediaQuery.of(context).size.width / 8,
-                      child: TextButton(
-                          onPressed: () {
-                            widget.emojiSearch();
-                          },
-                          child: Icon(Icons.search))),
-                  SizedBox(
-                      width: (MediaQuery.of(context).size.width / 8) * 3,
-                      height: MediaQuery.of(context).size.width / 8,
-                      child: TextButton(
-                          onPressed: () {
-                            onSpacebar();
-                          },
-                          child: Icon(Icons.space_bar))),
-                  SizedBox(
-                      width: (MediaQuery.of(context).size.width / 8) * 2,
-                      height: MediaQuery.of(context).size.width / 8,
-                      child: TextButton(
-                          onPressed: () {
-                            onBackspace();
-                          },
-                          child: Icon(Icons.backspace)))
-                ],
-              ),
-            ) : Container(),
+            child: showBottomBar
+                ? SizedBox(
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        SizedBox(
+                            width: (MediaQuery.of(context).size.width / 8) * 2,
+                            height: MediaQuery.of(context).size.width / 8,
+                            child: TextButton(
+                                onPressed: () {
+                                  widget.emojiSearch();
+                                },
+                                child: Icon(Icons.search))),
+                        SizedBox(
+                            width: (MediaQuery.of(context).size.width / 8) * 3,
+                            height: MediaQuery.of(context).size.width / 8,
+                            child: TextButton(
+                                onPressed: () {
+                                  onSpacebar();
+                                },
+                                child: Icon(Icons.space_bar))),
+                        SizedBox(
+                            width: (MediaQuery.of(context).size.width / 8) * 2,
+                            height: MediaQuery.of(context).size.width / 8,
+                            child: TextButton(
+                                onPressed: () {
+                                  onBackspace();
+                                },
+                                child: Icon(Icons.backspace)))
+                      ],
+                    ),
+                  )
+                : Container(),
           ),
         ));
   }
