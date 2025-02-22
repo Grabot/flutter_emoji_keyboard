@@ -8,9 +8,9 @@ Added tablet support. For tablets the default amount on a emoji row is 16 to mak
 size of the tablet. When using landscape mode the amount of emojis on a row will be 32.
 Restructured some of the old code, removed some variable placements and usages for a more clean
 and understandable codebase.
-The `back_button_interceptor` and `path` dependencies are removed from this plugin. These are no 
-longer used. For the `sqflite` dependency The version is loosened up. The most recent version of 
-this package is recommended but lower versions should have been allowed.
+The `back_button_interceptor` dependency is removed from this plugin. This is no longer used. For 
+the `sqflite` and `path` dependencies The versions are loosened up. The most recent version of 
+these package is recommended but lower versions should have been allowed.
 
 ## [1.5.3] 25-01-2025
 
