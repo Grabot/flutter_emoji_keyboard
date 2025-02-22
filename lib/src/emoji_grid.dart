@@ -57,9 +57,12 @@ class EmojiGridState extends State<EmojiGrid> {
 
     scrollController.addListener(keyboardScrollListener);
 
-    navigator = Navigator.of(context, rootNavigator: false);
-    barrierLabel = MaterialLocalizations.of(context).modalBarrierDismissLabel;
-    capturedThemes = InheritedTheme.capture(from: context, to: navigator!.context);
+    // Wait until the widget is loaded and then initialize the navigator
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      navigator = Navigator.of(context, rootNavigator: false);
+      barrierLabel = MaterialLocalizations.of(context).modalBarrierDismissLabel;
+      capturedThemes = InheritedTheme.capture(from: context, to: navigator!.context);
+    });
 
     super.initState();
   }

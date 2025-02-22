@@ -1,3 +1,7 @@
+## [1.6.1] 22-02-2025
+
+Fixed some issue with context loading.
+
 ## [1.6.0] 22-02-2025
 
 Reworked how the emojis are shown, they appear slightly bigger in the grid. There is also a 
