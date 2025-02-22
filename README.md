@@ -6,6 +6,21 @@ A Flutter package that provides a keyboard where you can only type with emojis!
 
 It's a keyboard the way you expect it and more! But with less letters and only emojis.
 
+<style>
+table th:first-of-type {
+    width: 25%;
+}
+table th:nth-of-type(2) {
+    width: 25%;
+}
+table th:nth-of-type(3) {
+    width: 25%;
+}
+table th:nth-of-type(4) {
+    width: 25%;
+}
+</style>
+
 | Emoji selection | Skin selection | Search option | recent emojis |
 |-----------------|----------------|---------------|---------------|
 | ![random_emoji_selection.png](https://github.com/Grabot/flutter_emoji_keyboard/blob/b660c6c3fe9e089c243c062f2abec3d181515899/flutter_emoji_keyboard_screens/random_emoji_selection.png?raw=true)    | ![skin_selection.png](https://github.com/Grabot/flutter_emoji_keyboard/blob/b660c6c3fe9e089c243c062f2abec3d181515899/flutter_emoji_keyboard_screens/skin_selection.png?raw=true)   | ![search_options.png](https://github.com/Grabot/flutter_emoji_keyboard/blob/b660c6c3fe9e089c243c062f2abec3d181515899/flutter_emoji_keyboard_screens/search_options.png?raw=true)  | ![recent_page.png](https://github.com/Grabot/flutter_emoji_keyboard/blob/b660c6c3fe9e089c243c062f2abec3d181515899/flutter_emoji_keyboard_screens/recent_page.png?raw=true)  |
