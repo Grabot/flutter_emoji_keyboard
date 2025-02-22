@@ -6,9 +6,12 @@ A Flutter package that provides a keyboard where you can only type with emojis!
 
 It's a keyboard the way you expect it and more! But with less letters and only emojis.
 
-|Emoji selection|Skin selection|Search option|Recent emojis|
-|---|----|-------|--|
-|<img src="https://github.com/Grabot/flutter_emoji_keyboard/blob/b660c6c3fe9e089c243c062f2abec3d181515899/flutter_emoji_keyboard_screens/random_emoji_selection.png?raw=true" alt="Emoji selection" width="20%">|<img src="https://github.com/Grabot/flutter_emoji_keyboard/blob/b660c6c3fe9e089c243c062f2abec3d181515899/flutter_emoji_keyboard_screens/skin_selection.png?raw=true" alt="Skin selection" width="20%">|<img src="https://github.com/Grabot/flutter_emoji_keyboard/blob/b660c6c3fe9e089c243c062f2abec3d181515899/flutter_emoji_keyboard_screens/search_options.png?raw=true" alt="Search option" width="20%">|<img src="https://github.com/Grabot/flutter_emoji_keyboard/blob/b660c6c3fe9e089c243c062f2abec3d181515899/flutter_emoji_keyboard_screens/recent_page.png?raw=true" alt="Recent emojis" width="20%">|
+| Emoji selection                                                                                                                                                                                                 |Skin selection|Search option|Recent emojis|
+|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----|-------|--|
+| <img src="https://github.com/Grabot/flutter_emoji_keyboard/blob/b660c6c3fe9e089c243c062f2abec3d181515899/flutter_emoji_keyboard_screens/random_emoji_selection.png?raw=true" alt="Emoji selection" width="90%"> 
+| <img src="https://github.com/Grabot/flutter_emoji_keyboard/blob/b660c6c3fe9e089c243c062f2abec3d181515899/flutter_emoji_keyboard_screens/skin_selection.png?raw=true" alt="Skin selection" width="90%">          
+| <img src="https://github.com/Grabot/flutter_emoji_keyboard/blob/b660c6c3fe9e089c243c062f2abec3d181515899/flutter_emoji_keyboard_screens/search_options.png?raw=true" alt="Search option" width="90%">           
+| <img src="https://github.com/Grabot/flutter_emoji_keyboard/blob/b660c6c3fe9e089c243c062f2abec3d181515899/flutter_emoji_keyboard_screens/recent_page.png?raw=true" alt="Recent emojis" width="90%">              |
 
 
 ## Key features
