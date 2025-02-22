@@ -6,11 +6,10 @@ A Flutter package that provides a keyboard where you can only type with emojis!
 
 It's a keyboard the way you expect it and more! But with less letters and only emojis.
 
+| Emoji selection | Skin selection | Search option | recent emojis |
+|-----------------|----------------|---------------|---------------|
+| ![random_emoji_selection.png](https://github.com/Grabot/flutter_emoji_keyboard/blob/b660c6c3fe9e089c243c062f2abec3d181515899/flutter_emoji_keyboard_screens/random_emoji_selection.png?raw=true)    | ![skin_selection.png](https://github.com/Grabot/flutter_emoji_keyboard/blob/b660c6c3fe9e089c243c062f2abec3d181515899/flutter_emoji_keyboard_screens/skin_selection.png?raw=true)   | ![search_options.png](https://github.com/Grabot/flutter_emoji_keyboard/blob/b660c6c3fe9e089c243c062f2abec3d181515899/flutter_emoji_keyboard_screens/search_options.png?raw=true)  | ![recent_page.png](https://github.com/Grabot/flutter_emoji_keyboard/blob/b660c6c3fe9e089c243c062f2abec3d181515899/flutter_emoji_keyboard_screens/recent_page.png?raw=true)  |
 
-![random_emoji_selection.png](flutter_emoji_keyboard_screens/random_emoji_selection.png)
-![skin_selection.png](flutter_emoji_keyboard_screens/skin_selection.png)
-![search_options.png](flutter_emoji_keyboard_screens/search_options.png)
-![recent_page.png](flutter_emoji_keyboard_screens/recent_page.png)
 
 ## Key features
 
@@ -30,7 +29,7 @@ The emojis have an indicator which shows if you can add a skin component to them
 
 Change the default light setting to dark mode
 
-![dark_mode.png](flutter_emoji_keyboard_screens/dark_mode.png)
+![dark_mode.png](https://raw.githubusercontent.com/Grabot/flutter_emoji_keyboard/b660c6c3fe9e089c243c062f2abec3d181515899/flutter_emoji_keyboard_screens/dark_mode.png)
 
 ## Usage
 To use this plugin, add `emoji_keyboard_flutter` as dependency in your pubspec.yaml file.
