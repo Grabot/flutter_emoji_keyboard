@@ -412,11 +412,13 @@ class _PopupMenuRoute<T> extends PopupRoute<T> {
 ///  * [SemanticsConfiguration.namesRoute], for a description of edge triggered
 ///    semantics.
 Future<T?> showMenuOverride<T>({
-  required BuildContext context,
   required RelativeRect position,
   required List<PopupMenuEntry<T>> items,
   required double widthPopup,
   required double heightPopup,
+  required NavigatorState navigator,
+  required String barrierLabel,
+  required CapturedThemes capturedThemes,
   T? initialValue,
   double? elevation,
   String? semanticLabel,
@@ -424,21 +426,18 @@ Future<T?> showMenuOverride<T>({
   Color? color,
   bool useRootNavigator = false,
 }) {
-  final NavigatorState navigator =
-      Navigator.of(context, rootNavigator: useRootNavigator);
   return navigator.push(_PopupMenuRoute<T>(
     position: position,
     items: items,
     initialValue: initialValue,
     elevation: elevation,
     semanticLabel: semanticLabel,
-    barrierLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel,
+    barrierLabel: barrierLabel,
     shape: shape,
     color: color,
     widthPopup: widthPopup,
     heightPopup: heightPopup,
-    capturedThemes:
-        InheritedTheme.capture(from: context, to: navigator.context),
+    capturedThemes: capturedThemes,
   ));
 }
 
@@ -479,14 +478,15 @@ class ComponentDetailPopupState extends State<ComponentDetailPopup> {
                 height: MediaQuery.of(context).size.width / 8,
                 width: MediaQuery.of(context).size.width / 8,
                 color: Colors.grey,
-                child: new Material(
-                  child: new InkWell(
+                child: Material(
+                  color: Colors.transparent,
+                  child: InkWell(
                     splashColor: Color(0xff898989),
                     onTap: () {
                       buttonClickedComponent(
                           widget.components[index], widget.addNewComponent);
                     },
-                    child: new Container(
+                    child: Container(
                       padding: EdgeInsets.all(4),
                         child: FittedBox(
                           fit: BoxFit.fitWidth,
@@ -495,7 +495,6 @@ class ComponentDetailPopupState extends State<ComponentDetailPopup> {
                         ),
                     ),
                   ),
-                  color: Colors.transparent,
                 ),
               );
             }));

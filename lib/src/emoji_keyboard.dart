@@ -369,13 +369,14 @@ class EmojiBoard extends State<EmojiKeyboard> {
                         scrollDirection: Axis.horizontal,
                         itemCount: searchedEmojis.length,
                         itemBuilder: (context, index) {
-                          return new Material(
-                            child: new InkWell(
+                          return Material(
+                            color: Colors.transparent,
+                            child: InkWell(
                               splashColor: Color(0xff898989),
                               onTap: () {
                                 insertTextSearch(searchedEmojis[index]);
                               },
-                              child: new Container(
+                              child: Container(
                                 padding: EdgeInsets.all(4),
                                 child: FittedBox(
                                   fit: BoxFit.fitWidth,
@@ -384,7 +385,6 @@ class EmojiBoard extends State<EmojiKeyboard> {
                                 )
                               ),
                             ),
-                            color: Colors.transparent,
                           );
                           // return TextButton(
                           //     onPressed: () {

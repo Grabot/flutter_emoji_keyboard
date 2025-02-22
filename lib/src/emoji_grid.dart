@@ -44,6 +44,10 @@ class EmojiGridState extends State<EmojiGrid> {
 
   List<bool> available = [];
 
+  NavigatorState? navigator;
+  String barrierLabel = "";
+  CapturedThemes? capturedThemes;
+
   @override
   void initState() {
     emojis = widget.emojis;
@@ -52,6 +56,11 @@ class EmojiGridState extends State<EmojiGrid> {
     }
 
     scrollController.addListener(keyboardScrollListener);
+
+    navigator = Navigator.of(context, rootNavigator: false);
+    barrierLabel = MaterialLocalizations.of(context).modalBarrierDismissLabel;
+    capturedThemes = InheritedTheme.capture(from: context, to: navigator!.context);
+
     super.initState();
   }
 
@@ -148,8 +157,10 @@ class EmojiGridState extends State<EmojiGrid> {
             foregroundPainter:
                 hasComponent(emojis![index], index) ? BorderPainter() : null,
             child: Container(
-              child: new Material(
-                child: new InkWell(
+              color: Colors.transparent,
+              child: Material(
+                color: Colors.transparent,
+                child: InkWell(
                   splashColor: Color(0xff898989),
                   onTap: () {
                     pressedEmoji(emojis![index]);
@@ -159,7 +170,7 @@ class EmojiGridState extends State<EmojiGrid> {
                       _showPopupMenu(keys[index], emojis![index]);
                     }
                   },
-                  child: new Container(
+                  child: Container(
                     key: keys[index],
                     padding: EdgeInsets.all(4),
                     child: FittedBox(
@@ -168,9 +179,7 @@ class EmojiGridState extends State<EmojiGrid> {
                     ),
                   ),
                 ),
-                color: Colors.transparent,
               ),
-              color: Colors.transparent,
             ),
           );
         });
@@ -245,20 +254,24 @@ class EmojiGridState extends State<EmojiGrid> {
         xPos + (emojiWidth * 3) + (emojiWidth / 2),
         yPos);
 
-    showMenuOverride(
-      context: context,
-      position: popupPosition,
-      widthPopup: widthPopup,
-      heightPopup: heightPopup,
-      items: [
-        ComponentDetailPopup(
-            key: UniqueKey(),
-            components: finalComponents,
-            addNewComponent: addNewComponent)
-      ],
-    ).then((value) {
-      return;
-    });
+    if (navigator != null && capturedThemes != null) {
+      showMenuOverride(
+        position: popupPosition,
+        widthPopup: widthPopup,
+        heightPopup: heightPopup,
+        navigator: navigator!,
+        barrierLabel: barrierLabel,
+        capturedThemes: capturedThemes!,
+        items: [
+          ComponentDetailPopup(
+              key: UniqueKey(),
+              components: finalComponents,
+              addNewComponent: addNewComponent)
+        ],
+      ).then((value) {
+        return;
+      });
+    }
   }
 
   addNewComponent(String emojiComponent) {
