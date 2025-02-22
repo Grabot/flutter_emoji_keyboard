@@ -6,9 +6,9 @@ A Flutter package that provides a keyboard where you can only type with emojis!
 
 It's a keyboard the way you expect it and more! But with less letters and only emojis.
 
-|<div style="width:20%">Emoji selection</div>|<div style="width:20%">Skin selection</div>|<div style="width:20%">Search option</div>|<div style="width:20%">Recent emojis</div>|
-|-----------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-|<div style="width:20%">![random_emoji_selection.png](https://github.com/Grabot/flutter_emoji_keyboard/blob/b660c6c3fe9e089c243c062f2abec3d181515899/flutter_emoji_keyboard_screens/random_emoji_selection.png?raw=true)</div>|<div style="width:20%">![skin_selection.png](https://github.com/Grabot/flutter_emoji_keyboard/blob/b660c6c3fe9e089c243c062f2abec3d181515899/flutter_emoji_keyboard_screens/skin_selection.png?raw=true)</div>|<div style="width:20%">![search_options.png](https://github.com/Grabot/flutter_emoji_keyboard/blob/b660c6c3fe9e089c243c062f2abec3d181515899/flutter_emoji_keyboard_screens/search_options.png?raw=true)</div>|<div style="width:20%">![recent_page.png](https://github.com/Grabot/flutter_emoji_keyboard/blob/b660c6c3fe9e089c243c062f2abec3d181515899/flutter_emoji_keyboard_screens/recent_page.png?raw=true)</div>|
+|Emoji selection|Skin selection|Search option|Recent emojis|
+|---|----|-------|--|
+|<img src="https://github.com/Grabot/flutter_emoji_keyboard/blob/b660c6c3fe9e089c243c062f2abec3d181515899/flutter_emoji_keyboard_screens/random_emoji_selection.png?raw=true" alt="Emoji selection" width="20%">|<img src="https://github.com/Grabot/flutter_emoji_keyboard/blob/b660c6c3fe9e089c243c062f2abec3d181515899/flutter_emoji_keyboard_screens/skin_selection.png?raw=true" alt="Skin selection" width="20%">|<img src="https://github.com/Grabot/flutter_emoji_keyboard/blob/b660c6c3fe9e089c243c062f2abec3d181515899/flutter_emoji_keyboard_screens/search_options.png?raw=true" alt="Search option" width="20%">|<img src="https://github.com/Grabot/flutter_emoji_keyboard/blob/b660c6c3fe9e089c243c062f2abec3d181515899/flutter_emoji_keyboard_screens/recent_page.png?raw=true" alt="Recent emojis" width="20%">|
 
 
 ## Key features
@@ -29,7 +29,7 @@ The emojis have an indicator which shows if you can add a skin component to them
 
 Change the default light setting to dark mode
 
-<img src="https://raw.githubusercontent.com/Grabot/flutter_emoji_keyboard/b660c6c3fe9e089c243c062f2abec3d181515899/flutter_emoji_keyboard_screens/dark_mode.png" alt="Alt Text" width="250">
+<img src="https://raw.githubusercontent.com/Grabot/flutter_emoji_keyboard/b660c6c3fe9e089c243c062f2abec3d181515899/flutter_emoji_keyboard_screens/dark_mode.png" alt="Alt Text" width="250px">
 
 ## Usage
 To use this plugin, add `emoji_keyboard_flutter` as dependency in your pubspec.yaml file.
