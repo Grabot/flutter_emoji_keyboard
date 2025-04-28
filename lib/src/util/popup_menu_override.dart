@@ -322,7 +322,9 @@ class _PopupMenuRoute<T> extends PopupRoute<T> {
       for (int index = 0;
           selectedItemIndex == null && index < items.length;
           index += 1) {
-        if (items[index].represents(initialValue)) selectedItemIndex = index;
+        if (items[index].represents(initialValue)) {
+          selectedItemIndex = index;
+        }
       }
     }
 
@@ -499,7 +501,7 @@ class ComponentDetailPopupState extends State<ComponentDetailPopup> {
             }));
   }
 
-  void buttonClickedComponent(String emoji, addNewComponent) {
+  void buttonClickedComponent(String emoji, void Function(String) addNewComponent) {
     addNewComponent(emoji);
   }
 }
