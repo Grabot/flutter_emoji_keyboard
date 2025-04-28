@@ -6,8 +6,7 @@ class CategoryBar extends StatefulWidget {
   final void Function(int) categoryHandler;
   final bool darkMode;
 
-  const CategoryBar(
-      {Key? key, required this.categoryHandler, required this.darkMode})
+  const CategoryBar({Key? key, required this.categoryHandler, required this.darkMode})
       : super(key: key);
 
   @override

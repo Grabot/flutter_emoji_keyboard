@@ -117,14 +117,7 @@ List<List<dynamic>> symbolsList = [
   [
     '🔞',
     'no one under eighteen',
-    [
-      '18',
-      'age restriction',
-      'eighteen',
-      'no one under eighteen',
-      'prohibited',
-      'underage'
-    ]
+    ['18', 'age restriction', 'eighteen', 'no one under eighteen', 'prohibited', 'underage']
   ],
   [
     '☢',
@@ -214,13 +207,7 @@ List<List<dynamic>> symbolsList = [
   [
     '🔄',
     'counterclockwise arrows button',
-    [
-      'anticlockwise',
-      'arrow',
-      'counterclockwise',
-      'counterclockwise arrows button',
-      'withershins'
-    ]
+    ['anticlockwise', 'arrow', 'counterclockwise', 'counterclockwise arrows button', 'withershins']
   ],
   [
     '🔙',
@@ -425,13 +412,7 @@ List<List<dynamic>> symbolsList = [
   [
     '⏮',
     'last track button',
-    [
-      'arrow',
-      'last track button',
-      'previous scene',
-      'previous track',
-      'triangle'
-    ]
+    ['arrow', 'last track button', 'previous scene', 'previous track', 'triangle']
   ],
   [
     '🔼',
@@ -561,16 +542,7 @@ List<List<dynamic>> symbolsList = [
   [
     '⁉',
     'exclamation question mark',
-    [
-      '!',
-      '!?',
-      '?',
-      'exclamation',
-      'interrobang',
-      'mark',
-      'punctuation',
-      'question'
-    ]
+    ['!', '!?', '?', 'exclamation', 'interrobang', 'mark', 'punctuation', 'question']
   ],
   [
     '❓',
@@ -585,14 +557,7 @@ List<List<dynamic>> symbolsList = [
   [
     '❕',
     'white exclamation mark',
-    [
-      '!',
-      'exclamation',
-      'mark',
-      'outlined',
-      'punctuation',
-      'white exclamation mark'
-    ]
+    ['!', 'exclamation', 'mark', 'outlined', 'punctuation', 'white exclamation mark']
   ],
   [
     '❗',
@@ -907,35 +872,17 @@ List<List<dynamic>> symbolsList = [
   [
     '🈂',
     'Japanese “service charge” button',
-    [
-      '“service charge”',
-      'Japanese',
-      'Japanese “service charge” button',
-      'katakana',
-      'サ'
-    ]
+    ['“service charge”', 'Japanese', 'Japanese “service charge” button', 'katakana', 'サ']
   ],
   [
     '🈷',
     'Japanese “monthly amount” button',
-    [
-      '“monthly amount”',
-      'ideograph',
-      'Japanese',
-      'Japanese “monthly amount” button',
-      '月'
-    ]
+    ['“monthly amount”', 'ideograph', 'Japanese', 'Japanese “monthly amount” button', '月']
   ],
   [
     '🈶',
     'Japanese “not free of charge” button',
-    [
-      '“not free of charge”',
-      'ideograph',
-      'Japanese',
-      'Japanese “not free of charge” button',
-      '有'
-    ]
+    ['“not free of charge”', 'ideograph', 'Japanese', 'Japanese “not free of charge” button', '有']
   ],
   [
     '🈯',
@@ -955,57 +902,27 @@ List<List<dynamic>> symbolsList = [
   [
     '🈚',
     'Japanese “free of charge” button',
-    [
-      '“free of charge”',
-      'ideograph',
-      'Japanese',
-      'Japanese “free of charge” button',
-      '無'
-    ]
+    ['“free of charge”', 'ideograph', 'Japanese', 'Japanese “free of charge” button', '無']
   ],
   [
     '🈲',
     'Japanese “prohibited” button',
-    [
-      '“prohibited”',
-      'ideograph',
-      'Japanese',
-      'Japanese “prohibited” button',
-      '禁'
-    ]
+    ['“prohibited”', 'ideograph', 'Japanese', 'Japanese “prohibited” button', '禁']
   ],
   [
     '🉑',
     'Japanese “acceptable” button',
-    [
-      '“acceptable”',
-      'ideograph',
-      'Japanese',
-      'Japanese “acceptable” button',
-      '可'
-    ]
+    ['“acceptable”', 'ideograph', 'Japanese', 'Japanese “acceptable” button', '可']
   ],
   [
     '🈸',
     'Japanese “application” button',
-    [
-      '“application”',
-      'ideograph',
-      'Japanese',
-      'Japanese “application” button',
-      '申'
-    ]
+    ['“application”', 'ideograph', 'Japanese', 'Japanese “application” button', '申']
   ],
   [
     '🈴',
     'Japanese “passing grade” button',
-    [
-      '“passing grade”',
-      'ideograph',
-      'Japanese',
-      'Japanese “passing grade” button',
-      '合'
-    ]
+    ['“passing grade”', 'ideograph', 'Japanese', 'Japanese “passing grade” button', '合']
   ],
   [
     '🈳',
@@ -1015,13 +932,7 @@ List<List<dynamic>> symbolsList = [
   [
     '㊗',
     'Japanese “congratulations” button',
-    [
-      '“congratulations”',
-      'ideograph',
-      'Japanese',
-      'Japanese “congratulations” button',
-      '祝'
-    ]
+    ['“congratulations”', 'ideograph', 'Japanese', 'Japanese “congratulations” button', '祝']
   ],
   [
     '㊙',
@@ -1031,24 +942,12 @@ List<List<dynamic>> symbolsList = [
   [
     '🈺',
     'Japanese “open for business” button',
-    [
-      '“open for business”',
-      'ideograph',
-      'Japanese',
-      'Japanese “open for business” button',
-      '営'
-    ]
+    ['“open for business”', 'ideograph', 'Japanese', 'Japanese “open for business” button', '営']
   ],
   [
     '🈵',
     'Japanese “no vacancy” button',
-    [
-      '“no vacancy”',
-      'ideograph',
-      'Japanese',
-      'Japanese “no vacancy” button',
-      '満'
-    ]
+    ['“no vacancy”', 'ideograph', 'Japanese', 'Japanese “no vacancy” button', '満']
   ],
   [
     '🔴',

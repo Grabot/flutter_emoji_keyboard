@@ -47,12 +47,9 @@ class EmojiBoard extends State<EmojiKeyboard> {
   /// (See MainActivity in the android project for the implementation)
   static const platform = MethodChannel("nl.emojikeyboard.emoji/available");
 
-  final GlobalKey<CategoryBarState> categoryBarStateKey =
-      GlobalKey<CategoryBarState>();
-  final GlobalKey<BottomBarState> bottomBarStateKey =
-      GlobalKey<BottomBarState>();
-  final GlobalKey<EmojiPageState> emojiPageStateKey =
-      GlobalKey<EmojiPageState>();
+  final GlobalKey<CategoryBarState> categoryBarStateKey = GlobalKey<CategoryBarState>();
+  final GlobalKey<BottomBarState> bottomBarStateKey = GlobalKey<BottomBarState>();
+  final GlobalKey<EmojiPageState> emojiPageStateKey = GlobalKey<EmojiPageState>();
 
   FocusNode focusSearchEmoji = FocusNode();
 
@@ -167,10 +164,9 @@ class EmojiBoard extends State<EmojiKeyboard> {
   /// It stops after 10 because more is not needed.
   void setInitialSearchEmojis() {
     List<SearchedEmoji> recommendedEmojis = [];
-    if (recentEmojis != <SearchedEmoji>[]) {
+    if (recentEmojis != <String>[]) {
       for (var recentEmoji in recentEmojis) {
-        recommendedEmojis
-            .add(SearchedEmoji(emoji: recentEmoji.toString(), tier: 1));
+        recommendedEmojis.add(SearchedEmoji(emoji: recentEmoji.toString(), tier: 1));
         if (recommendedEmojis.length >= 20) {
           break;
         }
@@ -359,15 +355,12 @@ class EmojiBoard extends State<EmojiKeyboard> {
         color: getKeyboardColour(),
         child: Column(children: [
           CategoryBar(
-              key: categoryBarStateKey,
-              categoryHandler: categoryHandler,
-              darkMode: darkMode),
+              key: categoryBarStateKey, categoryHandler: categoryHandler, darkMode: darkMode),
           Stack(children: [
             EmojiPage(
                 key: emojiPageStateKey,
-                emojiKeyboardHeight: isPortrait()
-                    ? emojiKeyboardHeight
-                    : (emojiKeyboardHeight / 3) * 2,
+                emojiKeyboardHeight:
+                    isPortrait() ? emojiKeyboardHeight : (emojiKeyboardHeight / 3) * 2,
                 emojiController: emojiController!,
                 emojiScrollShowBottomBar: emojiScrollShowBottomBar,
                 insertText: insertText,
@@ -388,9 +381,7 @@ class EmojiBoard extends State<EmojiKeyboard> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   SizedBox(
-                    height: isPortrait()
-                        ? (MediaQuery.of(context).size.width / 8)
-                        : 50,
+                    height: isPortrait() ? (MediaQuery.of(context).size.width / 8) : 50,
                     child: ListView.builder(
                       scrollDirection: Axis.horizontal,
                       itemCount: searchedEmojis.length,
@@ -406,8 +397,8 @@ class EmojiBoard extends State<EmojiKeyboard> {
                                 padding: EdgeInsets.all(4),
                                 child: FittedBox(
                                   fit: BoxFit.fitWidth,
-                                  child: Text(searchedEmojis[index],
-                                      style: TextStyle(fontSize: 50)),
+                                  child:
+                                      Text(searchedEmojis[index], style: TextStyle(fontSize: 50)),
                                 )),
                           ),
                         );

@@ -1,3 +1,7 @@
+## [1.6.4] 28-04-2025
+
+Missed some linting issues
+
 ## [1.6.3] 28-04-2025
 
 Fixed an issue where the search mode would not be exited when the user clicked on the back button.

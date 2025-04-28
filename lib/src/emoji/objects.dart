@@ -132,14 +132,7 @@ List<List<dynamic>> objectsList = [
   [
     '🩴',
     'thong sandal',
-    [
-      'beach sandals',
-      'sandals',
-      'thong sandal',
-      'thong sandals',
-      'thongs',
-      'zōri'
-    ]
+    ['beach sandals', 'sandals', 'thong sandal', 'thong sandals', 'thongs', 'zōri']
   ],
   [
     '👞',
@@ -749,14 +742,7 @@ List<List<dynamic>> objectsList = [
   [
     '📪',
     'closed mailbox with lowered flag',
-    [
-      'closed',
-      'closed mailbox with lowered flag',
-      'lowered',
-      'mail',
-      'mailbox',
-      'postbox'
-    ]
+    ['closed', 'closed mailbox with lowered flag', 'lowered', 'mail', 'mailbox', 'postbox']
   ],
   [
     '📬',
@@ -766,14 +752,7 @@ List<List<dynamic>> objectsList = [
   [
     '📭',
     'open mailbox with lowered flag',
-    [
-      'lowered',
-      'mail',
-      'mailbox',
-      'open',
-      'open mailbox with lowered flag',
-      'postbox'
-    ]
+    ['lowered', 'mail', 'mailbox', 'open', 'open mailbox with lowered flag', 'postbox']
   ],
   [
     '📮',
@@ -1143,14 +1122,7 @@ List<List<dynamic>> objectsList = [
   [
     '🩸',
     'drop of blood',
-    [
-      'bleed',
-      'blood donation',
-      'drop of blood',
-      'injury',
-      'medicine',
-      'menstruation'
-    ]
+    ['bleed', 'blood donation', 'drop of blood', 'injury', 'medicine', 'menstruation']
   ],
   [
     '💊',

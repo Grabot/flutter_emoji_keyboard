@@ -7,10 +7,7 @@ class BottomBar extends StatefulWidget {
   final bool darkMode;
 
   const BottomBar(
-      {Key? key,
-      required this.emojiController,
-      required this.emojiSearch,
-      required this.darkMode})
+      {Key? key, required this.emojiController, required this.emojiSearch, required this.darkMode})
       : super(key: key);
 
   @override
@@ -134,9 +131,7 @@ class BottomBarState extends State<BottomBar> {
         left: 0.0,
         child: AnimatedContainer(
           curve: Curves.fastOutSlowIn,
-          height: showBottomBar
-              ? (bottomBarHeight + MediaQuery.of(context).padding.bottom)
-              : 0,
+          height: showBottomBar ? (bottomBarHeight + MediaQuery.of(context).padding.bottom) : 0,
           width: MediaQuery.of(context).size.width,
           duration: Duration(seconds: 1),
           child: Container(
