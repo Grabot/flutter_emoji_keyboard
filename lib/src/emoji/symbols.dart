@@ -1,4 +1,4 @@
-List symbolsList = [
+List<List<dynamic>> symbolsList = [
   [
     '🏧',
     'ATM sign',

@@ -3,7 +3,7 @@
 //   ['🤟', 'love-you gesture', ['hand', 'ILY', 'love-you gesture']],
 //   ['🫰', '⊛ hand with index finger and thumb crossed', ['expensive', 'heart', 'love', 'money', 'snap']],
 // ];
-List smileysList = [
+List<List<dynamic>> smileysList = [
   [
     '😀',
     'grinning face',

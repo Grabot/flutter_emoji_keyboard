@@ -10,7 +10,7 @@ environment:
 dependencies:
   sqflite: ^2.3.0
   path: ^1.8.0
-  flutter_keyboard_visibility: ^5.0.0
+  flutter_keyboard_visibility: ^6.0.0
 
   flutter:
     sdk: flutter

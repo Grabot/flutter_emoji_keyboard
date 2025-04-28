@@ -1,4 +1,4 @@
-List foodsList = [
+List<List<dynamic>> foodsList = [
   [
     '🍇',
     'grapes',

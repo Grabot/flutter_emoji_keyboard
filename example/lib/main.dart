@@ -32,7 +32,7 @@ class MyHomePageState extends State<MyHomePage> {
   bool showEmojiKeyboard = false;
   final TextEditingController controller = TextEditingController();
 
-  backButtonFunctionality() {
+  void backButtonFunctionality() {
     if (showEmojiKeyboard) {
       setState(() {
         showEmojiKeyboard = false;

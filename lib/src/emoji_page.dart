@@ -27,10 +27,10 @@ class EmojiPage extends StatefulWidget {
 
   final double emojiKeyboardHeight;
   final TextEditingController emojiController;
-  final Function(bool) emojiScrollShowBottomBar;
-  final Function(String, int) insertText;
+  final void Function(bool) emojiScrollShowBottomBar;
+  final void Function(String, int) insertText;
   final List<String> recent;
-  final Function(int) switchedPage;
+  final void Function(int) switchedPage;
 
   @override
   EmojiPageState createState() => EmojiPageState();
@@ -49,14 +49,14 @@ class EmojiPageState extends State<EmojiPage> {
   final GlobalKey<EmojiGridState> smileyStateKey = GlobalKey<EmojiGridState>();
   final GlobalKey<EmojiGridState> recentStateKey = GlobalKey<EmojiGridState>();
 
-  List smileys = [];
-  List animals = [];
-  List foods = [];
-  List activities = [];
-  List travel = [];
-  List objects = [];
-  List symbols = [];
-  List flags = [];
+  List<String> smileys = [];
+  List<String> animals = [];
+  List<String> foods = [];
+  List<String> activities = [];
+  List<String> travel = [];
+  List<String> objects = [];
+  List<String> symbols = [];
+  List<String> flags = [];
 
   List<bool> availableSmileys = [];
 
@@ -87,19 +87,23 @@ class EmojiPageState extends State<EmojiPage> {
   /// We do that here because we don't want to constantly check it every time
   /// the user opens the category.
   /// We keep a boolean array in memory here of which emojis have components.
-  checkComponentsSmileys(List smileyList) async {
+  void checkComponentsSmileys(List<Object?> smileyList) async {
     availableSmileys = List.filled(smileyList.length, false, growable: false);
     for (int i = 0; i < smileyList.length; i++) {
       if (componentsMap.containsKey(smileyList[i])) {
         if (Platform.isAndroid) {
           List<String> components = [];
           // We are checking if the components are able to be drawn by Android.
-          components.addAll(componentsMap[smileyList[i]]);
-          List<Object?> availableEmojis = await platform
+          if (componentsMap.containsKey(smileyList[i])) {
+            components.addAll(componentsMap[smileyList[i]]!);
+          }
+          List<dynamic>? availableEmojis = await platform
               .invokeMethod("isAvailable", {"emojis": components});
-          // If none can be drawn than we don't set availability
-          if (availableEmojis.isNotEmpty) {
-            availableSmileys[i] = true;
+          if (availableEmojis != null) {
+            // If none can be drawn than we don't set availability
+            if (availableEmojis.isNotEmpty) {
+              availableSmileys[i] = true;
+            }
           }
         } else {
           availableSmileys[i] = true;
@@ -108,25 +112,12 @@ class EmojiPageState extends State<EmojiPage> {
     }
   }
 
-  /// We load the emojis from the emoji dart files we have included in the
-  /// package.
-  /// Here we also store the name given to the emoji. Since we don't show it
-  /// we have this simple function which retrieves only the emojis of these
-  /// lists.
-  List<String> getEmojis(emojiList) {
-    List<String> onlyEmoji = [];
-    for (var emotion in emojiList) {
-      onlyEmoji.add(emotion);
-    }
-    return onlyEmoji;
-  }
-
   /// This function gets the emoji String from the original list
   /// which includes description and keywords, the emoji is the first entry.
-  List<String> getEmojisString(emojiList) {
+  List<String> getEmojisString(List<List<dynamic>> emojiList) {
     List<String> onlyEmoji = [];
     for (var emoji in emojiList) {
-      onlyEmoji.add(emoji[0]);
+      onlyEmoji.add(emoji[0] as String);
     }
     return onlyEmoji;
   }
@@ -139,7 +130,7 @@ class EmojiPageState extends State<EmojiPage> {
   /// to the Android channel to see which it can and can't draw.
   /// For Iphone the user is forced to update if an update is out so we don't
   /// need to do a similar call for Iphones.
-  isAvailable() {
+  void isAvailable() {
     if (Platform.isAndroid) {
       Future.wait([
         getAvailableSmileys(),
@@ -179,52 +170,76 @@ class EmojiPageState extends State<EmojiPage> {
   }
 
   /// Here we load the smiley emojis and filter out the ones we can't show
-  Future getAvailableSmileys() async {
-    smileys = await platform
+  Future<void> getAvailableSmileys() async {
+    List<Object?>? smileEmojis = await platform
         .invokeMethod("isAvailable", {"emojis": getEmojisString(smileysList)});
-    await checkComponentsSmileys(smileys);
+    if (smileEmojis != null) {
+      smileys = smileEmojis.map((item) => item?.toString() ?? '').toList();
+    }
+    checkComponentsSmileys(smileys);
   }
 
   /// Here we load the animal emojis and filter out the ones we can't show
-  Future getAvailableAnimals() async {
-    animals = await platform
+  Future<void> getAvailableAnimals() async {
+    List<Object?>? animalEmojis = await platform
         .invokeMethod("isAvailable", {"emojis": getEmojisString(animalsList)});
+    if (animalEmojis != null) {
+      animals = animalEmojis.map((item) => item?.toString() ?? '').toList();
+    }
   }
 
   /// Here we load the food emojis and filter out the ones we can't show
-  Future getAvailableFoods() async {
-    foods = await platform
+  Future<void> getAvailableFoods() async {
+    List<Object?>? foodEmojis = await platform
         .invokeMethod("isAvailable", {"emojis": getEmojisString(foodsList)});
+    if (foodEmojis != null) {
+      foods = foodEmojis.map((item) => item?.toString() ?? '').toList();
+    }
   }
 
   /// Here we load the activities emojis and filter out the ones we can't show
-  Future getAvailableActivities() async {
-    activities = await platform.invokeMethod(
+  Future<void> getAvailableActivities() async {
+    List<Object?>? activitiesEmojis = await platform.invokeMethod(
         "isAvailable", {"emojis": getEmojisString(activitiesList)});
+    if (activitiesEmojis != null) {
+      activities = activitiesEmojis.map((item) => item?.toString() ?? '').toList();
+    }
   }
 
   /// Here we load the travels emojis and filter out the ones we can't show
-  Future getAvailableTravels() async {
-    travel = await platform
+  Future<void> getAvailableTravels() async {
+    List<Object?>? travelEmojis = await platform
         .invokeMethod("isAvailable", {"emojis": getEmojisString(travelList)});
+    if (travelEmojis != null) {
+      travel = travelEmojis.map((item) => item?.toString() ?? '').toList();
+    }
   }
 
   /// Here we load the object emojis and filter out the ones we can't show
-  Future getAvailableObjects() async {
-    objects = await platform
+  Future<void> getAvailableObjects() async {
+    List<Object?>? objectsEmojis = await platform
         .invokeMethod("isAvailable", {"emojis": getEmojisString(objectsList)});
+    if (objectsEmojis != null) {
+      objects = objectsEmojis.map((item) => item?.toString() ?? '').toList();
+    }
   }
 
   /// Here we load the symbols emojis and filter out the ones we can't show
-  Future getAvailableSymbols() async {
-    symbols = await platform
+  Future<void> getAvailableSymbols() async {
+    List<Object?>? animalEmojis = await platform
         .invokeMethod("isAvailable", {"emojis": getEmojisString(symbolsList)});
+    if (animalEmojis != null) {
+      symbols = animalEmojis.map((item) => item?.toString() ?? '').toList();
+    }
   }
 
   /// Here we load the flags emojis and filter out the ones we can't show
-  Future getAvailableFlags() async {
-    flags = await platform
+  Future<void> getAvailableFlags() async {
+    List<Object?>? flagEmojis = await platform
         .invokeMethod("isAvailable", {"emojis": getEmojisString(flagsList)});
+    if (flagEmojis != null) {
+      flags = flagEmojis.map((item) => item?.toString() ?? '').toList();
+    }
   }
 
   /// If the user presses a category key it will update the category bar and
@@ -238,7 +253,7 @@ class EmojiPageState extends State<EmojiPage> {
   /// If the user scrolls left or right the page is updated and a trigger is
   /// send to the category bar to set the correct category.
   /// It only sets this trigger if it detects any scrolling.
-  pageScrollListener() {
+  void pageScrollListener() {
     if (pageController.hasClients) {
       if (pageController.position.userScrollDirection ==
               ScrollDirection.reverse ||

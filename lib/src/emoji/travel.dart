@@ -1,4 +1,4 @@
-List travelList = [
+List<List<dynamic>> travelList = [
   [
     '🌍',
     'globe showing Europe-Africa',

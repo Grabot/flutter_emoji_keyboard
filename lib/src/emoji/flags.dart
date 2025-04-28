@@ -1,4 +1,4 @@
-List flagsList = [
+List<List<dynamic>> flagsList = [
   [
     '🏁',
     'chequered flag',

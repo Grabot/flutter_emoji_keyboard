@@ -6,6 +6,7 @@ We solved this by listening to keyboard visibility. If the keyboard was visible 
 while the emoji keyboard is visible, it must mean that the search mode was being used and the back
 button was pressed. In this case we set the search mode to false and rebuild the keyboard. This will
 hide the search keyboard and show the emoji keyboard, the regular keyboard was already being hidden.
+Also applied a bunch of linting improvements. Added typing and return values.
 
 ## [1.6.2] 22-02-2025
 

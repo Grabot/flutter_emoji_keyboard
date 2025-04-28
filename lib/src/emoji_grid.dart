@@ -9,9 +9,9 @@ import 'package:flutter/services.dart';
 
 /// This is the Grid which will hold all the emojis
 class EmojiGrid extends StatefulWidget {
-  final List emojis;
-  final Function(bool) emojiScrollShowBottomBar;
-  final Function(String, int) insertText;
+  final List<String> emojis;
+  final void Function(bool) emojiScrollShowBottomBar;
+  final void Function(String, int) insertText;
   final int categoryIndicator;
   final double emojiSize;
   final List<bool>? available;
@@ -36,7 +36,7 @@ class EmojiGrid extends StatefulWidget {
 /// A gridview.builder is used for performance. So not all the emojis have
 /// to be loaded immediately but are loaded if the user scrolls.
 class EmojiGridState extends State<EmojiGrid> {
-  List? emojis;
+  List<String>? emojis;
   ScrollController scrollController = ScrollController();
   ScrollController scrollPopupController = ScrollController();
 
@@ -82,7 +82,7 @@ class EmojiGridState extends State<EmojiGrid> {
   /// to hide the bottom bar if it was visible.
   /// If the user scrolls back up a trigger is send again to show the
   /// bottom bar if it was hidden
-  keyboardScrollListener() {
+  void keyboardScrollListener() {
     if (scrollController.hasClients) {
       if (scrollController.position.userScrollDirection ==
           ScrollDirection.reverse) {
@@ -107,7 +107,7 @@ class EmojiGridState extends State<EmojiGrid> {
   /// If the emojis are loaded the grid is already visible.
   /// We pass the emojis to the grid and we set the state to redraw the keyboard
   /// This will show the emojis correctly
-  void forceUpdate(emojis, available) {
+  void forceUpdate(List<String> emojis, List<bool> available) {
     setState(() {
       this.available = available;
       this.emojis = emojis;
@@ -192,7 +192,7 @@ class EmojiGridState extends State<EmojiGrid> {
         });
   }
 
-  hasComponent(String emoji, int index) {
+  bool hasComponent(String emoji, int index) {
     if (widget.categoryIndicator != 1) {
       return false;
     } else {
@@ -204,17 +204,22 @@ class EmojiGridState extends State<EmojiGrid> {
     }
   }
 
-  _showPopupMenu(GlobalKey keyKey, String emoji) async {
+  void _showPopupMenu(GlobalKey keyKey, String emoji) async {
     List<String> components = [emoji];
-    components.addAll(componentsMap[emoji]);
+    print("current components $components");
+    if (componentsMap.containsKey(emoji)) {
+      components.addAll(componentsMap[emoji]!);
+    }
+    print("current components $components");
 
     List<String> finalComponents = [];
     if (Platform.isAndroid) {
-      var availableEmojis =
+      List<dynamic>? availableEmojis =
           await platform.invokeMethod("isAvailable", {"emojis": components});
-
-      for (Object object in availableEmojis) {
-        finalComponents.add(object.toString());
+      if (availableEmojis != null) {
+        for (var avail in availableEmojis) {
+          finalComponents.add(avail.toString());
+        }
       }
     } else {
       finalComponents = components;
@@ -281,7 +286,7 @@ class EmojiGridState extends State<EmojiGrid> {
     }
   }
 
-  addNewComponent(String emojiComponent) {
+  void addNewComponent(String emojiComponent) {
     pressedEmoji(emojiComponent);
   }
 }

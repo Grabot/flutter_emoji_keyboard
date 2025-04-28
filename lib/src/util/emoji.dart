@@ -4,7 +4,7 @@ class Emoji {
 
   Emoji(this.emoji, this.amount);
 
-  increase() {
+  void increase() {
     amount += 1;
   }
 
@@ -16,7 +16,7 @@ class Emoji {
   }
 
   Emoji.fromDbMap(Map<String, dynamic> map) {
-    emoji = map['emoji'];
-    amount = map['amount'];
+    emoji = map['emoji'] as String;
+    amount = map['amount'] as int;
   }
 }

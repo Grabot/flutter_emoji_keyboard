@@ -1,4 +1,4 @@
-List animalsList = [
+List<List<dynamic>> animalsList = [
   [
     '🐵',
     'monkey face',

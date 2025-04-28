@@ -165,9 +165,9 @@ class EmojiBoard extends State<EmojiKeyboard> {
   /// The function which will set the initial search emojis when the "search"
   /// button is pressed. It takes the recent emojis and fills it in.
   /// It stops after 10 because more is not needed.
-  setInitialSearchEmojis() {
+  void setInitialSearchEmojis() {
     List<SearchedEmoji> recommendedEmojis = [];
-    if (recentEmojis != []) {
+    if (recentEmojis != <SearchedEmoji>[]) {
       for (var recentEmoji in recentEmojis) {
         recommendedEmojis
             .add(SearchedEmoji(emoji: recentEmoji.toString(), tier: 1));
@@ -191,9 +191,9 @@ class EmojiBoard extends State<EmojiKeyboard> {
   /// It will take the text entered so far and find all emojis which are
   /// related to that text search in any way. It puts these emojis in the list
   /// and shows it.
-  updateEmojiSearch(String text) {
+  void updateEmojiSearch(String text) {
     List<String> finalEmojis = searchEmojis(text);
-    if (finalEmojis != []) {
+    if (finalEmojis != <String>[]) {
       isAvailable(finalEmojis.toList());
     }
   }
@@ -232,7 +232,7 @@ class EmojiBoard extends State<EmojiKeyboard> {
   /// The add recent emoji search does the same as the `addRecentEmoji` function
   /// But here we don't have access to the category, so we will loop through
   /// all the categories to find the emoji we want to add
-  addRecentEmojiSearch(String emoji) async {
+  void addRecentEmojiSearch(String emoji) async {
     List<String> recentEmojiList = recent.map((emote) => emote.emoji).toList();
     if (recentEmojiList.contains(emoji)) {
       // The emoji is already in the list so we want to update it.
@@ -280,7 +280,7 @@ class EmojiBoard extends State<EmojiKeyboard> {
 
   /// This function is called when we want to see if any of the recent emojis
   /// that the user used can be shown in this Android version.
-  isAvailable(recentEmojis) {
+  void isAvailable(List<String> recentEmojis) {
     if (Platform.isAndroid) {
       Future.wait([getAvailableEmojis(recentEmojis)]).then((var value) {
         setState(() {});
@@ -294,14 +294,16 @@ class EmojiBoard extends State<EmojiKeyboard> {
 
   /// If the emoji cannot be shown in this Android version it is removed from
   /// the list.
-  Future getAvailableEmojis(emojis) async {
-    List availableResult =
+  Future<void> getAvailableEmojis(List<String> emojis) async {
+    List<dynamic>? availableResult =
         await (platform.invokeMethod("isAvailable", {"emojis": emojis}));
-    List<String> availables = [];
-    for (var avail in availableResult) {
-      availables.add(avail.toString());
+    List<String> available = [];
+    if (availableResult != null) {
+      for (var avail in availableResult) {
+        available.add(avail.toString());
+      }
     }
-    searchedEmojis = availables;
+    searchedEmojis = available;
   }
 
   /// If the user selects an emoji from the grid a trigger is send to this
@@ -330,7 +332,7 @@ class EmojiBoard extends State<EmojiKeyboard> {
     return MediaQuery.of(context).orientation == Orientation.portrait;
   }
 
-  pressedBackSearch() {
+  void pressedBackSearch() {
     if (searchMode) {
       // Hide the keyboard
       FocusManager.instance.primaryFocus?.unfocus();
@@ -341,7 +343,7 @@ class EmojiBoard extends State<EmojiKeyboard> {
     }
   }
 
-  getKeyboardColour() {
+  Color getKeyboardColour() {
     return darkMode ? Color(0xff373737) : Color(0xffc5c5c5);
   }
 

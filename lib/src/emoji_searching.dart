@@ -14,7 +14,7 @@ List<String> searchEmojis(String text) {
   if (text.isNotEmpty) {
     List<SearchedEmoji> recommendedEmojis = [];
 
-    List allEmojis = [
+    List<List<List<dynamic>>> allEmojis = [
       smileysList,
       animalsList,
       foodsList,
@@ -26,11 +26,11 @@ List<String> searchEmojis(String text) {
     ];
     for (var emojiList in allEmojis) {
       emojiList.forEach((emoji) {
-        String emojiString = emoji[0];
-        String description = emoji[1];
+        String emojiString = emoji[0] as String;
+        String description = emoji[1] as String;
         List<String> descriptionSplit =
             description.replaceAll(":", "").replaceAll("-", " ").split(" ");
-        List<String> splitName = emoji[2];
+        List<String> splitName = emoji[2] as List<String>;
         splitName.addAll(descriptionSplit);
 
         splitName = splitName.toSet().toList();
@@ -99,7 +99,7 @@ List<String> searchEmojis(String text) {
   }
 }
 
-getRecommendedEmojis(List<SearchedEmoji> recommendedEmojis,
+void getRecommendedEmojis(List<SearchedEmoji> recommendedEmojis,
     List<String> splitName, String text, String emojiString) {
   int numSplitEqualKeyword = 0;
   int numSplitPartialKeyword = 0;
@@ -168,19 +168,19 @@ class SearchedEmoji {
       this.numSplitPartialKeyword = 0,
       this.searchHits = 0});
 
-  setTier(int tier) {
+  void setTier(int tier) {
     this.tier = tier;
   }
 
-  addSearchHit() {
+  void addSearchHit() {
     searchHits += 1;
   }
 
-  addNumSplitEqualKeyword(int addedNumSplit) {
+  void addNumSplitEqualKeyword(int addedNumSplit) {
     numSplitEqualKeyword += addedNumSplit;
   }
 
-  addNumSplitPartialKeyword(int addedNumSplit) {
+  void addNumSplitPartialKeyword(int addedNumSplit) {
     numSplitPartialKeyword += addedNumSplit;
   }
 }

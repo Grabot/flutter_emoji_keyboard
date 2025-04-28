@@ -23,13 +23,15 @@ class Storage {
   Storage._internal();
 
   Future<Database> get database async {
-    if (based != null) return based!;
+    if (based != null) {
+      return based!;
+    }
     based = await _initDatabase();
     return based!;
   }
 
   /// Creates and opens the database.
-  _initDatabase() async {
+  Future<Database> _initDatabase() async {
     var databasesPath = await getDatabasesPath();
     String path = join(databasesPath, _dbName);
 
@@ -41,14 +43,10 @@ class Storage {
   }
 
   /// Creates the database structure (unless database has already been created)
-  Future _onCreate(
+  Future<void> _onCreate(
     Database db,
     int version,
   ) async {
-    await createTableEmoji(db);
-  }
-
-  createTableEmoji(Database db) async {
     await db.execute('''
     CREATE TABLE Emojis (
             id INTEGER PRIMARY KEY,

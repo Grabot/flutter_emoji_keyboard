@@ -1,4 +1,4 @@
-List objectsList = [
+List<List<dynamic>> objectsList = [
   [
     '👓',
     'glasses',

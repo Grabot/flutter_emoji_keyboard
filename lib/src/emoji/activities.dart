@@ -1,4 +1,4 @@
-List activitiesList = [
+List<List<dynamic>> activitiesList = [
   [
     '🎃',
     'jack-o-lantern',
