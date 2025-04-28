@@ -222,7 +222,14 @@ List<List<dynamic>> activitiesList = [
   [
     '🥋',
     'martial arts uniform',
-    ['judo', 'karate', 'martial arts', 'martial arts uniform', 'taekwondo', 'uniform']
+    [
+      'judo',
+      'karate',
+      'martial arts',
+      'martial arts uniform',
+      'taekwondo',
+      'uniform'
+    ]
   ],
   [
     '🥅',

@@ -1,3 +1,7 @@
+## [1.6.5] 28-04-2025
+
+There were still linting issues listed.
+
 ## [1.6.4] 28-04-2025
 
 Missed some linting issues

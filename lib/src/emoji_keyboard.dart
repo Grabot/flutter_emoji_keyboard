@@ -47,9 +47,12 @@ class EmojiBoard extends State<EmojiKeyboard> {
   /// (See MainActivity in the android project for the implementation)
   static const platform = MethodChannel("nl.emojikeyboard.emoji/available");
 
-  final GlobalKey<CategoryBarState> categoryBarStateKey = GlobalKey<CategoryBarState>();
-  final GlobalKey<BottomBarState> bottomBarStateKey = GlobalKey<BottomBarState>();
-  final GlobalKey<EmojiPageState> emojiPageStateKey = GlobalKey<EmojiPageState>();
+  final GlobalKey<CategoryBarState> categoryBarStateKey =
+      GlobalKey<CategoryBarState>();
+  final GlobalKey<BottomBarState> bottomBarStateKey =
+      GlobalKey<BottomBarState>();
+  final GlobalKey<EmojiPageState> emojiPageStateKey =
+      GlobalKey<EmojiPageState>();
 
   FocusNode focusSearchEmoji = FocusNode();
 
@@ -95,7 +98,8 @@ class EmojiBoard extends State<EmojiKeyboard> {
     });
 
     var keyboardVisibilityController = KeyboardVisibilityController();
-    keyboardSubscription = keyboardVisibilityController.onChange.listen((bool visible) {
+    keyboardSubscription =
+        keyboardVisibilityController.onChange.listen((bool visible) {
       // If the keyboard was visible the user must have been in search mode.
       // If the keyboard is no longer visible the user must have pressed the back button
       // To handle this situation correctly we then set search mode to false and rebuild the widget.
@@ -166,7 +170,8 @@ class EmojiBoard extends State<EmojiKeyboard> {
     List<SearchedEmoji> recommendedEmojis = [];
     if (recentEmojis != <String>[]) {
       for (var recentEmoji in recentEmojis) {
-        recommendedEmojis.add(SearchedEmoji(emoji: recentEmoji.toString(), tier: 1));
+        recommendedEmojis
+            .add(SearchedEmoji(emoji: recentEmoji.toString(), tier: 1));
         if (recommendedEmojis.length >= 20) {
           break;
         }
@@ -340,7 +345,7 @@ class EmojiBoard extends State<EmojiKeyboard> {
   }
 
   Color getKeyboardColour() {
-    return darkMode ? Color(0xff373737) : Color(0xffc5c5c5);
+    return darkMode ? const Color(0xff373737) : const Color(0xffc5c5c5);
   }
 
   @override
@@ -355,12 +360,15 @@ class EmojiBoard extends State<EmojiKeyboard> {
         color: getKeyboardColour(),
         child: Column(children: [
           CategoryBar(
-              key: categoryBarStateKey, categoryHandler: categoryHandler, darkMode: darkMode),
+              key: categoryBarStateKey,
+              categoryHandler: categoryHandler,
+              darkMode: darkMode),
           Stack(children: [
             EmojiPage(
                 key: emojiPageStateKey,
-                emojiKeyboardHeight:
-                    isPortrait() ? emojiKeyboardHeight : (emojiKeyboardHeight / 3) * 2,
+                emojiKeyboardHeight: isPortrait()
+                    ? emojiKeyboardHeight
+                    : (emojiKeyboardHeight / 3) * 2,
                 emojiController: emojiController!,
                 emojiScrollShowBottomBar: emojiScrollShowBottomBar,
                 insertText: insertText,
@@ -381,7 +389,9 @@ class EmojiBoard extends State<EmojiKeyboard> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   SizedBox(
-                    height: isPortrait() ? (MediaQuery.of(context).size.width / 8) : 50,
+                    height: isPortrait()
+                        ? (MediaQuery.of(context).size.width / 8)
+                        : 50,
                     child: ListView.builder(
                       scrollDirection: Axis.horizontal,
                       itemCount: searchedEmojis.length,
@@ -389,16 +399,16 @@ class EmojiBoard extends State<EmojiKeyboard> {
                         return Material(
                           color: Colors.transparent,
                           child: InkWell(
-                            splashColor: Color(0xff898989),
+                            splashColor: const Color(0xff898989),
                             onTap: () {
                               insertTextSearch(searchedEmojis[index]);
                             },
                             child: Container(
-                                padding: EdgeInsets.all(4),
+                                padding: const EdgeInsets.all(4),
                                 child: FittedBox(
                                   fit: BoxFit.fitWidth,
-                                  child:
-                                      Text(searchedEmojis[index], style: TextStyle(fontSize: 50)),
+                                  child: Text(searchedEmojis[index],
+                                      style: const TextStyle(fontSize: 50)),
                                 )),
                           ),
                         );
@@ -407,7 +417,7 @@ class EmojiBoard extends State<EmojiKeyboard> {
                   ),
                   Row(children: [
                     IconButton(
-                      icon: Icon(Icons.arrow_back),
+                      icon: const Icon(Icons.arrow_back),
                       color: Colors.grey.shade600,
                       onPressed: () {
                         pressedBackSearch();
@@ -422,7 +432,7 @@ class EmojiBoard extends State<EmojiKeyboard> {
                           style: TextStyle(
                             color: darkMode ? Colors.white : Colors.black,
                           ),
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                               border: InputBorder.none,
                               focusedBorder: InputBorder.none,
                               enabledBorder: InputBorder.none,

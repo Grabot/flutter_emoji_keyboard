@@ -25,7 +25,7 @@ List<String> searchEmojis(String text) {
       flagsList
     ];
     for (var emojiList in allEmojis) {
-      emojiList.forEach((emoji) {
+      for (var emoji in emojiList) {
         String emojiString = emoji[0] as String;
         String description = emoji[1] as String;
         List<String> descriptionSplit =
@@ -39,13 +39,14 @@ List<String> searchEmojis(String text) {
           getRecommendedEmojis(recommendedEmojis, splitName, text, emojiString);
           text.split(" ").forEach((textSplit) {
             if (textSplit != "") {
-              getRecommendedEmojis(recommendedEmojis, splitName, textSplit, emojiString);
+              getRecommendedEmojis(
+                  recommendedEmojis, splitName, textSplit, emojiString);
             }
           });
         } else {
           getRecommendedEmojis(recommendedEmojis, splitName, text, emojiString);
         }
-      });
+      }
     }
 
     recommendedEmojis.sort((a, b) {
@@ -98,8 +99,8 @@ List<String> searchEmojis(String text) {
   }
 }
 
-void getRecommendedEmojis(List<SearchedEmoji> recommendedEmojis, List<String> splitName,
-    String text, String emojiString) {
+void getRecommendedEmojis(List<SearchedEmoji> recommendedEmojis,
+    List<String> splitName, String text, String emojiString) {
   int numSplitEqualKeyword = 0;
   int numSplitPartialKeyword = 0;
   for (var splitName in splitName) {
@@ -110,7 +111,8 @@ void getRecommendedEmojis(List<SearchedEmoji> recommendedEmojis, List<String> sp
     }
 
     if (numSplitEqualKeyword > 0) {
-      List<String> searchedEmojiList = recommendedEmojis.map((emote) => emote.emoji).toList();
+      List<String> searchedEmojiList =
+          recommendedEmojis.map((emote) => emote.emoji).toList();
       if (searchedEmojiList.contains(emojiString)) {
         SearchedEmoji currentSearchedEmoji =
             recommendedEmojis.firstWhere((emote) => emote.emoji == emojiString);
@@ -128,7 +130,8 @@ void getRecommendedEmojis(List<SearchedEmoji> recommendedEmojis, List<String> sp
             searchHits: 1));
       }
     } else if (numSplitPartialKeyword > 0) {
-      List<String> searchedEmojiList = recommendedEmojis.map((emote) => emote.emoji).toList();
+      List<String> searchedEmojiList =
+          recommendedEmojis.map((emote) => emote.emoji).toList();
       if (searchedEmojiList.contains(emojiString)) {
         SearchedEmoji currentSearchedEmoji =
             recommendedEmojis.firstWhere((emote) => emote.emoji == emojiString);

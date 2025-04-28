@@ -7,7 +7,10 @@ class BottomBar extends StatefulWidget {
   final bool darkMode;
 
   const BottomBar(
-      {Key? key, required this.emojiController, required this.emojiSearch, required this.darkMode})
+      {Key? key,
+      required this.emojiController,
+      required this.emojiSearch,
+      required this.darkMode})
       : super(key: key);
 
   @override
@@ -131,11 +134,15 @@ class BottomBarState extends State<BottomBar> {
         left: 0.0,
         child: AnimatedContainer(
           curve: Curves.fastOutSlowIn,
-          height: showBottomBar ? (bottomBarHeight + MediaQuery.of(context).padding.bottom) : 0,
+          height: showBottomBar
+              ? (bottomBarHeight + MediaQuery.of(context).padding.bottom)
+              : 0,
           width: MediaQuery.of(context).size.width,
-          duration: Duration(seconds: 1),
+          duration: const Duration(seconds: 1),
           child: Container(
-            color: widget.darkMode ? Color(0xff171717) : Color(0xffdbdbdb),
+            color: widget.darkMode
+                ? const Color(0xff171717)
+                : const Color(0xffdbdbdb),
             alignment: Alignment.topCenter,
             child: showBottomBar
                 ? SizedBox(
@@ -150,7 +157,7 @@ class BottomBarState extends State<BottomBar> {
                                 onPressed: () {
                                   widget.emojiSearch();
                                 },
-                                child: Icon(Icons.search))),
+                                child: const Icon(Icons.search))),
                         SizedBox(
                             width: (MediaQuery.of(context).size.width / 8) * 3,
                             height: MediaQuery.of(context).size.width / 8,
@@ -158,7 +165,7 @@ class BottomBarState extends State<BottomBar> {
                                 onPressed: () {
                                   onSpacebar();
                                 },
-                                child: Icon(Icons.space_bar))),
+                                child: const Icon(Icons.space_bar))),
                         SizedBox(
                             width: (MediaQuery.of(context).size.width / 8) * 2,
                             height: MediaQuery.of(context).size.width / 8,
@@ -166,7 +173,7 @@ class BottomBarState extends State<BottomBar> {
                                 onPressed: () {
                                   onBackspace();
                                 },
-                                child: Icon(Icons.backspace)))
+                                child: const Icon(Icons.backspace)))
                       ],
                     ),
                   )
