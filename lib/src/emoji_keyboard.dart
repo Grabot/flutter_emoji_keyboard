@@ -1,8 +1,10 @@
+import 'dart:async';
 import 'dart:io';
 import 'package:emoji_keyboard_flutter/src/util/emoji.dart';
 import 'package:emoji_keyboard_flutter/src/util/storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'bottom_bar.dart';
 import 'category_bar.dart';
 import 'emoji_page.dart';
@@ -70,6 +72,8 @@ class EmojiBoard extends State<EmojiKeyboard> {
 
   Storage storage = Storage();
 
+  late StreamSubscription<bool> keyboardSubscription;
+
   @override
   void initState() {
     emojiController = widget.emojiController;
@@ -93,11 +97,25 @@ class EmojiBoard extends State<EmojiKeyboard> {
       }
     });
 
+    var keyboardVisibilityController = KeyboardVisibilityController();
+    keyboardSubscription = keyboardVisibilityController.onChange.listen((bool visible) {
+      // If the keyboard was visible the user must have been in search mode.
+      // If the keyboard is no longer visible the user must have pressed the back button
+      // To handle this situation correctly we then set search mode to false and rebuild the widget.
+      if (!visible && widget.showEmojiKeyboard) {
+        searchMode = false;
+        Future.delayed(const Duration(milliseconds: 100), () {
+          setState(() {});
+        });
+      }
+    });
+
     super.initState();
   }
 
   @override
   void dispose() {
+    keyboardSubscription.cancel();
     focusSearchEmoji.dispose();
     super.dispose();
   }
@@ -323,6 +341,10 @@ class EmojiBoard extends State<EmojiKeyboard> {
     }
   }
 
+  getKeyboardColour() {
+    return darkMode ? Color(0xff373737) : Color(0xffc5c5c5);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(mainAxisSize: MainAxisSize.min, children: [
@@ -332,7 +354,7 @@ class EmojiBoard extends State<EmojiKeyboard> {
                 ? emojiKeyboardHeight
                 : (emojiKeyboardHeight / 3) * 2
             : 0,
-        color: darkMode ? Color(0xff373737) : Color(0xffc5c5c5),
+        color: getKeyboardColour(),
         child: Column(children: [
           CategoryBar(
               key: categoryBarStateKey,
@@ -359,7 +381,7 @@ class EmojiBoard extends State<EmojiKeyboard> {
       ),
       widget.showEmojiKeyboard && searchMode
           ? Container(
-              color: darkMode ? Color(0xff373737) : Color(0xffc5c5c5),
+              color: getKeyboardColour(),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -387,15 +409,6 @@ class EmojiBoard extends State<EmojiKeyboard> {
                                 )),
                           ),
                         );
-                        // return TextButton(
-                        //     onPressed: () {
-                        //       insertTextSearch(searchedEmojis[index]);
-                        //     },
-                        //     child: FittedBox(
-                        //       fit: BoxFit.fitWidth,
-                        //       child: Text(searchedEmojis[index],
-                        //           style: TextStyle(fontSize: 50)),
-                        //     ));
                       },
                     ),
                   ),

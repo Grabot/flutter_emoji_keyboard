@@ -1,3 +1,12 @@
+## [1.6.3] 28-04-2025
+
+Fixed an issue where the search mode would not be exited when the user clicked on the back button.
+This is because it would hide the regular keyboard and then not hide the search keyboard.
+We solved this by listening to keyboard visibility. If the keyboard was visible and is being hidden
+while the emoji keyboard is visible, it must mean that the search mode was being used and the back
+button was pressed. In this case we set the search mode to false and rebuild the keyboard. This will
+hide the search keyboard and show the emoji keyboard, the regular keyboard was already being hidden.
+
 ## [1.6.2] 22-02-2025
 
 Applied consistent dart formatting to the project.
