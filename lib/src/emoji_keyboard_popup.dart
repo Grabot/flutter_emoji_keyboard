@@ -1,3 +1,5 @@
+import 'package:emoji_keyboard_flutter/src/util/emoji.dart';
+import 'package:emoji_keyboard_flutter/src/util/storage.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
 
@@ -19,11 +21,46 @@ class EmojiKeyboardPopup extends StatefulWidget {
 
 class EmojiBoardPopup extends State<EmojiKeyboardPopup> {
   bool darkMode = false;
+  List<Emoji> recent = [];
+  List<String> recentEmojis = [];
   final ScrollController _scrollController = ScrollController();
+  Storage storage = Storage();
 
   @override
   void initState() {
     darkMode = widget.darkMode;
+
+
+    recent.add(Emoji('👍', 1));
+    recent.add(Emoji('👎', 1));
+    recent.add(Emoji('❤️', 1));
+    recent.add(Emoji('😂', 1));
+    recent.add(Emoji('🔥', 1));
+    recent.add(Emoji('🎉', 1));
+    recent.add(Emoji('😢', 1));
+    recent.add(Emoji('😍', 1));
+    recent.add(Emoji('🤔', 1));
+    recent.add(Emoji('🙏', 1));
+    recent.add(Emoji('😊', 1));
+    recent.add(Emoji('😞', 1));
+    recent.add(Emoji('🤣', 1));
+    recent.add(Emoji('😱', 1));
+    recent.add(Emoji('👏', 1));
+    recent.add(Emoji('💯', 1));
+    recent.add(Emoji('😘', 1));
+    recent.add(Emoji('😎', 1));
+    recent.add(Emoji('🤷', 1));
+    recent.add(Emoji('🥳', 1));
+
+    storage.fetchAllEmojis().then((emojis) {
+      if (emojis.isNotEmpty) {
+        emojis.sort((a, b) => b.amount.compareTo(a.amount));
+        recent.addAll(emojis);
+        recentEmojis = recent.map((emote) => emote.emoji).toList();
+        setState(() {});
+      }
+    });
+
     super.initState();
   }
 
@@ -96,21 +133,18 @@ class EmojiBoardPopup extends State<EmojiKeyboardPopup> {
                   ListView.builder(
                     controller: _scrollController,
                     scrollDirection: Axis.horizontal,
-                    itemCount: 20,
+                    itemCount: recentEmojis.length,
                     itemBuilder: (context, index) {
                       return AnimatedBuilder(
                         animation: _scrollController,
                         builder: (context, child) {
                           final itemPosition = index * 50.0;
-                          final scrollPosition = _scrollController.offset - 50;
+                          final scrollPosition = _scrollController.offset - 40;
                           final fadeOutWidth = 40.0;
 
                           final distanceFromCenter = (itemPosition - scrollPosition - (widgetWidth / 2)).abs();
 
                           final opacity = 1.0 - ((distanceFromCenter - (widgetWidth / 2 - fadeOutWidth)).clamp(0.0, fadeOutWidth) / fadeOutWidth);
-                          if (index == 6) {
-                            print("_scrollController ${_scrollController.offset}  opacity: $opacity");
-                          }
                           return Opacity(
                             opacity: opacity.clamp(0.0, 1.0),
                             child: child,
@@ -119,9 +153,10 @@ class EmojiBoardPopup extends State<EmojiKeyboardPopup> {
                         child: Container(
                           width: 50,
                           height: 50,
-                          decoration: BoxDecoration(
-                            color: _getRandomColor(),
-                            borderRadius: BorderRadius.circular(50.0),
+                          alignment: Alignment.center,
+                          child: Text(
+                            recentEmojis[index],
+                            style: TextStyle(fontSize: 24),
                           ),
                         ),
                       );
