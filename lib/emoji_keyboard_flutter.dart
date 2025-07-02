@@ -17,3 +17,4 @@
 library emoji_keyboard_flutter;
 
 export 'src/emoji_keyboard.dart';
+export 'src/emoji_keyboard_popup.dart';
