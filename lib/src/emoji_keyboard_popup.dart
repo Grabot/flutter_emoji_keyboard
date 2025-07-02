@@ -5,6 +5,7 @@ class EmojiKeyboardPopup extends StatefulWidget {
   final bool darkMode;
   final Offset position;
   final VoidCallback onClose;
+
   const EmojiKeyboardPopup({
     Key? key,
     this.darkMode = false,
@@ -18,6 +19,7 @@ class EmojiKeyboardPopup extends StatefulWidget {
 
 class EmojiBoardPopup extends State<EmojiKeyboardPopup> {
   bool darkMode = false;
+  final ScrollController _scrollController = ScrollController();
 
   @override
   void initState() {
@@ -27,6 +29,7 @@ class EmojiBoardPopup extends State<EmojiKeyboardPopup> {
 
   @override
   void dispose() {
+    _scrollController.dispose();
     super.dispose();
   }
 
@@ -38,6 +41,10 @@ class EmojiBoardPopup extends State<EmojiKeyboardPopup> {
       random.nextInt(256),
       random.nextInt(256),
     );
+  }
+
+  Color _getBackgroundColor() {
+    return darkMode ? const Color(0xff373737) : Colors.grey;
   }
 
   @override
@@ -78,52 +85,63 @@ class EmojiBoardPopup extends State<EmojiKeyboardPopup> {
             onTap: () {},
             child: Container(
               width: widgetWidth,
-              height: 60,
-              padding: const EdgeInsets.all(8.0),
+              height: 50,
+              padding: const EdgeInsets.only(left: 10.0, right: 10.0),
               decoration: BoxDecoration(
-                color: Colors.grey,
-                borderRadius: BorderRadius.circular(12.0),
+                color: _getBackgroundColor(),
+                borderRadius: BorderRadius.circular(50.0),
               ),
               child: Stack(
                 children: [
                   ListView.builder(
+                    controller: _scrollController,
                     scrollDirection: Axis.horizontal,
                     itemCount: 20,
                     itemBuilder: (context, index) {
-                      return Container(
-                        width: 40,
-                        height: 40,
-                    margin: const EdgeInsets.symmetric(horizontal: 4.0),
-                    decoration: BoxDecoration(
-                      color: _getRandomColor(),
-                      borderRadius: BorderRadius.circular(8.0),
-                    ),
-                  );
-                },
-              ),
-                  Positioned(
-                    right: 8.0,
-                    top: 8.0,
-                    child: GestureDetector(
-                      onTap: () {
-                        // Handle the button tap
-                      },
-                      child: Container(
-                        width: 40,
-                        height: 40,
-                        decoration: BoxDecoration(
-                          color: Colors.blue,
-                          borderRadius: BorderRadius.circular(20.0),
-                        ),
-                        child: const Center(
-                          child: Text(
-                            '+',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 24,
-                              fontWeight: FontWeight.bold,
-                            ),
+                      return AnimatedBuilder(
+                        animation: _scrollController,
+                        builder: (context, child) {
+                          final itemPosition = index * 50.0;
+                          final scrollPosition = _scrollController.offset - 50;
+                          final fadeOutWidth = 40.0;
+
+                          final distanceFromCenter = (itemPosition - scrollPosition - (widgetWidth / 2)).abs();
+
+                          final opacity = 1.0 - ((distanceFromCenter - (widgetWidth / 2 - fadeOutWidth)).clamp(0.0, fadeOutWidth) / fadeOutWidth);
+                          if (index == 6) {
+                            print("_scrollController ${_scrollController.offset}  opacity: $opacity");
+                          }
+                          return Opacity(
+                            opacity: opacity.clamp(0.0, 1.0),
+                            child: child,
+                          );
+                        },
+                        child: Container(
+                          width: 50,
+                          height: 50,
+                          decoration: BoxDecoration(
+                            color: _getRandomColor(),
+                            borderRadius: BorderRadius.circular(50.0),
                           ),
+                        ),
+                      );
+                    },
+                  ),
+                  Positioned(
+                    right: -4,
+                    top: 0,
+                    bottom: 0,
+                    child: Align(
+                      alignment: Alignment.center,
+                      child: IconButton(
+                        icon: const Icon(Icons.add),
+                        color: Colors.white,
+                        onPressed: () {
+                          // Handle the button tap
+                        },
+                        style: IconButton.styleFrom(
+                          backgroundColor: Color(0xff808080),
+                          shape: const CircleBorder(),
                         ),
                       ),
                     ),
