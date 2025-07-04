@@ -137,10 +137,8 @@ class MyHomePageState extends State<MyHomePage> {
               decoration: BoxDecoration(
                 color: messageIndex == 0 ? Colors.green[200] : Colors.blue[200],
                 borderRadius: BorderRadius.only(
-                  topLeft:
-                      messageIndex == 0 ? const Radius.circular(30.0) : Radius.zero,
-                  topRight:
-                      messageIndex == 1 ? const Radius.circular(30.0) : Radius.zero,
+                  topLeft: messageIndex == 0 ? const Radius.circular(30.0) : Radius.zero,
+                  topRight: messageIndex == 1 ? const Radius.circular(30.0) : Radius.zero,
                   bottomLeft: const Radius.circular(30.0),
                   bottomRight: const Radius.circular(30.0),
                 ),

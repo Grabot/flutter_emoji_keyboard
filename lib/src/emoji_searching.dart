@@ -158,13 +158,13 @@ class SearchedEmoji {
   int numSplitPartialKeyword;
   int searchHits;
 
-  SearchedEmoji(
-      {required this.emoji,
-      required int tier,
-      this.numSplitEqualKeyword = 0,
-      this.numSplitPartialKeyword = 0,
-      this.searchHits = 0,
-      })  : _tier = tier;
+  SearchedEmoji({
+    required this.emoji,
+    required int tier,
+    this.numSplitEqualKeyword = 0,
+    this.numSplitPartialKeyword = 0,
+    this.searchHits = 0,
+  }) : _tier = tier;
 
   set tier(int tier) {
     _tier = tier;
