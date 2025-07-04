@@ -1,3 +1,7 @@
+## [1.7.1] 04-07-2025
+
+Applied consistent dart formatting and linting to the project.
+
 ## [1.7.0] 04-07-2025
 
 Added a emoji popup option along with the emoji keyboard. This is, for instance, 

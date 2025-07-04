@@ -159,11 +159,14 @@ class EmojiBoardPopup extends State<EmojiKeyboardPopup> {
                           final scrollPosition = _scrollController.offset - 40;
                           const fadeOutWidth = 40.0;
 
-                          final distanceFromCenter =
-                              (itemPosition - scrollPosition - (widgetWidth / 2)).abs();
+                          final distanceFromCenter = (itemPosition -
+                                  scrollPosition -
+                                  (widgetWidth / 2))
+                              .abs();
 
                           final opacity = 1.0 -
-                              ((distanceFromCenter - (widgetWidth / 2 - fadeOutWidth))
+                              ((distanceFromCenter -
+                                          (widgetWidth / 2 - fadeOutWidth))
                                       .clamp(0.0, fadeOutWidth) /
                                   fadeOutWidth);
                           return Opacity(
@@ -175,7 +178,8 @@ class EmojiBoardPopup extends State<EmojiKeyboardPopup> {
                           color: Colors.transparent,
                           child: InkWell(
                             onTap: () {
-                              widget.onAction(EmojiSelected(recentEmojis[index]));
+                              widget
+                                  .onAction(EmojiSelected(recentEmojis[index]));
                             },
                             child: Container(
                               width: 50,
