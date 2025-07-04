@@ -5,10 +5,10 @@ import 'package:emoji_keyboard_flutter/src/util/storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
-import 'bottom_bar.dart';
-import 'category_bar.dart';
-import 'emoji_page.dart';
-import 'emoji_searching.dart';
+import 'package:emoji_keyboard_flutter/src/bottom_bar.dart';
+import 'package:emoji_keyboard_flutter/src/category_bar.dart';
+import 'package:emoji_keyboard_flutter/src/emoji_page.dart';
+import 'package:emoji_keyboard_flutter/src/emoji_searching.dart';
 
 /// The emoji keyboard. This holds all the components of the keyboard.
 /// This will include the:

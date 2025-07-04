@@ -2,16 +2,16 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
-import 'emoji/component/component.dart';
-import 'emoji_grid.dart';
-import 'emoji/activities.dart';
-import 'emoji/animals.dart';
-import 'emoji/flags.dart';
-import 'emoji/foods.dart';
-import 'emoji/objects.dart';
-import 'emoji/smileys.dart';
-import 'emoji/symbols.dart';
-import 'emoji/travel.dart';
+import 'package:emoji_keyboard_flutter/src/emoji/component/component.dart';
+import 'package:emoji_keyboard_flutter/src/emoji_grid.dart';
+import 'package:emoji_keyboard_flutter/src/emoji/activities.dart';
+import 'package:emoji_keyboard_flutter/src/emoji/animals.dart';
+import 'package:emoji_keyboard_flutter/src/emoji/flags.dart';
+import 'package:emoji_keyboard_flutter/src/emoji/foods.dart';
+import 'package:emoji_keyboard_flutter/src/emoji/objects.dart';
+import 'package:emoji_keyboard_flutter/src/emoji/smileys.dart';
+import 'package:emoji_keyboard_flutter/src/emoji/symbols.dart';
+import 'package:emoji_keyboard_flutter/src/emoji/travel.dart';
 
 /// This is the emoji page. This holds all the emoji grids.
 class EmojiPage extends StatefulWidget {

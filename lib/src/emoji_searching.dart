@@ -1,11 +1,11 @@
-import 'emoji/activities.dart';
-import 'emoji/animals.dart';
-import 'emoji/flags.dart';
-import 'emoji/foods.dart';
-import 'emoji/objects.dart';
-import 'emoji/smileys.dart';
-import 'emoji/symbols.dart';
-import 'emoji/travel.dart';
+import 'package:emoji_keyboard_flutter/src/emoji/activities.dart';
+import 'package:emoji_keyboard_flutter/src/emoji/animals.dart';
+import 'package:emoji_keyboard_flutter/src/emoji/flags.dart';
+import 'package:emoji_keyboard_flutter/src/emoji/foods.dart';
+import 'package:emoji_keyboard_flutter/src/emoji/objects.dart';
+import 'package:emoji_keyboard_flutter/src/emoji/smileys.dart';
+import 'package:emoji_keyboard_flutter/src/emoji/symbols.dart';
+import 'package:emoji_keyboard_flutter/src/emoji/travel.dart';
 
 /// When this is called it receives a text and it return all the emojis which
 /// are related to that text and which the user might be looking for.
