@@ -17,12 +17,7 @@ class EmojiGrid extends StatefulWidget {
   final List<bool>? available;
 
   const EmojiGrid({
-    Key? key,
-    required this.emojis,
-    required this.emojiScrollShowBottomBar,
-    required this.categoryIndicator,
-    required this.insertText,
-    required this.emojiSize,
+    required this.emojis, required this.emojiScrollShowBottomBar, required this.categoryIndicator, required this.insertText, required this.emojiSize, Key? key,
     this.available,
   }) : super(key: key);
 

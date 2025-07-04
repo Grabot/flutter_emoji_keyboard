@@ -26,10 +26,8 @@ class EmojiKeyboardPopup extends StatefulWidget {
   final void Function(EmojiPickerAction) onAction;
 
   const EmojiKeyboardPopup({
-    Key? key,
+    required this.position, required this.onAction, Key? key,
     this.darkMode = false,
-    required this.position,
-    required this.onAction,
   }) : super(key: key);
 
   @override

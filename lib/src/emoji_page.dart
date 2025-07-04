@@ -16,12 +16,7 @@ import 'emoji/travel.dart';
 /// This is the emoji page. This holds all the emoji grids.
 class EmojiPage extends StatefulWidget {
   const EmojiPage(
-      {Key? key,
-      required this.emojiKeyboardHeight,
-      required this.emojiScrollShowBottomBar,
-      required this.insertText,
-      required this.recent,
-      required this.switchedPage})
+      {required this.emojiKeyboardHeight, required this.emojiScrollShowBottomBar, required this.insertText, required this.recent, required this.switchedPage, Key? key})
       : super(key: key);
 
   final double emojiKeyboardHeight;

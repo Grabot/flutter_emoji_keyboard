@@ -8,11 +8,7 @@ class BottomBar extends StatefulWidget {
   final bool darkMode;
 
   const BottomBar(
-      {Key? key,
-      required this.onActionSpaceBar,
-      required this.onActionBackspace,
-      required this.emojiSearch,
-      required this.darkMode})
+      {required this.onActionSpaceBar, required this.onActionBackspace, required this.emojiSearch, required this.darkMode, Key? key})
       : super(key: key);
 
   @override
