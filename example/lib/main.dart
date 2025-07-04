@@ -39,6 +39,9 @@ class MyHomePageState extends State<MyHomePage> {
   bool darkMode = false;
 
   void backButtonFunctionality() {
+    if (emojiReactionIndex != -1) {
+      emojiReactionIndex = -1;
+    }
     if (showEmojiPopup) {
       setState(() {
         showEmojiPopup = false;
@@ -78,13 +81,6 @@ class MyHomePageState extends State<MyHomePage> {
     setState(() {
       showEmojiPopup = true;
       emojiPopupPosition = details.globalPosition;
-    });
-  }
-
-  void closeEmojiPopup(String? emoji) {
-    emojiReactionIndex = -1;
-    setState(() {
-      showEmojiPopup = false;
     });
   }
 
@@ -218,7 +214,7 @@ class MyHomePageState extends State<MyHomePage> {
                 Align(
                   alignment: Alignment.bottomCenter,
                   child: EmojiKeyboard(
-                    emojiController: getEmojiController(),
+                    emojiController: emojiReactionIndex == -1 ? controller : null,
                     onEmojiChanged: onActionEmojiChanged,
                     showEmojiKeyboard: showEmojiKeyboard,
                     emojiKeyboardHeight: 440, // optional defaults to 350

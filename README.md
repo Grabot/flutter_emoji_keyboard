@@ -82,6 +82,9 @@ class MyHomePageState extends State<MyHomePage> {
   bool darkMode = false;
 
   void backButtonFunctionality() {
+    if (emojiReactionIndex != -1) {
+      emojiReactionIndex = -1;
+    }
     if (showEmojiPopup) {
       setState(() {
         showEmojiPopup = false;
@@ -115,7 +118,8 @@ class MyHomePageState extends State<MyHomePage> {
     }
   }
 
-  void onLongPressMessage(BuildContext context, LongPressStartDetails details, int messageIndex) {
+  void onLongPressMessage(
+      BuildContext context, LongPressStartDetails details, int messageIndex) {
     emojiReactionIndex = messageIndex;
     setState(() {
       showEmojiPopup = true;
@@ -123,14 +127,7 @@ class MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  void closeEmojiPopup(String? emoji) {
-    emojiReactionIndex = -1;
-    setState(() {
-      showEmojiPopup = false;
-    });
-  }
-
-  void handleEmojiPopupAction(EmojiPickerAction action) {
+  void handleEmojiPopupAction(EmojiPopupAction action) {
     showEmojiPopup = false;
     if (action is OutsideClicked) {
       emojiReactionIndex = -1;
@@ -169,19 +166,26 @@ class MyHomePageState extends State<MyHomePage> {
 
   Widget messageWidget(int messageIndex, String messageText) {
     return GestureDetector(
-      onLongPressStart: (details) => onLongPressMessage(context, details, messageIndex),
+      onLongPressStart: (details) =>
+          onLongPressMessage(context, details, messageIndex),
       child: Stack(
         children: [
           Container(
-            color: emojiReactionIndex == messageIndex ? Colors.cyan[200] : Colors.transparent,
+            color: emojiReactionIndex == messageIndex
+                ? Colors.cyan[200]
+                : Colors.transparent,
             child: Container(
               margin: const EdgeInsets.all(8.0),
               padding: const EdgeInsets.all(12.0),
               decoration: BoxDecoration(
                 color: messageIndex == 0 ? Colors.green[200] : Colors.blue[200],
                 borderRadius: BorderRadius.only(
-                  topLeft: messageIndex == 0 ? const Radius.circular(30.0) : Radius.zero,
-                  topRight: messageIndex == 1 ? const Radius.circular(30.0) : Radius.zero,
+                  topLeft: messageIndex == 0
+                      ? const Radius.circular(30.0)
+                      : Radius.zero,
+                  topRight: messageIndex == 1
+                      ? const Radius.circular(30.0)
+                      : Radius.zero,
                   bottomLeft: const Radius.circular(30.0),
                   bottomRight: const Radius.circular(30.0),
                 ),
@@ -235,15 +239,17 @@ class MyHomePageState extends State<MyHomePage> {
                 ),
                 messageWidget(0,
                     'This is an example message. Long press to do an emoji reaction on this message!'),
-                messageWidget(
-                    1, 'Or press the Textfield below to start typing with the emoji keyboard!'),
+                messageWidget(1,
+                    'Or press the Textfield below to start typing with the emoji keyboard!'),
                 Container(
                   alignment: Alignment.topCenter,
-                  padding: const EdgeInsets.only(bottom: 46.0, left: 8, right: 8, top: 12),
+                  padding: const EdgeInsets.only(
+                      bottom: 46.0, left: 8, right: 8, top: 12),
                   child: TextFormField(
                     onTap: onTapEmojiField,
                     controller: controller,
-                    decoration: const InputDecoration(border: OutlineInputBorder()),
+                    decoration:
+                        const InputDecoration(border: OutlineInputBorder()),
                     readOnly: true,
                     showCursor: true,
                   ),
@@ -251,7 +257,7 @@ class MyHomePageState extends State<MyHomePage> {
                 Align(
                   alignment: Alignment.bottomCenter,
                   child: EmojiKeyboard(
-                    emojiController: getEmojiController(),
+                    emojiController: emojiReactionIndex == -1 ? controller : null,
                     onEmojiChanged: onActionEmojiChanged,
                     showEmojiKeyboard: showEmojiKeyboard,
                     emojiKeyboardHeight: 440, // optional defaults to 350
