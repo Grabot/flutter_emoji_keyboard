@@ -87,7 +87,7 @@ class MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  void handleEmojiPickerAction(EmojiPickerAction action) {
+  void handleEmojiPopupAction(EmojiPopupAction action) {
     showEmojiPopup = false;
     if (action is OutsideClicked) {
       emojiReactionIndex = -1;
@@ -220,7 +220,7 @@ class MyHomePageState extends State<MyHomePage> {
             if (showEmojiPopup)
               EmojiKeyboardPopup(
                 position: emojiPopupPosition,
-                onAction: handleEmojiPickerAction,
+                onAction: handleEmojiPopupAction,
                 darkMode: darkMode, // optional defaults to false
                 popupWidth: 350, // optional defaults to 3/4 of the screen width
               ),

@@ -3,24 +3,24 @@ import 'package:emoji_keyboard_flutter/src/util/storage.dart';
 import 'package:flutter/material.dart';
 
 /// The actions that can be performed in the emoji popup.
-abstract class EmojiPickerAction {
-  const EmojiPickerAction();
+abstract class EmojiPopupAction {
+  const EmojiPopupAction();
 }
 
 /// The emoji selected action. This will be triggered when an emoji is selected.
-class EmojiSelected extends EmojiPickerAction {
+class EmojiSelected extends EmojiPopupAction {
   final String emoji;
 
   const EmojiSelected(this.emoji);
 }
 
 /// The button pressed action. This will be triggered when the "+" button is pressed.
-class ButtonPressed extends EmojiPickerAction {
+class ButtonPressed extends EmojiPopupAction {
   const ButtonPressed();
 }
 
 /// The outside clicked action. This will be triggered when the user clicks outside the widget.
-class OutsideClicked extends EmojiPickerAction {
+class OutsideClicked extends EmojiPopupAction {
   const OutsideClicked();
 }
 
@@ -28,7 +28,7 @@ class OutsideClicked extends EmojiPickerAction {
 /// that will be shown on the position passed in the constructor.
 class EmojiKeyboardPopup extends StatefulWidget {
   final Offset position;
-  final void Function(EmojiPickerAction) onAction;
+  final void Function(EmojiPopupAction) onAction;
   final bool darkMode;
   final double? popupWidth;
 
