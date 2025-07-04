@@ -2,39 +2,54 @@ import 'package:emoji_keyboard_flutter/src/util/emoji.dart';
 import 'package:emoji_keyboard_flutter/src/util/storage.dart';
 import 'package:flutter/material.dart';
 
+/// The actions that can be performed in the emoji popup.
 abstract class EmojiPickerAction {
   const EmojiPickerAction();
 }
 
+/// The emoji selected action. This will be triggered when an emoji is selected.
 class EmojiSelected extends EmojiPickerAction {
   final String emoji;
 
   const EmojiSelected(this.emoji);
 }
 
+/// The button pressed action. This will be triggered when the "+" button is pressed.
 class ButtonPressed extends EmojiPickerAction {
   const ButtonPressed();
 }
 
+/// The outside clicked action. This will be triggered when the user clicks outside the widget.
 class OutsideClicked extends EmojiPickerAction {
   const OutsideClicked();
 }
 
+/// The emoji popup Widget. This is a quick emoji access
+/// that will be shown on the position passed in the constructor.
 class EmojiKeyboardPopup extends StatefulWidget {
-  final bool darkMode;
   final Offset position;
   final void Function(EmojiPickerAction) onAction;
+  final bool darkMode;
+  final double? popupWidth;
 
   const EmojiKeyboardPopup({
     required this.position, required this.onAction, Key? key,
     this.darkMode = false,
+    this.popupWidth,
   }) : super(key: key);
 
   @override
   EmojiBoardPopup createState() => EmojiBoardPopup();
 }
 
+/// The emoji popup is a small widget with a horizontal listview containing emojis.
+/// You can scroll through the emojis and select one.
+/// This will trigger the EmojiSelected callback.
+/// You can also press the "+" button which will also trigger a ButtonPressed callback
+/// If you press outside the widget it will trigger the OutsideClicked callback.
+/// It also has a darkmode for the users with a good taste in styling.
 class EmojiBoardPopup extends State<EmojiKeyboardPopup> {
+
   bool darkMode = false;
   List<Emoji> recent = [];
   List<String> recentEmojis = [];
@@ -45,6 +60,7 @@ class EmojiBoardPopup extends State<EmojiKeyboardPopup> {
   void initState() {
     darkMode = widget.darkMode;
 
+    // Hardcoded selection of emojis that are useful for quick emoji reactions.
     recent.add(Emoji('👍', 1));
     recent.add(Emoji('👎', 1));
     recent.add(Emoji('❤️', 1));
@@ -80,15 +96,14 @@ class EmojiBoardPopup extends State<EmojiKeyboardPopup> {
     super.dispose();
   }
 
-  Color _getBackgroundColor() {
-    return darkMode ? const Color(0xff373737) : Colors.grey;
-  }
-
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
-    final widgetWidth = screenWidth * 0.75;
+    double widgetWidth = screenWidth * 0.75;
+    if (widget.popupWidth != null) {
+      widgetWidth = widget.popupWidth!;
+    }
 
     double left = widget.position.dx - (widgetWidth / 2);
     double top = widget.position.dy - (60 / 2) - 100;
@@ -125,7 +140,7 @@ class EmojiBoardPopup extends State<EmojiKeyboardPopup> {
               height: 50,
               padding: const EdgeInsets.only(left: 2.0, right: 2.0),
               decoration: BoxDecoration(
-                color: _getBackgroundColor(),
+                color: darkMode ? const Color(0xff373737) : Colors.grey,
                 borderRadius: BorderRadius.circular(50.0),
               ),
               child: Stack(
@@ -138,6 +153,7 @@ class EmojiBoardPopup extends State<EmojiKeyboardPopup> {
                       return AnimatedBuilder(
                         animation: _scrollController,
                         builder: (context, child) {
+                          // Fade in and out for emojis in the horizontal listview
                           final itemPosition = index * 50.0;
                           final scrollPosition = _scrollController.offset - 40;
                           final fadeOutWidth = 40.0;

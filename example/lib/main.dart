@@ -212,9 +212,9 @@ class MyHomePageState extends State<MyHomePage> {
                   child: EmojiKeyboard(
                     emojiController: getEmojiController(),
                     onEmojiChanged: onActionEmojiChanged,
-                    emojiKeyboardHeight: 440,
                     showEmojiKeyboard: showEmojiKeyboard,
-                    darkMode: darkMode,
+                    emojiKeyboardHeight: 440,   // optional defaults to 350
+                    darkMode: darkMode,   // optional defaults to false
                   ),
                 ),
               ],
@@ -223,7 +223,8 @@ class MyHomePageState extends State<MyHomePage> {
               EmojiKeyboardPopup(
                 position: emojiPopupPosition,
                 onAction: handleEmojiPickerAction,
-                darkMode: darkMode,
+                darkMode: darkMode,   // optional defaults to false
+                popupWidth: 400,  // optional defaults to 3/4 of the screen width
               ),
           ],
         ),
