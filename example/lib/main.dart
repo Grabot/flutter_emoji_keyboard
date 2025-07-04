@@ -36,7 +36,7 @@ class MyHomePageState extends State<MyHomePage> {
   Offset emojiPopupPosition = Offset.zero;
   List<String> emojiReactions = ['', ''];
 
-  bool darkMode = true;
+  bool darkMode = false;
 
   void backButtonFunctionality() {
     if (showEmojiPopup) {
@@ -222,7 +222,7 @@ class MyHomePageState extends State<MyHomePage> {
                 position: emojiPopupPosition,
                 onAction: handleEmojiPickerAction,
                 darkMode: darkMode, // optional defaults to false
-                popupWidth: 400, // optional defaults to 3/4 of the screen width
+                popupWidth: 350, // optional defaults to 3/4 of the screen width
               ),
           ],
         ),
