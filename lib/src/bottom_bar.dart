@@ -2,13 +2,17 @@ import 'package:flutter/material.dart';
 
 /// This is the Bottom Bar of the Emoji Keyboard
 class BottomBar extends StatefulWidget {
-  final Function emojiSearch;
-  final Function onActionSpaceBar;
-  final Function onActionBackspace;
+  final VoidCallback emojiSearch;
+  final VoidCallback onActionSpaceBar;
+  final VoidCallback onActionBackspace;
   final bool darkMode;
 
   const BottomBar(
-      {required this.onActionSpaceBar, required this.onActionBackspace, required this.emojiSearch, required this.darkMode, Key? key})
+      {required this.onActionSpaceBar,
+      required this.onActionBackspace,
+      required this.emojiSearch,
+      required this.darkMode,
+      Key? key})
       : super(key: key);
 
   @override
@@ -35,7 +39,7 @@ class BottomBarState extends State<BottomBar> {
   /// If the user presses an emoji the bottom bar should also be shown
   /// A call is send to this function from the Emoji grid which handles the
   /// scrolling and it will set the visible boolean here to hide or show it
-  void emojiScrollShowBottomBar(bool show) {
+  void emojiScrollShowBottomBar({required bool show}) {
     if (show != showBottomBar) {
       setState(() {
         showBottomBar = show;
@@ -67,25 +71,19 @@ class BottomBarState extends State<BottomBar> {
                             width: (MediaQuery.of(context).size.width / 8) * 2,
                             height: MediaQuery.of(context).size.width / 8,
                             child: TextButton(
-                                onPressed: () {
-                                  widget.emojiSearch();
-                                },
+                                onPressed: () => widget.emojiSearch(),
                                 child: const Icon(Icons.search))),
                         SizedBox(
                             width: (MediaQuery.of(context).size.width / 8) * 3,
                             height: MediaQuery.of(context).size.width / 8,
                             child: TextButton(
-                                onPressed: () {
-                                  widget.onActionSpaceBar();
-                                },
+                                onPressed: () => widget.onActionSpaceBar(),
                                 child: const Icon(Icons.space_bar))),
                         SizedBox(
                             width: (MediaQuery.of(context).size.width / 8) * 2,
                             height: MediaQuery.of(context).size.width / 8,
                             child: TextButton(
-                                onPressed: () {
-                                  widget.onActionBackspace();
-                                },
+                                onPressed: () => widget.onActionBackspace(),
                                 child: const Icon(Icons.backspace)))
                       ],
                     ),

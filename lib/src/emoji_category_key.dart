@@ -10,7 +10,11 @@ import 'package:flutter/material.dart';
 /// "onCategorySelect" function is called.
 class EmojiCategoryKey extends StatelessWidget {
   const EmojiCategoryKey(
-      {required this.onCategorySelect, required this.category, required this.categoryNumber, required this.active, Key? key})
+      {required this.onCategorySelect,
+      required this.category,
+      required this.categoryNumber,
+      required this.active,
+      Key? key})
       : super(key: key);
 
   final ValueSetter<int> onCategorySelect;

@@ -1,6 +1,6 @@
-import 'package:sqflite/sqflite.dart';
-import 'package:path/path.dart';
 import 'package:emoji_keyboard_flutter/src/util/emoji.dart';
+import 'package:path/path.dart';
+import 'package:sqflite/sqflite.dart';
 
 /// The storage. This holds all the components of the local db.
 /// Here we will be able to:

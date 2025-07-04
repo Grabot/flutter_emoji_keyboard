@@ -1,14 +1,15 @@
 import 'dart:async';
 import 'dart:io';
+
+import 'package:emoji_keyboard_flutter/src/bottom_bar.dart';
+import 'package:emoji_keyboard_flutter/src/category_bar.dart';
+import 'package:emoji_keyboard_flutter/src/emoji_page.dart';
+import 'package:emoji_keyboard_flutter/src/emoji_searching.dart';
 import 'package:emoji_keyboard_flutter/src/util/emoji.dart';
 import 'package:emoji_keyboard_flutter/src/util/storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
-import 'package:emoji_keyboard_flutter/src/bottom_bar.dart';
-import 'package:emoji_keyboard_flutter/src/category_bar.dart';
-import 'package:emoji_keyboard_flutter/src/emoji_page.dart';
-import 'package:emoji_keyboard_flutter/src/emoji_searching.dart';
 
 /// The emoji keyboard. This holds all the components of the keyboard.
 /// This will include the:
@@ -27,8 +28,8 @@ class EmojiKeyboard extends StatefulWidget {
 
   const EmojiKeyboard(
       {Key? key,
-      this.emojiController = null,
-      this.onEmojiChanged = null,
+      this.emojiController,
+      this.onEmojiChanged,
       this.emojiKeyboardHeight = 350,
       this.showEmojiKeyboard = true,
       this.darkMode = false})
@@ -129,11 +130,11 @@ class EmojiBoard extends State<EmojiKeyboard> {
   /// This function handles any triggers to hide or show the bottom bar if the
   /// user scrolls up or down on the emoji page. It sends this trigger to the
   /// bottom bar
-  void emojiScrollShowBottomBar(bool emojiScrollShowBottomBar) {
+  void emojiScrollShowBottomBar({required bool emojiScrollShowBottomBar}) {
     if (showBottomBar != emojiScrollShowBottomBar) {
       showBottomBar = emojiScrollShowBottomBar;
       if (bottomBarStateKey.currentState != null) {
-        bottomBarStateKey.currentState!.emojiScrollShowBottomBar(showBottomBar);
+        bottomBarStateKey.currentState!.emojiScrollShowBottomBar(show: showBottomBar);
       }
     }
   }
@@ -204,7 +205,7 @@ class EmojiBoard extends State<EmojiKeyboard> {
   /// If that is not true, we add a new entry for the database.
   /// When it adds a new entry it will look in the emoji list for the category
   /// that the emoji is in to be able to store a new entry in the local db
-  void addRecentEmoji(String emoji, int category) async {
+  Future<void> addRecentEmoji(String emoji, int category) async {
     List<String> recentEmojiList = recent.map((emote) => emote.emoji).toList();
     if (recentEmojiList.contains(emoji)) {
       // The emoji is already in the list so we want to update it.
@@ -231,7 +232,7 @@ class EmojiBoard extends State<EmojiKeyboard> {
   /// The add recent emoji search does the same as the `addRecentEmoji` function
   /// But here we don't have access to the category, so we will loop through
   /// all the categories to find the emoji we want to add
-  void addRecentEmojiSearch(String emoji) async {
+  Future<void> addRecentEmojiSearch(String emoji) async {
     List<String> recentEmojiList = recent.map((emote) => emote.emoji).toList();
     if (recentEmojiList.contains(emoji)) {
       // The emoji is already in the list so we want to update it.
@@ -316,7 +317,7 @@ class EmojiBoard extends State<EmojiKeyboard> {
   /// or as a replacement of the selection of the user.
   void insertText(String myText, int category) {
     addRecentEmoji(myText, category);
-    emojiScrollShowBottomBar(true);
+    emojiScrollShowBottomBar(emojiScrollShowBottomBar: true);
     if (widget.emojiController != null) {
       final text = widget.emojiController!.text;
       final textSelection = widget.emojiController!.selection;

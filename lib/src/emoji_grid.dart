@@ -1,8 +1,8 @@
+import 'dart:io';
 import 'dart:ui';
 
 import 'package:emoji_keyboard_flutter/src/emoji/component/component.dart';
 import 'package:emoji_keyboard_flutter/src/util/popup_menu_override.dart';
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
@@ -10,14 +10,19 @@ import 'package:flutter/services.dart';
 /// This is the Grid which will hold all the emojis
 class EmojiGrid extends StatefulWidget {
   final List<String> emojis;
-  final void Function(bool) emojiScrollShowBottomBar;
+  final void Function({required bool emojiScrollShowBottomBar}) emojiScrollShowBottomBar;
   final void Function(String, int) insertText;
   final int categoryIndicator;
   final double emojiSize;
   final List<bool>? available;
 
   const EmojiGrid({
-    required this.emojis, required this.emojiScrollShowBottomBar, required this.categoryIndicator, required this.insertText, required this.emojiSize, Key? key,
+    required this.emojis,
+    required this.emojiScrollShowBottomBar,
+    required this.categoryIndicator,
+    required this.insertText,
+    required this.emojiSize,
+    Key? key,
     this.available,
   }) : super(key: key);
 
@@ -54,7 +59,7 @@ class EmojiGridState extends State<EmojiGrid> {
 
     // Wait until the widget is loaded and then initialize the navigator
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      navigator = Navigator.of(context, rootNavigator: false);
+      navigator = Navigator.of(context);
       barrierLabel = MaterialLocalizations.of(context).modalBarrierDismissLabel;
       capturedThemes = InheritedTheme.capture(from: context, to: navigator!.context);
     });
@@ -79,10 +84,10 @@ class EmojiGridState extends State<EmojiGrid> {
   void keyboardScrollListener() {
     if (scrollController.hasClients) {
       if (scrollController.position.userScrollDirection == ScrollDirection.reverse) {
-        widget.emojiScrollShowBottomBar(false);
+        widget.emojiScrollShowBottomBar(emojiScrollShowBottomBar: false);
       }
       if (scrollController.position.userScrollDirection == ScrollDirection.forward) {
-        widget.emojiScrollShowBottomBar(true);
+        widget.emojiScrollShowBottomBar(emojiScrollShowBottomBar: true);
       }
     }
   }
@@ -92,7 +97,7 @@ class EmojiGridState extends State<EmojiGrid> {
   /// Here it sends a trigger to the "insertText" function in the EmojiKeyboard
   /// to insert the text in the Textfield.
   void pressedEmoji(String emoji) {
-    widget.emojiScrollShowBottomBar(true);
+    widget.emojiScrollShowBottomBar(emojiScrollShowBottomBar: true);
     widget.insertText(emoji, widget.categoryIndicator);
   }
 
@@ -121,7 +126,7 @@ class EmojiGridState extends State<EmojiGrid> {
 
     bool isTablet() {
       final display = PlatformDispatcher.instance.views.first.display;
-      return display.size.shortestSide / display.devicePixelRatio < 600 ? false : true;
+      return display.size.shortestSide / display.devicePixelRatio >= 600;
     }
 
     int getEmojiWidthCount() {
@@ -192,7 +197,7 @@ class EmojiGridState extends State<EmojiGrid> {
     }
   }
 
-  void _showPopupMenu(GlobalKey keyKey, String emoji) async {
+  Future<void> _showPopupMenu(GlobalKey keyKey, String emoji) async {
     List<String> components = [emoji];
     if (componentsMap.containsKey(emoji)) {
       components.addAll(componentsMap[emoji]!);

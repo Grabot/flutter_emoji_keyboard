@@ -33,7 +33,9 @@ class EmojiKeyboardPopup extends StatefulWidget {
   final double? popupWidth;
 
   const EmojiKeyboardPopup({
-    required this.position, required this.onAction, Key? key,
+    required this.position,
+    required this.onAction,
+    Key? key,
     this.darkMode = false,
     this.popupWidth,
   }) : super(key: key);
@@ -49,7 +51,6 @@ class EmojiKeyboardPopup extends StatefulWidget {
 /// If you press outside the widget it will trigger the OutsideClicked callback.
 /// It also has a darkmode for the users with a good taste in styling.
 class EmojiBoardPopup extends State<EmojiKeyboardPopup> {
-
   bool darkMode = false;
   List<Emoji> recent = [];
   List<String> recentEmojis = [];
@@ -195,7 +196,6 @@ class EmojiBoardPopup extends State<EmojiKeyboardPopup> {
                     top: 0,
                     bottom: 0,
                     child: Align(
-                      alignment: Alignment.center,
                       child: Container(
                         padding: EdgeInsets.all(10),
                         child: IconButton(

@@ -14,7 +14,9 @@ const double _kMenuVerticalPadding = 0.0;
 // item lines up with the center of its PopupMenuButton.
 class _MenuItem extends SingleChildRenderObjectWidget {
   const _MenuItem({
-    required this.onLayout, required Widget? child, Key? key,
+    required this.onLayout,
+    required Widget? child,
+    Key? key,
   }) : super(key: key, child: child);
 
   final ValueChanged<Size> onLayout;
@@ -59,7 +61,11 @@ class _RenderMenuItem extends RenderShiftedBox {
 
 class _PopupMenu<T> extends StatelessWidget {
   const _PopupMenu(
-      {required this.route, required this.semanticLabel, required this.widthPopup, required this.heightPopup, Key? key})
+      {required this.route,
+      required this.semanticLabel,
+      required this.widthPopup,
+      required this.heightPopup,
+      Key? key})
       : super(key: key);
 
   final _PopupMenuRoute<T> route;
@@ -114,9 +120,7 @@ class _PopupMenu<T> extends StatelessWidget {
           explicitChildNodes: true,
           label: semanticLabel,
           child: SingleChildScrollView(
-            padding: const EdgeInsets.symmetric(
-              vertical: _kMenuVerticalPadding,
-            ),
+            padding: const EdgeInsets.symmetric(),
             child: ListBody(children: children),
           ),
         ),

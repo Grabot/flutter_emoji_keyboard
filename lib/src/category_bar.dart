@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:emoji_keyboard_flutter/src/emoji_category_key.dart';
+import 'package:flutter/material.dart';
 
 /// This is the Category bar. Here the user can select any of the 9 categories
 class CategoryBar extends StatefulWidget {

@@ -1,26 +1,32 @@
 import 'dart:io';
-import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter/services.dart';
-import 'package:emoji_keyboard_flutter/src/emoji/component/component.dart';
-import 'package:emoji_keyboard_flutter/src/emoji_grid.dart';
+
 import 'package:emoji_keyboard_flutter/src/emoji/activities.dart';
 import 'package:emoji_keyboard_flutter/src/emoji/animals.dart';
+import 'package:emoji_keyboard_flutter/src/emoji/component/component.dart';
 import 'package:emoji_keyboard_flutter/src/emoji/flags.dart';
 import 'package:emoji_keyboard_flutter/src/emoji/foods.dart';
 import 'package:emoji_keyboard_flutter/src/emoji/objects.dart';
 import 'package:emoji_keyboard_flutter/src/emoji/smileys.dart';
 import 'package:emoji_keyboard_flutter/src/emoji/symbols.dart';
 import 'package:emoji_keyboard_flutter/src/emoji/travel.dart';
+import 'package:emoji_keyboard_flutter/src/emoji_grid.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
+import 'package:flutter/services.dart';
 
 /// This is the emoji page. This holds all the emoji grids.
 class EmojiPage extends StatefulWidget {
   const EmojiPage(
-      {required this.emojiKeyboardHeight, required this.emojiScrollShowBottomBar, required this.insertText, required this.recent, required this.switchedPage, Key? key})
+      {required this.emojiKeyboardHeight,
+      required this.emojiScrollShowBottomBar,
+      required this.insertText,
+      required this.recent,
+      required this.switchedPage,
+      Key? key})
       : super(key: key);
 
   final double emojiKeyboardHeight;
-  final void Function(bool) emojiScrollShowBottomBar;
+  final void Function({required bool emojiScrollShowBottomBar}) emojiScrollShowBottomBar;
   final void Function(String, int) insertText;
   final List<String> recent;
   final void Function(int) switchedPage;
@@ -77,8 +83,8 @@ class EmojiPageState extends State<EmojiPage> {
   /// We do that here because we don't want to constantly check it every time
   /// the user opens the category.
   /// We keep a boolean array in memory here of which emojis have components.
-  void checkComponentsSmileys(List<Object?> smileyList) async {
-    availableSmileys = List.filled(smileyList.length, false, growable: false);
+  Future<void> checkComponentsSmileys(List<Object?> smileyList) async {
+    availableSmileys = List.filled(smileyList.length, false);
     for (int i = 0; i < smileyList.length; i++) {
       if (componentsMap.containsKey(smileyList[i])) {
         if (Platform.isAndroid) {
@@ -138,7 +144,7 @@ class EmojiPageState extends State<EmojiPage> {
         if (recentStateKey.currentState != null) {
           // We know that all the emojis in 'recent' have been used before.
           // So we generate a list of 'true' values for the 'recent' emojis.
-          List<bool> recentAvailable = List.filled(widget.recent.length, true, growable: false);
+          List<bool> recentAvailable = List.filled(widget.recent.length, true);
           recentStateKey.currentState!.forceUpdate(widget.recent, recentAvailable);
         }
       });
