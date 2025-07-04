@@ -1,18 +1,37 @@
 import 'package:emoji_keyboard_flutter/src/util/emoji.dart';
 import 'package:emoji_keyboard_flutter/src/util/storage.dart';
 import 'package:flutter/material.dart';
-import 'dart:math';
+
+
+abstract class EmojiPickerAction {
+  const EmojiPickerAction();
+}
+
+class EmojiSelected extends EmojiPickerAction {
+  final String emoji;
+
+  const EmojiSelected(this.emoji);
+}
+
+class ButtonPressed extends EmojiPickerAction {
+  const ButtonPressed();
+}
+
+class OutsideClicked extends EmojiPickerAction {
+  const OutsideClicked();
+}
+
 
 class EmojiKeyboardPopup extends StatefulWidget {
   final bool darkMode;
   final Offset position;
-  final VoidCallback onClose;
+  final Function(EmojiPickerAction) onAction;
 
   const EmojiKeyboardPopup({
     Key? key,
     this.darkMode = false,
     required this.position,
-    required this.onClose,
+    required this.onAction,
   }) : super(key: key);
 
   @override
@@ -29,7 +48,6 @@ class EmojiBoardPopup extends State<EmojiKeyboardPopup> {
   @override
   void initState() {
     darkMode = widget.darkMode;
-
 
     recent.add(Emoji('👍', 1));
     recent.add(Emoji('👎', 1));
@@ -56,6 +74,7 @@ class EmojiBoardPopup extends State<EmojiKeyboardPopup> {
       if (emojis.isNotEmpty) {
         emojis.sort((a, b) => b.amount.compareTo(a.amount));
         recent.addAll(emojis);
+        recent.add(Emoji('', 1));
         recentEmojis = recent.map((emote) => emote.emoji).toList();
         setState(() {});
       }
@@ -68,16 +87,6 @@ class EmojiBoardPopup extends State<EmojiKeyboardPopup> {
   void dispose() {
     _scrollController.dispose();
     super.dispose();
-  }
-
-  Color _getRandomColor() {
-    final random = Random();
-    return Color.fromARGB(
-      255,
-      random.nextInt(256),
-      random.nextInt(256),
-      random.nextInt(256),
-    );
   }
 
   Color _getBackgroundColor() {
@@ -108,7 +117,7 @@ class EmojiBoardPopup extends State<EmojiKeyboardPopup> {
     return Stack(
       children: [
         GestureDetector(
-          onTap: widget.onClose,
+          onTap: () => widget.onAction(const OutsideClicked()),
           child: Container(
             color: Colors.transparent,
             width: screenWidth,
@@ -123,7 +132,7 @@ class EmojiBoardPopup extends State<EmojiKeyboardPopup> {
             child: Container(
               width: widgetWidth,
               height: 50,
-              padding: const EdgeInsets.only(left: 10.0, right: 10.0),
+              padding: const EdgeInsets.only(left: 2.0, right: 2.0),
               decoration: BoxDecoration(
                 color: _getBackgroundColor(),
                 borderRadius: BorderRadius.circular(50.0),
@@ -150,13 +159,21 @@ class EmojiBoardPopup extends State<EmojiKeyboardPopup> {
                             child: child,
                           );
                         },
-                        child: Container(
-                          width: 50,
-                          height: 50,
-                          alignment: Alignment.center,
-                          child: Text(
-                            recentEmojis[index],
-                            style: TextStyle(fontSize: 24),
+                        child: Material(
+                          color: Colors.transparent,
+                          child: InkWell(
+                            onTap: () {
+                              widget.onAction(EmojiSelected(recentEmojis[index]));
+                            },
+                            child: Container(
+                              width: 50,
+                              height: 50,
+                              alignment: Alignment.center,
+                              child: Text(
+                                recentEmojis[index],
+                                style: TextStyle(fontSize: 24),
+                              ),
+                            ),
                           ),
                         ),
                       );
@@ -168,15 +185,20 @@ class EmojiBoardPopup extends State<EmojiKeyboardPopup> {
                     bottom: 0,
                     child: Align(
                       alignment: Alignment.center,
-                      child: IconButton(
-                        icon: const Icon(Icons.add),
-                        color: Colors.white,
-                        onPressed: () {
-                          // Handle the button tap
-                        },
-                        style: IconButton.styleFrom(
-                          backgroundColor: Color(0xff808080),
-                          shape: const CircleBorder(),
+                      child: Container(
+                        padding: EdgeInsets.all(10),
+                        child: IconButton(
+                          icon: const Icon(Icons.add),
+                          color: Colors.white,
+                          iconSize: 16,
+                          padding: EdgeInsets.all(4),
+                          onPressed: () {
+                            widget.onAction(const ButtonPressed());
+                          },
+                          style: IconButton.styleFrom(
+                            backgroundColor: Color(0xff808080),
+                            shape: const CircleBorder(),
+                          ),
                         ),
                       ),
                     ),

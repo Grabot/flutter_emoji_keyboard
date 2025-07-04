@@ -1,3 +1,12 @@
+## [1.7.0] 04-07-2025
+
+Added a emoji popup option along with the emoji keyboard. This is, for instance, 
+for emoji reactions to messages in a chat app. The example has been changed to reflect 
+this usage with some mock messages that you can react to.
+The Emoji Keyboard has been given a function callback option, `onEmojiChanged`, which will 
+return whenever an emoji is pressed with the emoji value that was pressed. 
+You can also only use this option and leave the controller empty. One of the two has to be used.
+
 ## [1.6.5] 28-04-2025
 
 There were still linting issues listed.

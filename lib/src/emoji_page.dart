@@ -18,7 +18,6 @@ class EmojiPage extends StatefulWidget {
   const EmojiPage(
       {Key? key,
       required this.emojiKeyboardHeight,
-      required this.emojiController,
       required this.emojiScrollShowBottomBar,
       required this.insertText,
       required this.recent,
@@ -26,7 +25,6 @@ class EmojiPage extends StatefulWidget {
       : super(key: key);
 
   final double emojiKeyboardHeight;
-  final TextEditingController emojiController;
   final void Function(bool) emojiScrollShowBottomBar;
   final void Function(String, int) insertText;
   final List<String> recent;
@@ -61,13 +59,11 @@ class EmojiPageState extends State<EmojiPage> {
   List<bool> availableSmileys = [];
 
   PageController pageController = PageController(initialPage: 1);
-  TextEditingController? emojiController;
 
   bool showBottomBar = true;
 
   @override
   void initState() {
-    emojiController = widget.emojiController;
 
     isAvailable();
 

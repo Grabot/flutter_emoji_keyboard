@@ -19,18 +19,20 @@ import 'emoji_searching.dart';
 ///   - emoji pages
 ///     These hold all the emojis in 9 separate listviews.
 class EmojiKeyboard extends StatefulWidget {
-  final TextEditingController emojiController;
+  final TextEditingController? emojiController;
+  final Function(String)? onEmojiChanged;
   final double emojiKeyboardHeight;
   final bool showEmojiKeyboard;
   final bool darkMode;
 
   const EmojiKeyboard(
       {Key? key,
-      required this.emojiController,
+      this.emojiController = null,
+      this.onEmojiChanged = null,
       this.emojiKeyboardHeight = 350,
       this.showEmojiKeyboard = true,
-      this.darkMode = false})
-      : super(key: key);
+      this.darkMode = false})  : assert(emojiController != null || onEmojiChanged != null,
+  'Either emojiController or onEmojiChanged must be provided'), super(key: key);
 
   @override
   EmojiBoard createState() => EmojiBoard();
@@ -62,8 +64,6 @@ class EmojiBoard extends State<EmojiKeyboard> {
 
   double emojiKeyboardHeight = 350;
 
-  TextEditingController? emojiController;
-
   bool showBottomBar = true;
   bool searchMode = false;
   bool darkMode = false;
@@ -76,7 +76,6 @@ class EmojiBoard extends State<EmojiKeyboard> {
 
   @override
   void initState() {
-    emojiController = widget.emojiController;
     emojiKeyboardHeight = widget.emojiKeyboardHeight;
     darkMode = widget.darkMode;
 
@@ -159,7 +158,9 @@ class EmojiBoard extends State<EmojiKeyboard> {
     setState(() {
       searchMode = true;
     });
-    rememberPosition = emojiController!.selection;
+    if (widget.emojiController != null) {
+      rememberPosition = widget.emojiController!.selection;
+    }
     focusSearchEmoji.requestFocus();
   }
 
@@ -263,20 +264,25 @@ class EmojiBoard extends State<EmojiKeyboard> {
   /// The emoji is added where the cursor was when the user pressed search.
   void insertTextSearch(String myText) {
     addRecentEmojiSearch(myText);
-    final text = emojiController!.text;
-    final textSelection = rememberPosition;
-    final newText = text.replaceRange(
-      textSelection.start,
-      textSelection.end,
-      myText,
-    );
-    final myTextLength = myText.length;
-    emojiController!.text = newText;
-    emojiController!.selection = textSelection.copyWith(
-      baseOffset: textSelection.start + myTextLength,
-      extentOffset: textSelection.start + myTextLength,
-    );
-    rememberPosition = emojiController!.selection;
+    if (widget.emojiController != null) {
+      final text = widget.emojiController!.text;
+      final textSelection = rememberPosition;
+      final newText = text.replaceRange(
+        textSelection.start,
+        textSelection.end,
+        myText,
+      );
+      final myTextLength = myText.length;
+      widget.emojiController!.text = newText;
+      widget.emojiController!.selection = textSelection.copyWith(
+        baseOffset: textSelection.start + myTextLength,
+        extentOffset: textSelection.start + myTextLength,
+      );
+      rememberPosition = widget.emojiController!.selection;
+    }
+    if (widget.onEmojiChanged != null) {
+      widget.onEmojiChanged!(myText);
+    }
   }
 
   /// This function is called when we want to see if any of the recent emojis
@@ -314,19 +320,111 @@ class EmojiBoard extends State<EmojiKeyboard> {
   void insertText(String myText, int category) {
     addRecentEmoji(myText, category);
     emojiScrollShowBottomBar(true);
-    final text = emojiController!.text;
-    final textSelection = emojiController!.selection;
-    final newText = text.replaceRange(
-      textSelection.start,
-      textSelection.end,
-      myText,
-    );
-    final myTextLength = myText.length;
-    emojiController!.text = newText;
-    emojiController!.selection = textSelection.copyWith(
-      baseOffset: textSelection.start + myTextLength,
-      extentOffset: textSelection.start + myTextLength,
-    );
+    if (widget.emojiController != null) {
+      final text = widget.emojiController!.text;
+      final textSelection = widget.emojiController!.selection;
+      final newText = text.replaceRange(
+        textSelection.start,
+        textSelection.end,
+        myText,
+      );
+      final myTextLength = myText.length;
+      widget.emojiController!.text = newText;
+      widget.emojiController!.selection = textSelection.copyWith(
+        baseOffset: textSelection.start + myTextLength,
+        extentOffset: textSelection.start + myTextLength,
+      );
+    }
+    if (widget.onEmojiChanged != null) {
+      widget.onEmojiChanged!(myText);
+    }
+  }
+
+  /// If the user presses the Spacebar it will simply add a space
+  void onActionSpaceBar() {
+    if (widget.emojiController != null) {
+      final text = widget.emojiController!.text;
+      final textSelection = widget.emojiController!.selection;
+      final newText = text.replaceRange(
+        textSelection.start,
+        textSelection.end,
+        " ",
+      );
+      widget.emojiController!.text = newText;
+      widget.emojiController!.selection = textSelection.copyWith(
+        baseOffset: textSelection.start + 1,
+        extentOffset: textSelection.start + 1,
+      );
+    }
+  }
+
+  /// If the user presses the backspace located on the bottom bar it should
+  /// remove the previous emoji (or character) based on where the cursor is
+  /// at that moment.
+  /// Using the skipLast(1) functionality we determine which that is and
+  /// remove it.
+  /// First we check if a selection is made, if that's the case we remove
+  /// that selection
+  /// if the user has the cursor in the beginning or nothing is in the
+  /// Textfield nothing happens
+  void onActionBackspace() {
+    if (widget.emojiController != null) {
+      final text = widget.emojiController!.text;
+      final textSelection = widget.emojiController!.selection;
+      final selectionLength = textSelection.end - textSelection.start;
+      if (selectionLength > 0) {
+        final newText = text.replaceRange(
+          textSelection.start,
+          textSelection.end,
+          '',
+        );
+        widget.emojiController!.text = newText;
+        widget.emojiController!.selection = textSelection.copyWith(
+          baseOffset: textSelection.start,
+          extentOffset: textSelection.start,
+        );
+        return;
+      }
+
+      if (textSelection.start == 0) {
+        if (text.isEmpty) {
+          return;
+        } else {
+          // Eagerly selects all but the last count characters
+          String finalCharacter = text.characters
+              .skipLast(1)
+              .string;
+          // So if the result is empty there was only 1 character
+          if (finalCharacter == "") {
+            // If there was only 1 character we remove that one.
+            widget.emojiController!.text = "";
+            widget.emojiController!.selection = textSelection.copyWith(
+              baseOffset: 0,
+              extentOffset: 0,
+            );
+            return;
+          }
+        }
+      }
+
+      String firstSection = text.substring(0, textSelection.start);
+      String newFirstSection = firstSection.characters
+          .skipLast(1)
+          .string;
+      final offset = firstSection.length - newFirstSection.length;
+      final newStart = textSelection.start - offset;
+      final newEnd = textSelection.start;
+      final newText = text.replaceRange(
+        newStart,
+        newEnd,
+        '',
+      );
+      widget.emojiController!.text = newText;
+      widget.emojiController!.selection = textSelection.copyWith(
+        baseOffset: newStart,
+        extentOffset: newStart,
+      );
+    }
   }
 
   bool isPortrait() {
@@ -369,14 +467,14 @@ class EmojiBoard extends State<EmojiKeyboard> {
                 emojiKeyboardHeight: isPortrait()
                     ? emojiKeyboardHeight
                     : (emojiKeyboardHeight / 3) * 2,
-                emojiController: emojiController!,
                 emojiScrollShowBottomBar: emojiScrollShowBottomBar,
                 insertText: insertText,
                 recent: recentEmojis,
                 switchedPage: switchedPage),
             BottomBar(
                 key: bottomBarStateKey,
-                emojiController: emojiController!,
+                onActionSpaceBar: onActionSpaceBar,
+                onActionBackspace: onActionBackspace,
                 emojiSearch: emojiSearch,
                 darkMode: darkMode),
           ])
