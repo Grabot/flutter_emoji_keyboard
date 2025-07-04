@@ -40,12 +40,12 @@ class EmojiGridState extends State<EmojiGrid> {
   ScrollController scrollController = ScrollController();
   ScrollController scrollPopupController = ScrollController();
 
-  static const platform = MethodChannel("nl.emojikeyboard.emoji/available");
+  static const platform = MethodChannel('nl.emojikeyboard.emoji/available');
 
   List<bool> available = [];
 
   NavigatorState? navigator;
-  String barrierLabel = "";
+  String barrierLabel = '';
   CapturedThemes? capturedThemes;
 
   @override
@@ -114,9 +114,9 @@ class EmojiGridState extends State<EmojiGrid> {
   @override
   Widget build(BuildContext context) {
     // Add global keys to the buttons to find the position
-    List<GlobalKey> keys = [];
+    final List<GlobalKey> keys = [];
     for (int i = 0; i < emojis!.length; i++) {
-      GlobalKey key = GlobalKey();
+      final GlobalKey key = GlobalKey();
       keys.add(key);
     }
 
@@ -198,17 +198,17 @@ class EmojiGridState extends State<EmojiGrid> {
   }
 
   Future<void> _showPopupMenu(GlobalKey keyKey, String emoji) async {
-    List<String> components = [emoji];
+    final List<String> components = [emoji];
     if (componentsMap.containsKey(emoji)) {
       components.addAll(componentsMap[emoji]!);
     }
 
     List<String> finalComponents = [];
     if (Platform.isAndroid) {
-      List<dynamic>? availableEmojis =
-          await platform.invokeMethod("isAvailable", {"emojis": components});
+      final List<dynamic>? availableEmojis =
+          await platform.invokeMethod('isAvailable', {'emojis': components});
       if (availableEmojis != null) {
-        for (var avail in availableEmojis) {
+        for (final avail in availableEmojis) {
           finalComponents.add(avail.toString());
         }
       }
@@ -216,18 +216,18 @@ class EmojiGridState extends State<EmojiGrid> {
       finalComponents = components;
     }
 
-    RenderBox? box = keyKey.currentContext!.findRenderObject() as RenderBox?;
+    final RenderBox? box = keyKey.currentContext!.findRenderObject() as RenderBox?;
 
-    Offset position = box!.localToGlobal(Offset.zero);
+    final Offset position = box!.localToGlobal(Offset.zero);
 
-    double xPos = position.dx;
-    double yPos = position.dy;
-    double emojiWidth = widget.emojiSize;
+    final double xPos = position.dx;
+    final double yPos = position.dy;
+    final double emojiWidth = widget.emojiSize;
 
     // We want the width to be 6 buttons wide,
     // the original emoji + 5 skin components
     // You can have more components, but it will always be at least 6.
-    double widthPopup = widget.emojiSize * 6;
+    final double widthPopup = widget.emojiSize * 6;
     double heightPopup = 0;
     if (finalComponents.length <= 6) {
       // Only 1 row needed. Show all emojis in a single row
@@ -251,8 +251,11 @@ class EmojiGridState extends State<EmojiGrid> {
       heightPosition = yPos - (emojiWidth * 2.5);
     }
 
-    RelativeRect popupPosition = RelativeRect.fromLTRB(xPos - (emojiWidth * 2) - (emojiWidth / 2),
-        heightPosition, xPos + (emojiWidth * 3) + (emojiWidth / 2), yPos);
+    final RelativeRect popupPosition = RelativeRect.fromLTRB(
+        xPos - (emojiWidth * 2) - (emojiWidth / 2),
+        heightPosition,
+        xPos + (emojiWidth * 3) + (emojiWidth / 2),
+        yPos);
 
     if (navigator != null && capturedThemes != null) {
       showMenuOverride(
@@ -282,20 +285,20 @@ class EmojiGridState extends State<EmojiGrid> {
 class BorderPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
-    double sh = size.height;
-    double sw = size.width;
-    double cornerSide = sh * 0.05;
-    double strokeWidth = 1.5;
+    final double sh = size.height;
+    final double sw = size.width;
+    final double cornerSide = sh * 0.05;
+    const double strokeWidth = 1.5;
     // strokewidth/2. This is so the indicator remains visible on the right side
-    double tinyOffset = strokeWidth / 2;
+    const double tinyOffset = strokeWidth / 2;
 
-    Paint paint = Paint()
+    final Paint paint = Paint()
       ..color = Colors.grey.shade500
       ..strokeWidth = strokeWidth
       ..style = PaintingStyle.stroke
       ..strokeCap = StrokeCap.square;
 
-    Path path = Path()
+    final Path path = Path()
       ..moveTo(sw - cornerSide - tinyOffset, sh)
       ..lineTo(sw - tinyOffset, sh)
       ..lineTo(sw - tinyOffset, sh - cornerSide);

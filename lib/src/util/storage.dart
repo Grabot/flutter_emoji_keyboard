@@ -10,7 +10,7 @@ import 'package:sqflite/sqflite.dart';
 /// - add a emoji emoji entry in the db.
 /// - update an existing emoji entry to increase the count.
 class Storage {
-  static const _dbName = "emoji_keyboard.db";
+  static const _dbName = 'emoji_keyboard.db';
 
   static final Storage _instance = Storage._internal();
 
@@ -32,10 +32,10 @@ class Storage {
 
   /// Creates and opens the database.
   Future<Database> _initDatabase() async {
-    var databasesPath = await getDatabasesPath();
-    String path = join(databasesPath, _dbName);
+    final databasesPath = await getDatabasesPath();
+    final String path = join(databasesPath, _dbName);
 
-    return await openDatabase(
+    return openDatabase(
       path,
       version: 1,
       onCreate: _onCreate,
@@ -58,9 +58,9 @@ class Storage {
   }
 
   Future<List<Emoji>> fetchAllEmojis() async {
-    Database database = await this.database;
-    String query = "SELECT * FROM Emojis";
-    List<Map<String, dynamic>> emojis = await database.rawQuery(query);
+    final Database database = await this.database;
+    const String query = 'SELECT * FROM Emojis';
+    final List<Map<String, dynamic>> emojis = await database.rawQuery(query);
     if (emojis.isNotEmpty) {
       return emojis.map((map) => Emoji.fromDbMap(map)).toList();
     }
@@ -68,7 +68,7 @@ class Storage {
   }
 
   Future<int> addEmoji(Emoji emoji) async {
-    Database database = await this.database;
+    final Database database = await this.database;
     return database.insert(
       'Emojis',
       emoji.toDbMap(),
@@ -77,7 +77,7 @@ class Storage {
   }
 
   Future<int> updateEmoji(Emoji emoji) async {
-    Database database = await this.database;
+    final Database database = await this.database;
     return database.update(
       'Emojis',
       emoji.toDbMap(),

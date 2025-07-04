@@ -94,9 +94,9 @@ class MyHomePageState extends State<MyHomePage> {
     } else if (action is ButtonPressed) {
       showEmojiKeyboard = true;
     } else if (action is EmojiSelected) {
-      String newEmoji = action.emoji;
+      final String newEmoji = action.emoji;
       if (emojiReactions[emojiReactionIndex] == newEmoji) {
-        emojiReactions[emojiReactionIndex] = "";
+        emojiReactions[emojiReactionIndex] = '';
       } else {
         emojiReactions[emojiReactionIndex] = action.emoji;
       }
@@ -137,19 +137,21 @@ class MyHomePageState extends State<MyHomePage> {
               decoration: BoxDecoration(
                 color: messageIndex == 0 ? Colors.green[200] : Colors.blue[200],
                 borderRadius: BorderRadius.only(
-                  topLeft: messageIndex == 0 ? Radius.circular(30.0) : Radius.circular(0.0),
-                  topRight: messageIndex == 1 ? Radius.circular(30.0) : Radius.circular(0.0),
-                  bottomLeft: Radius.circular(30.0),
-                  bottomRight: Radius.circular(30.0),
+                  topLeft:
+                      messageIndex == 0 ? const Radius.circular(30.0) : Radius.zero,
+                  topRight:
+                      messageIndex == 1 ? const Radius.circular(30.0) : Radius.zero,
+                  bottomLeft: const Radius.circular(30.0),
+                  bottomRight: const Radius.circular(30.0),
                 ),
               ),
               child: Text(
                 messageText,
-                style: TextStyle(fontSize: 16.0),
+                style: const TextStyle(fontSize: 16.0),
               ),
             ),
           ),
-          if (emojiReactions[messageIndex] != "")
+          if (emojiReactions[messageIndex] != '')
             Positioned(
               bottom: 0,
               right: 50,
@@ -161,7 +163,7 @@ class MyHomePageState extends State<MyHomePage> {
                 ),
                 child: Text(
                   emojiReactions[messageIndex],
-                  style: TextStyle(fontSize: 16.0),
+                  style: const TextStyle(fontSize: 16.0),
                 ),
               ),
             ),
@@ -198,9 +200,7 @@ class MyHomePageState extends State<MyHomePage> {
                   alignment: Alignment.topCenter,
                   padding: const EdgeInsets.only(bottom: 46.0, left: 8, right: 8, top: 12),
                   child: TextFormField(
-                    onTap: () {
-                      onTapEmojiField();
-                    },
+                    onTap: onTapEmojiField,
                     controller: controller,
                     decoration: const InputDecoration(border: OutlineInputBorder()),
                     readOnly: true,

@@ -120,7 +120,7 @@ class _PopupMenu<T> extends StatelessWidget {
           explicitChildNodes: true,
           label: semanticLabel,
           child: SingleChildScrollView(
-            padding: const EdgeInsets.symmetric(),
+            padding: EdgeInsets.zero,
             child: ListBody(children: children),
           ),
         ),
@@ -187,7 +187,7 @@ class _PopupMenuRouteLayout extends SingleChildLayoutDelegate {
     // The menu can be at most the size of the overlay minus 8.0 pixels in each
     // direction.
     return BoxConstraints.loose(constraints.biggest).deflate(
-      const EdgeInsets.all(_kMenuScreenPadding) + padding,
+      EdgeInsets.zero + padding,
     );
   }
 

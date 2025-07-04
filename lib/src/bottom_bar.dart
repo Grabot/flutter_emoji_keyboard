@@ -71,19 +71,19 @@ class BottomBarState extends State<BottomBar> {
                             width: (MediaQuery.of(context).size.width / 8) * 2,
                             height: MediaQuery.of(context).size.width / 8,
                             child: TextButton(
-                                onPressed: () => widget.emojiSearch(),
+                                onPressed: widget.emojiSearch,
                                 child: const Icon(Icons.search))),
                         SizedBox(
                             width: (MediaQuery.of(context).size.width / 8) * 3,
                             height: MediaQuery.of(context).size.width / 8,
                             child: TextButton(
-                                onPressed: () => widget.onActionSpaceBar(),
+                                onPressed: widget.onActionSpaceBar,
                                 child: const Icon(Icons.space_bar))),
                         SizedBox(
                             width: (MediaQuery.of(context).size.width / 8) * 2,
                             height: MediaQuery.of(context).size.width / 8,
                             child: TextButton(
-                                onPressed: () => widget.onActionBackspace(),
+                                onPressed: widget.onActionBackspace,
                                 child: const Icon(Icons.backspace)))
                       ],
                     ),

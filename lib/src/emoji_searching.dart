@@ -12,9 +12,9 @@ import 'package:emoji_keyboard_flutter/src/emoji/travel.dart';
 /// It looks for exact or partial matches with the emoji name and the given text
 List<String> searchEmojis(String text) {
   if (text.isNotEmpty) {
-    List<SearchedEmoji> recommendedEmojis = [];
+    final List<SearchedEmoji> recommendedEmojis = [];
 
-    List<List<List<dynamic>>> allEmojis = [
+    final List<List<List<dynamic>>> allEmojis = [
       smileysList,
       animalsList,
       foodsList,
@@ -24,21 +24,21 @@ List<String> searchEmojis(String text) {
       symbolsList,
       flagsList
     ];
-    for (var emojiList in allEmojis) {
-      for (var emoji in emojiList) {
-        String emojiString = emoji[0] as String;
-        String description = emoji[1] as String;
-        List<String> descriptionSplit =
-            description.replaceAll(":", "").replaceAll("-", " ").split(" ");
+    for (final emojiList in allEmojis) {
+      for (final emoji in emojiList) {
+        final String emojiString = emoji[0] as String;
+        final String description = emoji[1] as String;
+        final List<String> descriptionSplit =
+            description.replaceAll(':', '').replaceAll('-', ' ').split(' ');
         List<String> splitName = emoji[2] as List<String>;
         splitName.addAll(descriptionSplit);
 
         splitName = splitName.toSet().toList();
 
-        if (text.contains(" ")) {
+        if (text.contains(' ')) {
           getRecommendedEmojis(recommendedEmojis, splitName, text, emojiString);
-          text.split(" ").forEach((textSplit) {
-            if (textSplit != "") {
+          text.split(' ').forEach((textSplit) {
+            if (textSplit != '') {
               getRecommendedEmojis(recommendedEmojis, splitName, textSplit, emojiString);
             }
           });
@@ -49,12 +49,12 @@ List<String> searchEmojis(String text) {
     }
 
     recommendedEmojis.sort((a, b) {
-      if (a.tier < b.tier) {
+      if (a._tier < b._tier) {
         return -1;
-      } else if (a.tier > b.tier) {
+      } else if (a._tier > b._tier) {
         return 1;
       } else {
-        if (a.tier == 1 && b.tier == 1) {
+        if (a._tier == 1 && b._tier == 1) {
           if (a.numSplitEqualKeyword > b.numSplitEqualKeyword) {
             return -1;
           } else if (a.numSplitEqualKeyword < b.numSplitEqualKeyword) {
@@ -102,7 +102,7 @@ void getRecommendedEmojis(List<SearchedEmoji> recommendedEmojis, List<String> sp
     String text, String emojiString) {
   int numSplitEqualKeyword = 0;
   int numSplitPartialKeyword = 0;
-  for (var splitName in splitName) {
+  for (final splitName in splitName) {
     if (splitName == text.toLowerCase()) {
       numSplitEqualKeyword += 1;
     } else if (splitName.toLowerCase().contains(text.toLowerCase())) {
@@ -110,11 +110,11 @@ void getRecommendedEmojis(List<SearchedEmoji> recommendedEmojis, List<String> sp
     }
 
     if (numSplitEqualKeyword > 0) {
-      List<String> searchedEmojiList = recommendedEmojis.map((emote) => emote.emoji).toList();
+      final List<String> searchedEmojiList = recommendedEmojis.map((emote) => emote.emoji).toList();
       if (searchedEmojiList.contains(emojiString)) {
-        SearchedEmoji currentSearchedEmoji =
+        final SearchedEmoji currentSearchedEmoji =
             recommendedEmojis.firstWhere((emote) => emote.emoji == emojiString);
-        currentSearchedEmoji.setTier(1);
+        currentSearchedEmoji.tier = 1;
 
         currentSearchedEmoji.addSearchHit();
         currentSearchedEmoji.addNumSplitEqualKeyword(numSplitEqualKeyword);
@@ -128,9 +128,9 @@ void getRecommendedEmojis(List<SearchedEmoji> recommendedEmojis, List<String> sp
             searchHits: 1));
       }
     } else if (numSplitPartialKeyword > 0) {
-      List<String> searchedEmojiList = recommendedEmojis.map((emote) => emote.emoji).toList();
+      final List<String> searchedEmojiList = recommendedEmojis.map((emote) => emote.emoji).toList();
       if (searchedEmojiList.contains(emojiString)) {
-        SearchedEmoji currentSearchedEmoji =
+        final SearchedEmoji currentSearchedEmoji =
             recommendedEmojis.firstWhere((emote) => emote.emoji == emojiString);
         currentSearchedEmoji.addSearchHit();
         currentSearchedEmoji.addNumSplitEqualKeyword(numSplitEqualKeyword);
@@ -153,20 +153,21 @@ void getRecommendedEmojis(List<SearchedEmoji> recommendedEmojis, List<String> sp
 /// If the word matches exact it will be a stronger factor than partially
 class SearchedEmoji {
   final String emoji;
-  int tier;
+  int _tier;
   int numSplitEqualKeyword;
   int numSplitPartialKeyword;
   int searchHits;
 
   SearchedEmoji(
       {required this.emoji,
-      required this.tier,
+      required int tier,
       this.numSplitEqualKeyword = 0,
       this.numSplitPartialKeyword = 0,
-      this.searchHits = 0});
+      this.searchHits = 0,
+      })  : _tier = tier;
 
-  void setTier(int tier) {
-    this.tier = tier;
+  set tier(int tier) {
+    _tier = tier;
   }
 
   void addSearchHit() {

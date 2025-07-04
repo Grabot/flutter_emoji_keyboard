@@ -50,7 +50,7 @@ class EmojiBoard extends State<EmojiKeyboard> {
   /// This function will see if it can be shown in the Android version
   /// that the user is currently using.
   /// (See MainActivity in the android project for the implementation)
-  static const platform = MethodChannel("nl.emojikeyboard.emoji/available");
+  static const platform = MethodChannel('nl.emojikeyboard.emoji/available');
 
   final GlobalKey<CategoryBarState> categoryBarStateKey = GlobalKey<CategoryBarState>();
   final GlobalKey<BottomBarState> bottomBarStateKey = GlobalKey<BottomBarState>();
@@ -96,7 +96,8 @@ class EmojiBoard extends State<EmojiKeyboard> {
       }
     });
 
-    var keyboardVisibilityController = KeyboardVisibilityController();
+    final KeyboardVisibilityController keyboardVisibilityController =
+        KeyboardVisibilityController();
     keyboardSubscription = keyboardVisibilityController.onChange.listen((bool visible) {
       // If the keyboard was visible the user must have been in search mode.
       // If the keyboard is no longer visible the user must have pressed the back button
@@ -167,17 +168,17 @@ class EmojiBoard extends State<EmojiKeyboard> {
   /// button is pressed. It takes the recent emojis and fills it in.
   /// It stops after 10 because more is not needed.
   void setInitialSearchEmojis() {
-    List<SearchedEmoji> recommendedEmojis = [];
+    final List<SearchedEmoji> recommendedEmojis = [];
     if (recentEmojis != <String>[]) {
-      for (var recentEmoji in recentEmojis) {
-        recommendedEmojis.add(SearchedEmoji(emoji: recentEmoji.toString(), tier: 1));
+      for (final String recentEmoji in recentEmojis) {
+        recommendedEmojis.add(SearchedEmoji(emoji: recentEmoji, tier: 1));
         if (recommendedEmojis.length >= 20) {
           break;
         }
       }
-      List<String> finalEmojis = [];
-      for (var element in recommendedEmojis) {
-        finalEmojis.add(element.emoji.toString());
+      final List<String> finalEmojis = [];
+      for (final SearchedEmoji element in recommendedEmojis) {
+        finalEmojis.add(element.emoji);
       }
       isAvailable(finalEmojis);
       setState(() {
@@ -192,7 +193,7 @@ class EmojiBoard extends State<EmojiKeyboard> {
   /// related to that text search in any way. It puts these emojis in the list
   /// and shows it.
   void updateEmojiSearch(String text) {
-    List<String> finalEmojis = searchEmojis(text);
+    final List<String> finalEmojis = searchEmojis(text);
     if (finalEmojis != <String>[]) {
       isAvailable(finalEmojis.toList());
     }
@@ -206,10 +207,10 @@ class EmojiBoard extends State<EmojiKeyboard> {
   /// When it adds a new entry it will look in the emoji list for the category
   /// that the emoji is in to be able to store a new entry in the local db
   Future<void> addRecentEmoji(String emoji, int category) async {
-    List<String> recentEmojiList = recent.map((emote) => emote.emoji).toList();
+    final List<String> recentEmojiList = recent.map((emote) => emote.emoji).toList();
     if (recentEmojiList.contains(emoji)) {
       // The emoji is already in the list so we want to update it.
-      Emoji currentEmoji = recent.firstWhere((emote) => emote.emoji == emoji);
+      final Emoji currentEmoji = recent.firstWhere((emote) => emote.emoji == emoji);
       currentEmoji.increase();
       storage.updateEmoji(currentEmoji).then((value) {
         recent.sort((a, b) => b.amount.compareTo(a.amount));
@@ -218,7 +219,7 @@ class EmojiBoard extends State<EmojiKeyboard> {
         });
       });
     } else {
-      Emoji newEmoji = Emoji(emoji, 1);
+      final Emoji newEmoji = Emoji(emoji, 1);
       storage.addEmoji(newEmoji).then((emotion) {
         recent.add(newEmoji);
         recent.sort((a, b) => b.amount.compareTo(a.amount));
@@ -233,10 +234,10 @@ class EmojiBoard extends State<EmojiKeyboard> {
   /// But here we don't have access to the category, so we will loop through
   /// all the categories to find the emoji we want to add
   Future<void> addRecentEmojiSearch(String emoji) async {
-    List<String> recentEmojiList = recent.map((emote) => emote.emoji).toList();
+    final List<String> recentEmojiList = recent.map((emote) => emote.emoji).toList();
     if (recentEmojiList.contains(emoji)) {
       // The emoji is already in the list so we want to update it.
-      Emoji currentEmoji = recent.firstWhere((emote) => emote.emoji == emoji);
+      final Emoji currentEmoji = recent.firstWhere((emote) => emote.emoji == emoji);
       currentEmoji.increase();
       storage.updateEmoji(currentEmoji).then((value) {
         recent.sort((a, b) => b.amount.compareTo(a.amount));
@@ -245,7 +246,7 @@ class EmojiBoard extends State<EmojiKeyboard> {
         });
       });
     } else {
-      Emoji newEmoji = Emoji(emoji, 1);
+      final Emoji newEmoji = Emoji(emoji, 1);
       storage.addEmoji(newEmoji).then((emotion) {
         recent.add(newEmoji);
         recent.sort((a, b) => b.amount.compareTo(a.amount));
@@ -278,9 +279,7 @@ class EmojiBoard extends State<EmojiKeyboard> {
       );
       rememberPosition = widget.emojiController!.selection;
     }
-    if (widget.onEmojiChanged != null) {
-      widget.onEmojiChanged!(myText);
-    }
+    widget.onEmojiChanged?.call(myText);
   }
 
   /// This function is called when we want to see if any of the recent emojis
@@ -300,11 +299,11 @@ class EmojiBoard extends State<EmojiKeyboard> {
   /// If the emoji cannot be shown in this Android version it is removed from
   /// the list.
   Future<void> getAvailableEmojis(List<String> emojis) async {
-    List<dynamic>? availableResult =
-        await (platform.invokeMethod("isAvailable", {"emojis": emojis}));
-    List<String> available = [];
+    final List<dynamic>? availableResult =
+        await platform.invokeMethod('isAvailable', {'emojis': emojis});
+    final List<String> available = [];
     if (availableResult != null) {
-      for (var avail in availableResult) {
+      for (final avail in availableResult) {
         available.add(avail.toString());
       }
     }
@@ -333,9 +332,7 @@ class EmojiBoard extends State<EmojiKeyboard> {
         extentOffset: textSelection.start + myTextLength,
       );
     }
-    if (widget.onEmojiChanged != null) {
-      widget.onEmojiChanged!(myText);
-    }
+    widget.onEmojiChanged?.call(myText);
   }
 
   /// If the user presses the Spacebar it will simply add a space
@@ -346,7 +343,7 @@ class EmojiBoard extends State<EmojiKeyboard> {
       final newText = text.replaceRange(
         textSelection.start,
         textSelection.end,
-        " ",
+        ' ',
       );
       widget.emojiController!.text = newText;
       widget.emojiController!.selection = textSelection.copyWith(
@@ -389,11 +386,11 @@ class EmojiBoard extends State<EmojiKeyboard> {
           return;
         } else {
           // Eagerly selects all but the last count characters
-          String finalCharacter = text.characters.skipLast(1).string;
+          final String finalCharacter = text.characters.skipLast(1).string;
           // So if the result is empty there was only 1 character
-          if (finalCharacter == "") {
+          if (finalCharacter == '') {
             // If there was only 1 character we remove that one.
-            widget.emojiController!.text = "";
+            widget.emojiController!.text = '';
             widget.emojiController!.selection = textSelection.copyWith(
               baseOffset: 0,
               extentOffset: 0,
@@ -403,8 +400,8 @@ class EmojiBoard extends State<EmojiKeyboard> {
         }
       }
 
-      String firstSection = text.substring(0, textSelection.start);
-      String newFirstSection = firstSection.characters.skipLast(1).string;
+      final String firstSection = text.substring(0, textSelection.start);
+      final String newFirstSection = firstSection.characters.skipLast(1).string;
       final offset = firstSection.length - newFirstSection.length;
       final newStart = textSelection.start - offset;
       final newEnd = textSelection.start;
@@ -471,69 +468,66 @@ class EmojiBoard extends State<EmojiKeyboard> {
           ])
         ]),
       ),
-      widget.showEmojiKeyboard && searchMode
-          ? Container(
-              color: getKeyboardColour(),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  SizedBox(
-                    height: isPortrait() ? (MediaQuery.of(context).size.width / 8) : 50,
-                    child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: searchedEmojis.length,
-                      itemBuilder: (context, index) {
-                        return Material(
-                          color: Colors.transparent,
-                          child: InkWell(
-                            splashColor: const Color(0xff898989),
-                            onTap: () {
-                              insertTextSearch(searchedEmojis[index]);
-                            },
-                            child: Container(
-                                padding: const EdgeInsets.all(4),
-                                child: FittedBox(
-                                  fit: BoxFit.fitWidth,
-                                  child: Text(searchedEmojis[index],
-                                      style: const TextStyle(fontSize: 50)),
-                                )),
-                          ),
-                        );
-                      },
-                    ),
-                  ),
-                  Row(children: [
-                    IconButton(
-                      icon: const Icon(Icons.arrow_back),
-                      color: Colors.grey.shade600,
-                      onPressed: () {
-                        pressedBackSearch();
-                      },
-                    ),
-                    Expanded(
-                      child: TextFormField(
-                          focusNode: focusSearchEmoji,
-                          onChanged: (text) {
-                            updateEmojiSearch(text);
-                          },
-                          style: TextStyle(
-                            color: darkMode ? Colors.white : Colors.black,
-                          ),
-                          decoration: const InputDecoration(
-                              border: InputBorder.none,
-                              focusedBorder: InputBorder.none,
-                              enabledBorder: InputBorder.none,
-                              errorBorder: InputBorder.none,
-                              disabledBorder: InputBorder.none)),
-                    ),
-                  ]),
-                  SizedBox(
-                    height: MediaQuery.of(context).padding.bottom,
-                  )
-                ],
+      if (widget.showEmojiKeyboard && searchMode)
+        Container(
+          color: getKeyboardColour(),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              SizedBox(
+                height: isPortrait() ? (MediaQuery.of(context).size.width / 8) : 50,
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: searchedEmojis.length,
+                  itemBuilder: (context, index) {
+                    return Material(
+                      color: Colors.transparent,
+                      child: InkWell(
+                        splashColor: const Color(0xff898989),
+                        onTap: () {
+                          insertTextSearch(searchedEmojis[index]);
+                        },
+                        child: Container(
+                            padding: const EdgeInsets.all(4),
+                            child: FittedBox(
+                              fit: BoxFit.fitWidth,
+                              child:
+                                  Text(searchedEmojis[index], style: const TextStyle(fontSize: 50)),
+                            )),
+                      ),
+                    );
+                  },
+                ),
               ),
-            )
-          : Container(),
+              Row(children: [
+                IconButton(
+                  icon: const Icon(Icons.arrow_back),
+                  color: Colors.grey.shade600,
+                  onPressed: pressedBackSearch,
+                ),
+                Expanded(
+                  child: TextFormField(
+                      focusNode: focusSearchEmoji,
+                      onChanged: updateEmojiSearch,
+                      style: TextStyle(
+                        color: darkMode ? Colors.white : Colors.black,
+                      ),
+                      decoration: const InputDecoration(
+                          border: InputBorder.none,
+                          focusedBorder: InputBorder.none,
+                          enabledBorder: InputBorder.none,
+                          errorBorder: InputBorder.none,
+                          disabledBorder: InputBorder.none)),
+                ),
+              ]),
+              SizedBox(
+                height: MediaQuery.of(context).padding.bottom,
+              )
+            ],
+          ),
+        )
+      else
+        Container(),
     ]);
   }
 }

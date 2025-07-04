@@ -9,7 +9,7 @@ class Emoji {
   }
 
   Map<String, dynamic> toDbMap() {
-    var map = <String, dynamic>{};
+    final map = <String, dynamic>{};
     map['emoji'] = emoji;
     map['amount'] = amount;
     return map;

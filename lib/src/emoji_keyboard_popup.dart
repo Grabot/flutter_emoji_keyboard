@@ -157,7 +157,7 @@ class EmojiBoardPopup extends State<EmojiKeyboardPopup> {
                           // Fade in and out for emojis in the horizontal listview
                           final itemPosition = index * 50.0;
                           final scrollPosition = _scrollController.offset - 40;
-                          final fadeOutWidth = 40.0;
+                          const fadeOutWidth = 40.0;
 
                           final distanceFromCenter =
                               (itemPosition - scrollPosition - (widgetWidth / 2)).abs();
@@ -183,7 +183,7 @@ class EmojiBoardPopup extends State<EmojiKeyboardPopup> {
                               alignment: Alignment.center,
                               child: Text(
                                 recentEmojis[index],
-                                style: TextStyle(fontSize: 24),
+                                style: const TextStyle(fontSize: 24),
                               ),
                             ),
                           ),
@@ -197,17 +197,17 @@ class EmojiBoardPopup extends State<EmojiKeyboardPopup> {
                     bottom: 0,
                     child: Align(
                       child: Container(
-                        padding: EdgeInsets.all(10),
+                        padding: const EdgeInsets.all(10),
                         child: IconButton(
                           icon: const Icon(Icons.add),
                           color: Colors.white,
                           iconSize: 16,
-                          padding: EdgeInsets.all(4),
+                          padding: const EdgeInsets.all(4),
                           onPressed: () {
                             widget.onAction(const ButtonPressed());
                           },
                           style: IconButton.styleFrom(
-                            backgroundColor: Color(0xff808080),
+                            backgroundColor: const Color(0xff808080),
                             shape: const CircleBorder(),
                           ),
                         ),
