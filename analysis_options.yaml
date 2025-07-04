@@ -1,0 +1,41 @@
+# Specify analysis options.
+#
+# For a list of lints, see: https://dart.dev/tools/linter-rules
+# For guidelines on configuring static analysis, see:
+# https://dart.dev/tools/analysis
+#
+# There are other similar analysis options files in the flutter repos,
+# which should be kept in sync with this file:
+#
+#   - analysis_options.yaml (this file)
+#   - https://github.com/flutter/packages/blob/main/analysis_options.yaml
+#
+# This file contains the analysis options used for code in the flutter/flutter
+# repository.
+
+analyzer:
+  language:
+    strict-casts: true
+    strict-inference: true
+    strict-raw-types: true
+  errors:
+    # allow deprecated members (we do this because otherwise we have to annotate
+    # every member in every test, assert, etc, when we or the Dart SDK deprecates
+    # something (https://github.com/flutter/flutter/issues/143312)
+    deprecated_member_use: ignore
+    deprecated_member_use_from_same_package: ignore
+  exclude:
+    - "bin/cache/**"
+    # Ignore protoc generated files
+    - "dev/conductor/lib/proto/*"
+    - "engine/**"
+
+formatter:
+  page_width: 100
+
+linter:
+  rules:
+    # This list is derived from the list of all available lints located at
+    # https://github.com/dart-lang/sdk/blob/main/pkg/linter/example/all.yaml
+    - always_declare_return_types
+    - always_put_control_body_on_new_line

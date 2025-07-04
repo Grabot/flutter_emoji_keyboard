@@ -37,15 +37,7 @@ List<List<dynamic>> smileysList = [
   [
     '🤣',
     'rolling on the floor laughing',
-    [
-      'face',
-      'floor',
-      'laugh',
-      'rofl',
-      'rolling',
-      'rolling on the floor laughing',
-      'rotfl'
-    ]
+    ['face', 'floor', 'laugh', 'rofl', 'rolling', 'rolling on the floor laughing', 'rotfl']
   ],
   [
     '😂',
@@ -125,15 +117,7 @@ List<List<dynamic>> smileysList = [
   [
     '🥲',
     'smiling face with tear',
-    [
-      'grateful',
-      'proud',
-      'relieved',
-      'smiling',
-      'smiling face with tear',
-      'tear',
-      'touched'
-    ]
+    ['grateful', 'proud', 'relieved', 'smiling', 'smiling face with tear', 'tear', 'touched']
   ],
   [
     '😋',
@@ -168,25 +152,12 @@ List<List<dynamic>> smileysList = [
   [
     '🤗',
     'smiling face with open hands',
-    [
-      'face',
-      'hug',
-      'hugging',
-      'open hands',
-      'smiling face',
-      'smiling face with open hands'
-    ]
+    ['face', 'hug', 'hugging', 'open hands', 'smiling face', 'smiling face with open hands']
   ],
   [
     '🤭',
     'face with hand over mouth',
-    [
-      'face with hand over mouth',
-      'whoops',
-      'shock',
-      'sudden realization',
-      'surprise'
-    ]
+    ['face with hand over mouth', 'whoops', 'shock', 'sudden realization', 'surprise']
   ],
   [
     '🫢',
@@ -329,18 +300,7 @@ List<List<dynamic>> smileysList = [
   [
     '🫩',
     'face with bags under eyes',
-    [
-      'bags',
-      'bored',
-      'exhausted',
-      'eyes',
-      'face',
-      'fatigued',
-      'late',
-      'sleepy',
-      'tired',
-      'weary'
-    ]
+    ['bags', 'bored', 'exhausted', 'eyes', 'face', 'fatigued', 'late', 'sleepy', 'tired', 'weary']
   ],
   [
     '😷',
@@ -390,25 +350,12 @@ List<List<dynamic>> smileysList = [
   [
     '😵',
     'face with crossed-out eyes',
-    [
-      'crossed-out eyes',
-      'dead',
-      'face',
-      'face with crossed-out eyes',
-      'knocked out'
-    ]
+    ['crossed-out eyes', 'dead', 'face', 'face with crossed-out eyes', 'knocked out']
   ],
   [
     '😵‍💫',
     'face with spiral eyes',
-    [
-      'dizzy',
-      'face with spiral eyes',
-      'hypnotized',
-      'spiral',
-      'trouble',
-      'whoa'
-    ]
+    ['dizzy', 'face with spiral eyes', 'hypnotized', 'spiral', 'trouble', 'whoa']
   ],
   [
     '🤯',
@@ -433,14 +380,7 @@ List<List<dynamic>> smileysList = [
   [
     '😎',
     'smiling face with sunglasses',
-    [
-      'bright',
-      'cool',
-      'face',
-      'smiling face with sunglasses',
-      'sun',
-      'sunglasses'
-    ]
+    ['bright', 'cool', 'face', 'smiling face with sunglasses', 'sun', 'sunglasses']
   ],
   [
     '🤓',
@@ -605,14 +545,7 @@ List<List<dynamic>> smileysList = [
   [
     '😈',
     'smiling face with horns',
-    [
-      'face',
-      'fairy tale',
-      'fantasy',
-      'horns',
-      'smile',
-      'smiling face with horns'
-    ]
+    ['face', 'fairy tale', 'fantasy', 'horns', 'smile', 'smiling face with horns']
   ],
   [
     '👿',
@@ -687,15 +620,7 @@ List<List<dynamic>> smileysList = [
   [
     '😻',
     'smiling cat with heart-eyes',
-    [
-      'cat',
-      'eye',
-      'face',
-      'heart',
-      'love',
-      'smile',
-      'smiling cat with heart-eyes'
-    ]
+    ['cat', 'eye', 'face', 'heart', 'love', 'smile', 'smiling cat with heart-eyes']
   ],
   [
     '😼',
@@ -805,15 +730,7 @@ List<List<dynamic>> smileysList = [
   [
     '❤️‍🩹',
     'mending heart',
-    [
-      'healthier',
-      'improving',
-      'mending',
-      'mending heart',
-      'recovering',
-      'recuperating',
-      'well'
-    ]
+    ['healthier', 'improving', 'mending', 'mending heart', 'recovering', 'recuperating', 'well']
   ],
   [
     '❤',
@@ -1048,26 +965,12 @@ List<List<dynamic>> smileysList = [
   [
     '👈',
     'backhand index pointing left',
-    [
-      'backhand',
-      'backhand index pointing left',
-      'finger',
-      'hand',
-      'index',
-      'point'
-    ]
+    ['backhand', 'backhand index pointing left', 'finger', 'hand', 'index', 'point']
   ],
   [
     '👉',
     'backhand index pointing right',
-    [
-      'backhand',
-      'backhand index pointing right',
-      'finger',
-      'hand',
-      'index',
-      'point'
-    ]
+    ['backhand', 'backhand index pointing right', 'finger', 'hand', 'index', 'point']
   ],
   [
     '👆',
@@ -1082,14 +985,7 @@ List<List<dynamic>> smileysList = [
   [
     '👇',
     'backhand index pointing down',
-    [
-      'backhand',
-      'backhand index pointing down',
-      'down',
-      'finger',
-      'hand',
-      'point'
-    ]
+    ['backhand', 'backhand index pointing down', 'down', 'finger', 'hand', 'point']
   ],
   [
     '☝',
@@ -1164,16 +1060,7 @@ List<List<dynamic>> smileysList = [
   [
     '🙏',
     'folded hands',
-    [
-      'ask',
-      'folded hands',
-      'hand',
-      'high 5',
-      'high five',
-      'please',
-      'pray',
-      'thanks'
-    ]
+    ['ask', 'folded hands', 'hand', 'high 5', 'high five', 'please', 'pray', 'thanks']
   ],
   [
     '✍',
@@ -1463,14 +1350,7 @@ List<List<dynamic>> smileysList = [
   [
     '🙅‍♀️',
     'woman gesturing NO',
-    [
-      'forbidden',
-      'gesture',
-      'hand',
-      'prohibited',
-      'woman',
-      'woman gesturing NO'
-    ]
+    ['forbidden', 'gesture', 'hand', 'prohibited', 'woman', 'woman gesturing NO']
   ],
   [
     '🙆',
@@ -1590,14 +1470,7 @@ List<List<dynamic>> smileysList = [
   [
     '👩‍⚕️',
     'woman health worker',
-    [
-      'doctor',
-      'healthcare',
-      'nurse',
-      'therapist',
-      'woman',
-      'woman health worker'
-    ]
+    ['doctor', 'healthcare', 'nurse', 'therapist', 'woman', 'woman health worker']
   ],
   [
     '🧑‍🎓',
@@ -1712,26 +1585,12 @@ List<List<dynamic>> smileysList = [
   [
     '👨‍💼',
     'man office worker',
-    [
-      'architect',
-      'business',
-      'man',
-      'man office worker',
-      'manager',
-      'white-collar'
-    ]
+    ['architect', 'business', 'man', 'man office worker', 'manager', 'white-collar']
   ],
   [
     '👩‍💼',
     'woman office worker',
-    [
-      'architect',
-      'business',
-      'manager',
-      'white-collar',
-      'woman',
-      'woman office worker'
-    ]
+    ['architect', 'business', 'manager', 'white-collar', 'woman', 'woman office worker']
   ],
   [
     '🧑‍🔬',
@@ -1941,15 +1800,7 @@ List<List<dynamic>> smileysList = [
   [
     '🧕',
     'woman with headscarf',
-    [
-      'headscarf',
-      'hijab',
-      'mantilla',
-      'tichel',
-      'woman with headscarf',
-      'bandana',
-      'head kerchief'
-    ]
+    ['headscarf', 'hijab', 'mantilla', 'tichel', 'woman with headscarf', 'bandana', 'head kerchief']
   ],
   [
     '🤵',
@@ -2258,18 +2109,7 @@ List<List<dynamic>> smileysList = [
   [
     '🚶‍♂️‍➡️',
     'man walking facing right',
-    [
-      'amble',
-      'gait',
-      'hike',
-      'man',
-      'pace',
-      'pedestrian',
-      'stride',
-      'stroll',
-      'walk',
-      'walking'
-    ]
+    ['amble', 'gait', 'hike', 'man', 'pace', 'pedestrian', 'stride', 'stroll', 'walk', 'walking']
   ],
   [
     '🧍',
@@ -2458,19 +2298,7 @@ List<List<dynamic>> smileysList = [
   [
     '🏃‍♂️‍➡️',
     'man running facing right',
-    [
-      'fast',
-      'hurry',
-      'man',
-      'marathon',
-      'move',
-      'quick',
-      'race',
-      'racing',
-      'run',
-      'rush',
-      'speed'
-    ]
+    ['fast', 'hurry', 'man', 'marathon', 'move', 'quick', 'race', 'racing', 'run', 'rush', 'speed']
   ],
   [
     '💃',
@@ -2660,14 +2488,7 @@ List<List<dynamic>> smileysList = [
   [
     '🚵',
     'person mountain biking',
-    [
-      'bicycle',
-      'bicyclist',
-      'bike',
-      'cyclist',
-      'mountain',
-      'person mountain biking'
-    ]
+    ['bicycle', 'bicyclist', 'bike', 'cyclist', 'mountain', 'person mountain biking']
   ],
   [
     '🚵‍♂️',
@@ -2782,14 +2603,7 @@ List<List<dynamic>> smileysList = [
   [
     '🧑‍🤝‍🧑',
     'people holding hands',
-    [
-      'couple',
-      'hand',
-      'hold',
-      'holding hands',
-      'people holding hands',
-      'person'
-    ]
+    ['couple', 'hand', 'hold', 'holding hands', 'people holding hands', 'person']
   ],
   [
     '👭',
@@ -2799,29 +2613,12 @@ List<List<dynamic>> smileysList = [
   [
     '👫',
     'woman and man holding hands',
-    [
-      'couple',
-      'hand',
-      'hold',
-      'holding hands',
-      'man',
-      'woman',
-      'woman and man holding hands'
-    ]
+    ['couple', 'hand', 'hold', 'holding hands', 'man', 'woman', 'woman and man holding hands']
   ],
   [
     '👬',
     'men holding hands',
-    [
-      'couple',
-      'Gemini',
-      'holding hands',
-      'man',
-      'men',
-      'men holding hands',
-      'twins',
-      'zodiac'
-    ]
+    ['couple', 'Gemini', 'holding hands', 'man', 'men', 'men holding hands', 'twins', 'zodiac']
   ],
   [
     '💏',
@@ -3041,16 +2838,6 @@ List<List<dynamic>> smileysList = [
   [
     '🫆',
     'fingerprint',
-    [
-      'clue',
-      'crime',
-      'detective',
-      'forensics',
-      'identity',
-      'mystery',
-      'print',
-      'safety',
-      'trace'
-    ]
+    ['clue', 'crime', 'detective', 'forensics', 'identity', 'mystery', 'print', 'safety', 'trace']
   ]
 ];

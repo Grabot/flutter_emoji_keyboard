@@ -9,10 +9,10 @@ class BottomBar extends StatefulWidget {
 
   const BottomBar(
       {Key? key,
-        required this.onActionSpaceBar,
-        required this.onActionBackspace,
-        required this.emojiSearch,
-        required this.darkMode})
+      required this.onActionSpaceBar,
+      required this.onActionBackspace,
+      required this.emojiSearch,
+      required this.darkMode})
       : super(key: key);
 
   @override
@@ -33,7 +33,6 @@ class BottomBarState extends State<BottomBar> {
   void initState() {
     super.initState();
   }
-
 
   /// If the user scrolls down the bottom bar should be hidden.
   /// If the user scrolls up the bottom bar should be shown.
@@ -56,15 +55,11 @@ class BottomBarState extends State<BottomBar> {
         left: 0.0,
         child: AnimatedContainer(
           curve: Curves.fastOutSlowIn,
-          height: showBottomBar
-              ? (bottomBarHeight + MediaQuery.of(context).padding.bottom)
-              : 0,
+          height: showBottomBar ? (bottomBarHeight + MediaQuery.of(context).padding.bottom) : 0,
           width: MediaQuery.of(context).size.width,
           duration: const Duration(seconds: 1),
           child: Container(
-            color: widget.darkMode
-                ? const Color(0xff171717)
-                : const Color(0xffdbdbdb),
+            color: widget.darkMode ? const Color(0xff171717) : const Color(0xffdbdbdb),
             alignment: Alignment.topCenter,
             child: showBottomBar
                 ? SizedBox(

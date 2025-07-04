@@ -30,10 +30,13 @@ class MyHomePage extends StatefulWidget {
 class MyHomePageState extends State<MyHomePage> {
   bool showEmojiKeyboard = false;
   final TextEditingController controller = TextEditingController();
+
   int emojiReactionIndex = -1;
   bool showEmojiPopup = false;
-  Offset popupPosition = Offset.zero;
+  Offset emojiPopupPosition = Offset.zero;
   List<String> emojiReactions = ['', ''];
+
+  bool darkMode = true;
 
   void backButtonFunctionality() {
     if (showEmojiPopup) {
@@ -73,7 +76,7 @@ class MyHomePageState extends State<MyHomePage> {
     emojiReactionIndex = messageIndex;
     setState(() {
       showEmojiPopup = true;
-      popupPosition = details.globalPosition;
+      emojiPopupPosition = details.globalPosition;
     });
   }
 
@@ -167,8 +170,6 @@ class MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  bool darkMode = false;
-
   @override
   Widget build(BuildContext context) {
     return PopScope(
@@ -189,11 +190,13 @@ class MyHomePageState extends State<MyHomePage> {
                 Expanded(
                   child: Container(),
                 ),
-                messageWidget(0, 'This is an example message. Long press to do an emoji reaction on this message!'),
-                messageWidget(1, 'Or press the Textfield below to start typing with the emoji keyboard!'),
+                messageWidget(0,
+                    'This is an example message. Long press to do an emoji reaction on this message!'),
+                messageWidget(
+                    1, 'Or press the Textfield below to start typing with the emoji keyboard!'),
                 Container(
                   alignment: Alignment.topCenter,
-                  padding: const EdgeInsets.only(bottom: 76.0, left: 8, right: 8, top: 12),
+                  padding: const EdgeInsets.only(bottom: 46.0, left: 8, right: 8, top: 12),
                   child: TextFormField(
                     onTap: () {
                       onTapEmojiField();
@@ -218,7 +221,7 @@ class MyHomePageState extends State<MyHomePage> {
             ),
             if (showEmojiPopup)
               EmojiKeyboardPopup(
-                position: popupPosition,
+                position: emojiPopupPosition,
                 onAction: handleEmojiPickerAction,
                 darkMode: darkMode,
               ),

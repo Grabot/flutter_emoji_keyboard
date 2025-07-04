@@ -61,8 +61,7 @@ class EmojiGridState extends State<EmojiGrid> {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       navigator = Navigator.of(context, rootNavigator: false);
       barrierLabel = MaterialLocalizations.of(context).modalBarrierDismissLabel;
-      capturedThemes =
-          InheritedTheme.capture(from: context, to: navigator!.context);
+      capturedThemes = InheritedTheme.capture(from: context, to: navigator!.context);
     });
 
     super.initState();
@@ -84,12 +83,10 @@ class EmojiGridState extends State<EmojiGrid> {
   /// bottom bar if it was hidden
   void keyboardScrollListener() {
     if (scrollController.hasClients) {
-      if (scrollController.position.userScrollDirection ==
-          ScrollDirection.reverse) {
+      if (scrollController.position.userScrollDirection == ScrollDirection.reverse) {
         widget.emojiScrollShowBottomBar(false);
       }
-      if (scrollController.position.userScrollDirection ==
-          ScrollDirection.forward) {
+      if (scrollController.position.userScrollDirection == ScrollDirection.forward) {
         widget.emojiScrollShowBottomBar(true);
       }
     }
@@ -129,9 +126,7 @@ class EmojiGridState extends State<EmojiGrid> {
 
     bool isTablet() {
       final display = PlatformDispatcher.instance.views.first.display;
-      return display.size.shortestSide / display.devicePixelRatio < 600
-          ? false
-          : true;
+      return display.size.shortestSide / display.devicePixelRatio < 600 ? false : true;
     }
 
     int getEmojiWidthCount() {
@@ -160,8 +155,7 @@ class EmojiGridState extends State<EmojiGrid> {
         padding: const EdgeInsets.only(bottom: 60),
         itemBuilder: (BuildContext ctx, index) {
           return CustomPaint(
-            foregroundPainter:
-                hasComponent(emojis![index], index) ? BorderPainter() : null,
+            foregroundPainter: hasComponent(emojis![index], index) ? BorderPainter() : null,
             child: Container(
               color: Colors.transparent,
               child: Material(
@@ -181,8 +175,7 @@ class EmojiGridState extends State<EmojiGrid> {
                     padding: const EdgeInsets.all(4),
                     child: FittedBox(
                       fit: BoxFit.fitWidth,
-                      child: Text(emojis![index],
-                          style: const TextStyle(fontSize: 500)),
+                      child: Text(emojis![index], style: const TextStyle(fontSize: 500)),
                     ),
                   ),
                 ),
@@ -258,11 +251,8 @@ class EmojiGridState extends State<EmojiGrid> {
       heightPosition = yPos - (emojiWidth * 2.5);
     }
 
-    RelativeRect popupPosition = RelativeRect.fromLTRB(
-        xPos - (emojiWidth * 2) - (emojiWidth / 2),
-        heightPosition,
-        xPos + (emojiWidth * 3) + (emojiWidth / 2),
-        yPos);
+    RelativeRect popupPosition = RelativeRect.fromLTRB(xPos - (emojiWidth * 2) - (emojiWidth / 2),
+        heightPosition, xPos + (emojiWidth * 3) + (emojiWidth / 2), yPos);
 
     if (navigator != null && capturedThemes != null) {
       showMenuOverride(
@@ -274,9 +264,7 @@ class EmojiGridState extends State<EmojiGrid> {
         capturedThemes: capturedThemes!,
         items: [
           ComponentDetailPopup(
-              key: UniqueKey(),
-              components: finalComponents,
-              addNewComponent: addNewComponent)
+              key: UniqueKey(), components: finalComponents, addNewComponent: addNewComponent)
         ],
       ).then((value) {
         return;

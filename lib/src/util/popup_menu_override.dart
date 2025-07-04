@@ -27,8 +27,7 @@ class _MenuItem extends SingleChildRenderObjectWidget {
   }
 
   @override
-  void updateRenderObject(
-      BuildContext context, covariant _RenderMenuItem renderObject) {
+  void updateRenderObject(BuildContext context, covariant _RenderMenuItem renderObject) {
     renderObject.onLayout = onLayout;
   }
 }
@@ -88,8 +87,7 @@ class _PopupMenu<T> extends StatelessWidget {
         curve: Interval(start, end),
       );
       Widget item = route.items[i];
-      if (route.initialValue != null &&
-          route.items[i].represents(route.initialValue)) {
+      if (route.initialValue != null && route.items[i].represents(route.initialValue)) {
         item = Container(
           color: Theme.of(context).highlightColor,
           child: item,
@@ -108,11 +106,9 @@ class _PopupMenu<T> extends StatelessWidget {
       );
     }
 
-    final CurveTween opacity =
-        CurveTween(curve: const Interval(0.0, 1.0 / 3.0));
+    final CurveTween opacity = CurveTween(curve: const Interval(0.0, 1.0 / 3.0));
     final CurveTween width = CurveTween(curve: Interval(0.0, unit));
-    final CurveTween height =
-        CurveTween(curve: Interval(0.0, unit * route.items.length));
+    final CurveTween height = CurveTween(curve: Interval(0.0, unit * route.items.length));
 
     final Widget child = SizedBox(
       width: widthPopup,
@@ -239,14 +235,12 @@ class _PopupMenuRouteLayout extends SingleChildLayoutDelegate {
     // edge of the screen in every direction.
     if (x < _kMenuScreenPadding + padding.left) {
       x = _kMenuScreenPadding + padding.left;
-    } else if (x + childSize.width >
-        size.width - _kMenuScreenPadding - padding.right) {
+    } else if (x + childSize.width > size.width - _kMenuScreenPadding - padding.right) {
       x = size.width - childSize.width - _kMenuScreenPadding - padding.right;
     }
     if (y < _kMenuScreenPadding + padding.top) {
       y = _kMenuScreenPadding + padding.top;
-    } else if (y + childSize.height >
-        size.height - _kMenuScreenPadding - padding.bottom) {
+    } else if (y + childSize.height > size.height - _kMenuScreenPadding - padding.bottom) {
       y = size.height - padding.bottom - _kMenuScreenPadding - childSize.height;
     }
 
@@ -315,13 +309,11 @@ class _PopupMenuRoute<T> extends PopupRoute<T> {
   final String barrierLabel;
 
   @override
-  Widget buildPage(BuildContext context, Animation<double> animation,
-      Animation<double> secondaryAnimation) {
+  Widget buildPage(
+      BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation) {
     int? selectedItemIndex;
     if (initialValue != null) {
-      for (int index = 0;
-          selectedItemIndex == null && index < items.length;
-          index += 1) {
+      for (int index = 0; selectedItemIndex == null && index < items.length; index += 1) {
         if (items[index].represents(initialValue)) {
           selectedItemIndex = index;
         }
@@ -448,9 +440,7 @@ class ComponentDetailPopup extends PopupMenuEntry<int> {
   final void Function(String) addNewComponent;
 
   const ComponentDetailPopup(
-      {required Key key,
-      required this.components,
-      required this.addNewComponent})
+      {required Key key, required this.components, required this.addNewComponent})
       : super(key: key);
 
   @override
@@ -484,15 +474,13 @@ class ComponentDetailPopupState extends State<ComponentDetailPopup> {
                   child: InkWell(
                     splashColor: const Color(0xff898989),
                     onTap: () {
-                      buttonClickedComponent(
-                          widget.components[index], widget.addNewComponent);
+                      buttonClickedComponent(widget.components[index], widget.addNewComponent);
                     },
                     child: Container(
                       padding: const EdgeInsets.all(4),
                       child: FittedBox(
                         fit: BoxFit.fitWidth,
-                        child: Text(widget.components[index],
-                            style: const TextStyle(fontSize: 50)),
+                        child: Text(widget.components[index], style: const TextStyle(fontSize: 50)),
                       ),
                     ),
                   ),
@@ -501,8 +489,7 @@ class ComponentDetailPopupState extends State<ComponentDetailPopup> {
             }));
   }
 
-  void buttonClickedComponent(
-      String emoji, void Function(String) addNewComponent) {
+  void buttonClickedComponent(String emoji, void Function(String) addNewComponent) {
     addNewComponent(emoji);
   }
 }

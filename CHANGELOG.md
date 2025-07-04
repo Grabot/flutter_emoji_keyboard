@@ -3,6 +3,9 @@
 Added a emoji popup option along with the emoji keyboard. This is, for instance, 
 for emoji reactions to messages in a chat app. The example has been changed to reflect 
 this usage with some mock messages that you can react to.
+The popup will have a curated selection of the most used emojis and after that it will 
+hold your most recent emojis. A "+" button is always visible and it will trigger a button event
+on the callback function so you can implement your own logic for that.
 The Emoji Keyboard has been given a function callback option, `onEmojiChanged`, which will 
 return whenever an emoji is pressed with the emoji value that was pressed. 
 You can also only use this option and leave the controller empty. One of the two has to be used.

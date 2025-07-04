@@ -2,7 +2,6 @@ import 'package:emoji_keyboard_flutter/src/util/emoji.dart';
 import 'package:emoji_keyboard_flutter/src/util/storage.dart';
 import 'package:flutter/material.dart';
 
-
 abstract class EmojiPickerAction {
   const EmojiPickerAction();
 }
@@ -21,11 +20,10 @@ class OutsideClicked extends EmojiPickerAction {
   const OutsideClicked();
 }
 
-
 class EmojiKeyboardPopup extends StatefulWidget {
   final bool darkMode;
   final Offset position;
-  final Function(EmojiPickerAction) onAction;
+  final void Function(EmojiPickerAction) onAction;
 
   const EmojiKeyboardPopup({
     Key? key,
@@ -55,12 +53,8 @@ class EmojiBoardPopup extends State<EmojiKeyboardPopup> {
     recent.add(Emoji('😂', 1));
     recent.add(Emoji('🔥', 1));
     recent.add(Emoji('🎉', 1));
-    recent.add(Emoji('😢', 1));
-    recent.add(Emoji('😍', 1));
     recent.add(Emoji('🤔', 1));
     recent.add(Emoji('🙏', 1));
-    recent.add(Emoji('😊', 1));
-    recent.add(Emoji('😞', 1));
     recent.add(Emoji('🤣', 1));
     recent.add(Emoji('😱', 1));
     recent.add(Emoji('👏', 1));
@@ -68,7 +62,6 @@ class EmojiBoardPopup extends State<EmojiKeyboardPopup> {
     recent.add(Emoji('😘', 1));
     recent.add(Emoji('😎', 1));
     recent.add(Emoji('🤷', 1));
-    recent.add(Emoji('🥳', 1));
 
     storage.fetchAllEmojis().then((emojis) {
       if (emojis.isNotEmpty) {
@@ -151,9 +144,13 @@ class EmojiBoardPopup extends State<EmojiKeyboardPopup> {
                           final scrollPosition = _scrollController.offset - 40;
                           final fadeOutWidth = 40.0;
 
-                          final distanceFromCenter = (itemPosition - scrollPosition - (widgetWidth / 2)).abs();
+                          final distanceFromCenter =
+                              (itemPosition - scrollPosition - (widgetWidth / 2)).abs();
 
-                          final opacity = 1.0 - ((distanceFromCenter - (widgetWidth / 2 - fadeOutWidth)).clamp(0.0, fadeOutWidth) / fadeOutWidth);
+                          final opacity = 1.0 -
+                              ((distanceFromCenter - (widgetWidth / 2 - fadeOutWidth))
+                                      .clamp(0.0, fadeOutWidth) /
+                                  fadeOutWidth);
                           return Opacity(
                             opacity: opacity.clamp(0.0, 1.0),
                             child: child,

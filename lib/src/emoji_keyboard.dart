@@ -20,7 +20,7 @@ import 'emoji_searching.dart';
 ///     These hold all the emojis in 9 separate listviews.
 class EmojiKeyboard extends StatefulWidget {
   final TextEditingController? emojiController;
-  final Function(String)? onEmojiChanged;
+  final void Function(String)? onEmojiChanged;
   final double emojiKeyboardHeight;
   final bool showEmojiKeyboard;
   final bool darkMode;
@@ -31,8 +31,10 @@ class EmojiKeyboard extends StatefulWidget {
       this.onEmojiChanged = null,
       this.emojiKeyboardHeight = 350,
       this.showEmojiKeyboard = true,
-      this.darkMode = false})  : assert(emojiController != null || onEmojiChanged != null,
-  'Either emojiController or onEmojiChanged must be provided'), super(key: key);
+      this.darkMode = false})
+      : assert(emojiController != null || onEmojiChanged != null,
+            'Either emojiController or onEmojiChanged must be provided'),
+        super(key: key);
 
   @override
   EmojiBoard createState() => EmojiBoard();
@@ -49,12 +51,9 @@ class EmojiBoard extends State<EmojiKeyboard> {
   /// (See MainActivity in the android project for the implementation)
   static const platform = MethodChannel("nl.emojikeyboard.emoji/available");
 
-  final GlobalKey<CategoryBarState> categoryBarStateKey =
-      GlobalKey<CategoryBarState>();
-  final GlobalKey<BottomBarState> bottomBarStateKey =
-      GlobalKey<BottomBarState>();
-  final GlobalKey<EmojiPageState> emojiPageStateKey =
-      GlobalKey<EmojiPageState>();
+  final GlobalKey<CategoryBarState> categoryBarStateKey = GlobalKey<CategoryBarState>();
+  final GlobalKey<BottomBarState> bottomBarStateKey = GlobalKey<BottomBarState>();
+  final GlobalKey<EmojiPageState> emojiPageStateKey = GlobalKey<EmojiPageState>();
 
   FocusNode focusSearchEmoji = FocusNode();
 
@@ -97,8 +96,7 @@ class EmojiBoard extends State<EmojiKeyboard> {
     });
 
     var keyboardVisibilityController = KeyboardVisibilityController();
-    keyboardSubscription =
-        keyboardVisibilityController.onChange.listen((bool visible) {
+    keyboardSubscription = keyboardVisibilityController.onChange.listen((bool visible) {
       // If the keyboard was visible the user must have been in search mode.
       // If the keyboard is no longer visible the user must have pressed the back button
       // To handle this situation correctly we then set search mode to false and rebuild the widget.
@@ -171,8 +169,7 @@ class EmojiBoard extends State<EmojiKeyboard> {
     List<SearchedEmoji> recommendedEmojis = [];
     if (recentEmojis != <String>[]) {
       for (var recentEmoji in recentEmojis) {
-        recommendedEmojis
-            .add(SearchedEmoji(emoji: recentEmoji.toString(), tier: 1));
+        recommendedEmojis.add(SearchedEmoji(emoji: recentEmoji.toString(), tier: 1));
         if (recommendedEmojis.length >= 20) {
           break;
         }
@@ -391,9 +388,7 @@ class EmojiBoard extends State<EmojiKeyboard> {
           return;
         } else {
           // Eagerly selects all but the last count characters
-          String finalCharacter = text.characters
-              .skipLast(1)
-              .string;
+          String finalCharacter = text.characters.skipLast(1).string;
           // So if the result is empty there was only 1 character
           if (finalCharacter == "") {
             // If there was only 1 character we remove that one.
@@ -408,9 +403,7 @@ class EmojiBoard extends State<EmojiKeyboard> {
       }
 
       String firstSection = text.substring(0, textSelection.start);
-      String newFirstSection = firstSection.characters
-          .skipLast(1)
-          .string;
+      String newFirstSection = firstSection.characters.skipLast(1).string;
       final offset = firstSection.length - newFirstSection.length;
       final newStart = textSelection.start - offset;
       final newEnd = textSelection.start;
@@ -458,15 +451,12 @@ class EmojiBoard extends State<EmojiKeyboard> {
         color: getKeyboardColour(),
         child: Column(children: [
           CategoryBar(
-              key: categoryBarStateKey,
-              categoryHandler: categoryHandler,
-              darkMode: darkMode),
+              key: categoryBarStateKey, categoryHandler: categoryHandler, darkMode: darkMode),
           Stack(children: [
             EmojiPage(
                 key: emojiPageStateKey,
-                emojiKeyboardHeight: isPortrait()
-                    ? emojiKeyboardHeight
-                    : (emojiKeyboardHeight / 3) * 2,
+                emojiKeyboardHeight:
+                    isPortrait() ? emojiKeyboardHeight : (emojiKeyboardHeight / 3) * 2,
                 emojiScrollShowBottomBar: emojiScrollShowBottomBar,
                 insertText: insertText,
                 recent: recentEmojis,
@@ -487,9 +477,7 @@ class EmojiBoard extends State<EmojiKeyboard> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   SizedBox(
-                    height: isPortrait()
-                        ? (MediaQuery.of(context).size.width / 8)
-                        : 50,
+                    height: isPortrait() ? (MediaQuery.of(context).size.width / 8) : 50,
                     child: ListView.builder(
                       scrollDirection: Axis.horizontal,
                       itemCount: searchedEmojis.length,
