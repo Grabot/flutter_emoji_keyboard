@@ -1,3 +1,11 @@
+## [1.7.3] 07-07-2025
+
+Added animations to the keyboard and popup, which can be controlled using the corresponding 
+`emojiKeyboardAnimationDuration` and `emojiPopupAnimationDuration`. They default to `null` 
+which means they are shown instantly.
+Also moved the `showEmojiPopup` as a variable within the widget to align it with the
+keyboard functionality.
+
 ## [1.7.2] 04-07-2025
 
 More dart formatting and linting to the project.
