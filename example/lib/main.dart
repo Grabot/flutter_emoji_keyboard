@@ -73,7 +73,8 @@ class MyHomePageState extends State<MyHomePage> {
     }
   }
 
-  void onLongPressMessage(BuildContext context, LongPressStartDetails details, int messageIndex) {
+  void onLongPressMessage(
+      BuildContext context, LongPressStartDetails details, int messageIndex) {
     emojiReactionIndex = messageIndex;
     setState(() {
       showEmojiPopup = true;
@@ -120,20 +121,27 @@ class MyHomePageState extends State<MyHomePage> {
 
   Widget messageWidget(int messageIndex, String messageText) {
     return GestureDetector(
-      onLongPressStart: (details) => onLongPressMessage(context, details, messageIndex),
+      onLongPressStart: (details) =>
+          onLongPressMessage(context, details, messageIndex),
       child: Stack(
         children: [
           Container(
             width: MediaQuery.of(context).size.width,
-            color: emojiReactionIndex == messageIndex ? Colors.cyan[200] : Colors.transparent,
+            color: emojiReactionIndex == messageIndex
+                ? Colors.cyan[200]
+                : Colors.transparent,
             child: Container(
               margin: const EdgeInsets.all(8.0),
               padding: const EdgeInsets.all(12.0),
               decoration: BoxDecoration(
                 color: messageIndex == 0 ? Colors.green[200] : Colors.blue[200],
                 borderRadius: BorderRadius.only(
-                  topLeft: messageIndex == 0 ? const Radius.circular(30.0) : Radius.zero,
-                  topRight: messageIndex == 1 ? const Radius.circular(30.0) : Radius.zero,
+                  topLeft: messageIndex == 0
+                      ? const Radius.circular(30.0)
+                      : Radius.zero,
+                  topRight: messageIndex == 1
+                      ? const Radius.circular(30.0)
+                      : Radius.zero,
                   bottomLeft: const Radius.circular(30.0),
                   bottomRight: const Radius.circular(30.0),
                 ),
@@ -188,11 +196,13 @@ class MyHomePageState extends State<MyHomePage> {
                     children: [
                       Container(
                         alignment: Alignment.topCenter,
-                        padding: const EdgeInsets.only(bottom: 12.0, left: 8, right: 8, top: 12),
+                        padding: const EdgeInsets.only(
+                            bottom: 12.0, left: 8, right: 8, top: 12),
                         child: TextFormField(
                           onTap: onTapEmojiField,
                           controller: controller,
-                          decoration: const InputDecoration(border: OutlineInputBorder()),
+                          decoration: const InputDecoration(
+                              border: OutlineInputBorder()),
                           readOnly: true,
                           showCursor: true,
                         ),
@@ -207,13 +217,14 @@ class MyHomePageState extends State<MyHomePage> {
                 Align(
                   alignment: Alignment.bottomCenter,
                   child: EmojiKeyboard(
-                    emojiController: emojiReactionIndex == -1 ? controller : null,
+                    emojiController:
+                        emojiReactionIndex == -1 ? controller : null,
                     onEmojiChanged: onActionEmojiChanged,
                     showEmojiKeyboard: showEmojiKeyboard,
                     emojiKeyboardHeight: 440, // optional defaults to 350
                     darkMode: darkMode, // optional defaults to false
-                    emojiKeyboardAnimationDuration:
-                        const Duration(milliseconds: 400), // optional defaults to null
+                    emojiKeyboardAnimationDuration: const Duration(
+                        milliseconds: 400), // optional defaults to null
                   ),
                 ),
               ],
@@ -226,9 +237,10 @@ class MyHomePageState extends State<MyHomePage> {
               popupWidth: 350, // optional defaults to 350
               highlightedEmoji: emojiReactionIndex == -1
                   ? null
-                  : emojiReactions[emojiReactionIndex], // optional defaults to null
-              emojiPopupAnimationDuration:
-                  const Duration(milliseconds: 400), // optional defaults to null
+                  : emojiReactions[
+                      emojiReactionIndex], // optional defaults to null
+              emojiPopupAnimationDuration: const Duration(
+                  milliseconds: 400), // optional defaults to null
             ),
           ],
         ),

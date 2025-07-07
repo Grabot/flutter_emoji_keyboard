@@ -6,7 +6,8 @@ class CategoryBar extends StatefulWidget {
   final void Function(int) categoryHandler;
   final bool darkMode;
 
-  const CategoryBar({required this.categoryHandler, required this.darkMode, Key? key})
+  const CategoryBar(
+      {required this.categoryHandler, required this.darkMode, Key? key})
       : super(key: key);
 
   @override
@@ -55,7 +56,8 @@ class CategoryBarState extends State<CategoryBar> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: widget.darkMode ? const Color(0xff171717) : const Color(0xffdbdbdb),
+      color:
+          widget.darkMode ? const Color(0xff171717) : const Color(0xffdbdbdb),
       height: emojiCategoryHeight,
       width: MediaQuery.of(context).size.width,
       child: Row(

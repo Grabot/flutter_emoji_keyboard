@@ -10,7 +10,8 @@ import 'package:flutter/services.dart';
 /// This is the Grid which will hold all the emojis
 class EmojiGrid extends StatefulWidget {
   final List<String> emojis;
-  final void Function({required bool emojiScrollShowBottomBar}) emojiScrollShowBottomBar;
+  final void Function({required bool emojiScrollShowBottomBar})
+      emojiScrollShowBottomBar;
   final void Function(String, int) insertText;
   final int categoryIndicator;
   final double emojiSize;
@@ -61,7 +62,8 @@ class EmojiGridState extends State<EmojiGrid> {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       navigator = Navigator.of(context);
       barrierLabel = MaterialLocalizations.of(context).modalBarrierDismissLabel;
-      capturedThemes = InheritedTheme.capture(from: context, to: navigator!.context);
+      capturedThemes =
+          InheritedTheme.capture(from: context, to: navigator!.context);
     });
 
     super.initState();
@@ -83,10 +85,12 @@ class EmojiGridState extends State<EmojiGrid> {
   /// bottom bar if it was hidden
   void keyboardScrollListener() {
     if (scrollController.hasClients) {
-      if (scrollController.position.userScrollDirection == ScrollDirection.reverse) {
+      if (scrollController.position.userScrollDirection ==
+          ScrollDirection.reverse) {
         widget.emojiScrollShowBottomBar(emojiScrollShowBottomBar: false);
       }
-      if (scrollController.position.userScrollDirection == ScrollDirection.forward) {
+      if (scrollController.position.userScrollDirection ==
+          ScrollDirection.forward) {
         widget.emojiScrollShowBottomBar(emojiScrollShowBottomBar: true);
       }
     }
@@ -155,7 +159,8 @@ class EmojiGridState extends State<EmojiGrid> {
         padding: const EdgeInsets.only(bottom: 60),
         itemBuilder: (BuildContext ctx, index) {
           return CustomPaint(
-            foregroundPainter: hasComponent(emojis![index], index) ? BorderPainter() : null,
+            foregroundPainter:
+                hasComponent(emojis![index], index) ? BorderPainter() : null,
             child: Container(
               color: Colors.transparent,
               child: Material(
@@ -175,7 +180,8 @@ class EmojiGridState extends State<EmojiGrid> {
                     padding: const EdgeInsets.all(4),
                     child: FittedBox(
                       fit: BoxFit.fitWidth,
-                      child: Text(emojis![index], style: const TextStyle(fontSize: 500)),
+                      child: Text(emojis![index],
+                          style: const TextStyle(fontSize: 500)),
                     ),
                   ),
                 ),
@@ -216,7 +222,8 @@ class EmojiGridState extends State<EmojiGrid> {
       finalComponents = components;
     }
 
-    final RenderBox? box = keyKey.currentContext!.findRenderObject() as RenderBox?;
+    final RenderBox? box =
+        keyKey.currentContext!.findRenderObject() as RenderBox?;
 
     final Offset position = box!.localToGlobal(Offset.zero);
 
@@ -267,7 +274,9 @@ class EmojiGridState extends State<EmojiGrid> {
         capturedThemes: capturedThemes!,
         items: [
           ComponentDetailPopup(
-              key: UniqueKey(), components: finalComponents, addNewComponent: addNewComponent)
+              key: UniqueKey(),
+              components: finalComponents,
+              addNewComponent: addNewComponent)
         ],
       ).then((value) {
         return;

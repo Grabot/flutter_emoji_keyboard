@@ -54,9 +54,12 @@ class EmojiBoard extends State<EmojiKeyboard> {
   /// (See MainActivity in the android project for the implementation)
   static const platform = MethodChannel('nl.emojikeyboard.emoji/available');
 
-  final GlobalKey<CategoryBarState> categoryBarStateKey = GlobalKey<CategoryBarState>();
-  final GlobalKey<BottomBarState> bottomBarStateKey = GlobalKey<BottomBarState>();
-  final GlobalKey<EmojiPageState> emojiPageStateKey = GlobalKey<EmojiPageState>();
+  final GlobalKey<CategoryBarState> categoryBarStateKey =
+      GlobalKey<CategoryBarState>();
+  final GlobalKey<BottomBarState> bottomBarStateKey =
+      GlobalKey<BottomBarState>();
+  final GlobalKey<EmojiPageState> emojiPageStateKey =
+      GlobalKey<EmojiPageState>();
 
   FocusNode focusSearchEmoji = FocusNode();
 
@@ -100,7 +103,8 @@ class EmojiBoard extends State<EmojiKeyboard> {
 
     final KeyboardVisibilityController keyboardVisibilityController =
         KeyboardVisibilityController();
-    keyboardSubscription = keyboardVisibilityController.onChange.listen((bool visible) {
+    keyboardSubscription =
+        keyboardVisibilityController.onChange.listen((bool visible) {
       // If the keyboard was visible the user must have been in search mode.
       // If the keyboard is no longer visible the user must have pressed the back button
       // To handle this situation correctly we then set search mode to false and rebuild the widget.
@@ -141,7 +145,8 @@ class EmojiBoard extends State<EmojiKeyboard> {
     if (showBottomBar != emojiScrollShowBottomBar) {
       showBottomBar = emojiScrollShowBottomBar;
       if (bottomBarStateKey.currentState != null) {
-        bottomBarStateKey.currentState!.emojiScrollShowBottomBar(show: showBottomBar);
+        bottomBarStateKey.currentState!
+            .emojiScrollShowBottomBar(show: showBottomBar);
       }
     }
   }
@@ -219,10 +224,12 @@ class EmojiBoard extends State<EmojiKeyboard> {
   /// When it adds a new entry it will look in the emoji list for the category
   /// that the emoji is in to be able to store a new entry in the local db
   Future<void> addRecentEmoji(String emoji, int category) async {
-    final List<String> recentEmojiList = recent.map((emote) => emote.emoji).toList();
+    final List<String> recentEmojiList =
+        recent.map((emote) => emote.emoji).toList();
     if (recentEmojiList.contains(emoji)) {
       // The emoji is already in the list so we want to update it.
-      final Emoji currentEmoji = recent.firstWhere((emote) => emote.emoji == emoji);
+      final Emoji currentEmoji =
+          recent.firstWhere((emote) => emote.emoji == emoji);
       currentEmoji.increase();
       storage.updateEmoji(currentEmoji).then((value) {
         recent.sort((a, b) => b.amount.compareTo(a.amount));
@@ -246,10 +253,12 @@ class EmojiBoard extends State<EmojiKeyboard> {
   /// But here we don't have access to the category, so we will loop through
   /// all the categories to find the emoji we want to add
   Future<void> addRecentEmojiSearch(String emoji) async {
-    final List<String> recentEmojiList = recent.map((emote) => emote.emoji).toList();
+    final List<String> recentEmojiList =
+        recent.map((emote) => emote.emoji).toList();
     if (recentEmojiList.contains(emoji)) {
       // The emoji is already in the list so we want to update it.
-      final Emoji currentEmoji = recent.firstWhere((emote) => emote.emoji == emoji);
+      final Emoji currentEmoji =
+          recent.firstWhere((emote) => emote.emoji == emoji);
       currentEmoji.increase();
       storage.updateEmoji(currentEmoji).then((value) {
         recent.sort((a, b) => b.amount.compareTo(a.amount));
@@ -519,7 +528,9 @@ class EmojiBoard extends State<EmojiKeyboard> {
             child: Column(
               children: [
                 SizedBox(
-                  height: isPortrait() ? (MediaQuery.of(context).size.width / 8) : 50,
+                  height: isPortrait()
+                      ? (MediaQuery.of(context).size.width / 8)
+                      : 50,
                   child: ListView.builder(
                     scrollDirection: Axis.horizontal,
                     itemCount: searchedEmojis.length,

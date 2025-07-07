@@ -154,18 +154,23 @@ class EmojiBoardPopup extends State<EmojiKeyboardPopup> {
                         scrollDirection: Axis.horizontal,
                         itemCount: recentEmojis.length,
                         itemBuilder: (context, index) {
-                          final isHighlighted = recentEmojis[index] == widget.highlightedEmoji;
+                          final isHighlighted =
+                              recentEmojis[index] == widget.highlightedEmoji;
                           return AnimatedBuilder(
                             animation: _scrollController,
                             builder: (context, child) {
                               // Fade in and out for emojis in the horizontal listview
                               final itemPosition = index * 50.0;
-                              final scrollPosition = _scrollController.offset - 40;
+                              final scrollPosition =
+                                  _scrollController.offset - 40;
                               const fadeOutWidth = 40.0;
-                              final distanceFromCenter =
-                                  (itemPosition - scrollPosition - (widgetWidth / 2)).abs();
+                              final distanceFromCenter = (itemPosition -
+                                      scrollPosition -
+                                      (widgetWidth / 2))
+                                  .abs();
                               final opacity = 1.0 -
-                                  ((distanceFromCenter - (widgetWidth / 2 - fadeOutWidth))
+                                  ((distanceFromCenter -
+                                              (widgetWidth / 2 - fadeOutWidth))
                                           .clamp(0.0, fadeOutWidth) /
                                       fadeOutWidth);
                               return Opacity(
@@ -177,7 +182,8 @@ class EmojiBoardPopup extends State<EmojiKeyboardPopup> {
                               color: Colors.transparent,
                               child: InkWell(
                                 onTap: () {
-                                  widget.onAction(EmojiSelected(recentEmojis[index]));
+                                  widget.onAction(
+                                      EmojiSelected(recentEmojis[index]));
                                 },
                                 child: Container(
                                   width: 50,
@@ -186,9 +192,12 @@ class EmojiBoardPopup extends State<EmojiKeyboardPopup> {
                                   decoration: isHighlighted
                                       ? BoxDecoration(
                                           color: widget.darkMode
-                                              ? Colors.white.withOpacity(0.2)
-                                              : Colors.black.withOpacity(0.2),
-                                          borderRadius: BorderRadius.circular(25),
+                                              ? Colors.white
+                                                  .withValues(alpha: 0.2)
+                                              : Colors.black
+                                                  .withValues(alpha: 0.2),
+                                          borderRadius:
+                                              BorderRadius.circular(25),
                                         )
                                       : null,
                                   child: Container(
@@ -196,7 +205,8 @@ class EmojiBoardPopup extends State<EmojiKeyboardPopup> {
                                     child: FittedBox(
                                       fit: BoxFit.fitWidth,
                                       child: Text(recentEmojis[index],
-                                          style: const TextStyle(fontSize: 500)),
+                                          style:
+                                              const TextStyle(fontSize: 500)),
                                     ),
                                   ),
                                 ),
