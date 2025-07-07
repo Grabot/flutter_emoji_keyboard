@@ -2,14 +2,7 @@ List<List<dynamic>> travelList = [
   [
     '🌍',
     'globe showing Europe-Africa',
-    [
-      'Africa',
-      'earth',
-      'Europe',
-      'globe',
-      'globe showing Europe-Africa',
-      'world'
-    ]
+    ['Africa', 'earth', 'Europe', 'globe', 'globe showing Europe-Africa', 'world']
   ],
   [
     '🌎',
@@ -19,14 +12,7 @@ List<List<dynamic>> travelList = [
   [
     '🌏',
     'globe showing Asia-Australia',
-    [
-      'Asia',
-      'Australia',
-      'earth',
-      'globe',
-      'globe showing Asia-Australia',
-      'world'
-    ]
+    ['Asia', 'Australia', 'earth', 'globe', 'globe showing Asia-Australia', 'world']
   ],
   [
     '🌐',
@@ -656,14 +642,7 @@ List<List<dynamic>> travelList = [
   [
     '🛬',
     'airplane arrival',
-    [
-      'aeroplane',
-      'airplane',
-      'airplane arrival',
-      'arrivals',
-      'arriving',
-      'landing'
-    ]
+    ['aeroplane', 'airplane', 'airplane arrival', 'arrivals', 'arriving', 'landing']
   ],
   [
     '🪂',

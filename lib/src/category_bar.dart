@@ -6,8 +6,7 @@ class CategoryBar extends StatefulWidget {
   final void Function(int) categoryHandler;
   final bool darkMode;
 
-  const CategoryBar(
-      {required this.categoryHandler, required this.darkMode, Key? key})
+  const CategoryBar({required this.categoryHandler, required this.darkMode, Key? key})
       : super(key: key);
 
   @override
@@ -56,71 +55,67 @@ class CategoryBarState extends State<CategoryBar> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color:
-          widget.darkMode ? const Color(0xff171717) : const Color(0xffdbdbdb),
+      color: widget.darkMode ? const Color(0xff171717) : const Color(0xffdbdbdb),
       height: emojiCategoryHeight,
       width: MediaQuery.of(context).size.width,
-      child: SizedBox(
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            EmojiCategoryKey(
-              onCategorySelect: onCategorySelect,
-              category: Icons.access_time,
-              categoryNumber: 0,
-              active: categorySelected == 0,
-            ),
-            EmojiCategoryKey(
-              onCategorySelect: onCategorySelect,
-              category: Icons.tag_faces,
-              categoryNumber: 1,
-              active: categorySelected == 1,
-            ),
-            EmojiCategoryKey(
-              onCategorySelect: onCategorySelect,
-              category: Icons.pets,
-              categoryNumber: 2,
-              active: categorySelected == 2,
-            ),
-            EmojiCategoryKey(
-              onCategorySelect: onCategorySelect,
-              category: Icons.fastfood,
-              categoryNumber: 3,
-              active: categorySelected == 3,
-            ),
-            EmojiCategoryKey(
-              onCategorySelect: onCategorySelect,
-              category: Icons.sports_soccer,
-              categoryNumber: 4,
-              active: categorySelected == 4,
-            ),
-            EmojiCategoryKey(
-              onCategorySelect: onCategorySelect,
-              category: Icons.directions_car,
-              categoryNumber: 5,
-              active: categorySelected == 5,
-            ),
-            EmojiCategoryKey(
-              onCategorySelect: onCategorySelect,
-              category: Icons.lightbulb_outline,
-              categoryNumber: 6,
-              active: categorySelected == 6,
-            ),
-            EmojiCategoryKey(
-              onCategorySelect: onCategorySelect,
-              category: Icons.euro_symbol,
-              categoryNumber: 7,
-              active: categorySelected == 7,
-            ),
-            EmojiCategoryKey(
-              onCategorySelect: onCategorySelect,
-              category: Icons.flag,
-              categoryNumber: 8,
-              active: categorySelected == 8,
-            ),
-          ],
-        ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          EmojiCategoryKey(
+            onCategorySelect: onCategorySelect,
+            category: Icons.access_time,
+            categoryNumber: 0,
+            active: categorySelected == 0,
+          ),
+          EmojiCategoryKey(
+            onCategorySelect: onCategorySelect,
+            category: Icons.tag_faces,
+            categoryNumber: 1,
+            active: categorySelected == 1,
+          ),
+          EmojiCategoryKey(
+            onCategorySelect: onCategorySelect,
+            category: Icons.pets,
+            categoryNumber: 2,
+            active: categorySelected == 2,
+          ),
+          EmojiCategoryKey(
+            onCategorySelect: onCategorySelect,
+            category: Icons.fastfood,
+            categoryNumber: 3,
+            active: categorySelected == 3,
+          ),
+          EmojiCategoryKey(
+            onCategorySelect: onCategorySelect,
+            category: Icons.sports_soccer,
+            categoryNumber: 4,
+            active: categorySelected == 4,
+          ),
+          EmojiCategoryKey(
+            onCategorySelect: onCategorySelect,
+            category: Icons.directions_car,
+            categoryNumber: 5,
+            active: categorySelected == 5,
+          ),
+          EmojiCategoryKey(
+            onCategorySelect: onCategorySelect,
+            category: Icons.lightbulb_outline,
+            categoryNumber: 6,
+            active: categorySelected == 6,
+          ),
+          EmojiCategoryKey(
+            onCategorySelect: onCategorySelect,
+            category: Icons.euro_symbol,
+            categoryNumber: 7,
+            active: categorySelected == 7,
+          ),
+          EmojiCategoryKey(
+            onCategorySelect: onCategorySelect,
+            category: Icons.flag,
+            categoryNumber: 8,
+            active: categorySelected == 8,
+          ),
+        ],
       ),
     );
   }

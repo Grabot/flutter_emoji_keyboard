@@ -55,15 +55,11 @@ class BottomBarState extends State<BottomBar> {
         left: 0.0,
         child: AnimatedContainer(
           curve: Curves.fastOutSlowIn,
-          height: showBottomBar
-              ? (bottomBarHeight + MediaQuery.of(context).padding.bottom)
-              : 0,
+          height: showBottomBar ? (bottomBarHeight + MediaQuery.of(context).padding.bottom) : 0,
           width: MediaQuery.of(context).size.width,
           duration: const Duration(seconds: 1),
           child: Container(
-            color: widget.darkMode
-                ? const Color(0xff171717)
-                : const Color(0xffdbdbdb),
+            color: widget.darkMode ? const Color(0xff171717) : const Color(0xffdbdbdb),
             alignment: Alignment.topCenter,
             child: showBottomBar
                 ? SizedBox(
@@ -75,8 +71,7 @@ class BottomBarState extends State<BottomBar> {
                             width: (MediaQuery.of(context).size.width / 8) * 2,
                             height: MediaQuery.of(context).size.width / 8,
                             child: TextButton(
-                                onPressed: widget.emojiSearch,
-                                child: const Icon(Icons.search))),
+                                onPressed: widget.emojiSearch, child: const Icon(Icons.search))),
                         SizedBox(
                             width: (MediaQuery.of(context).size.width / 8) * 3,
                             height: MediaQuery.of(context).size.width / 8,

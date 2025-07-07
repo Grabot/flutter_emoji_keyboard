@@ -10,7 +10,6 @@ abstract class EmojiPopupAction {
 /// The emoji selected action. This will be triggered when an emoji is selected.
 class EmojiSelected extends EmojiPopupAction {
   final String emoji;
-
   const EmojiSelected(this.emoji);
 }
 
@@ -29,16 +28,22 @@ class OutsideClicked extends EmojiPopupAction {
 class EmojiKeyboardPopup extends StatefulWidget {
   final Offset position;
   final void Function(EmojiPopupAction) onAction;
+  final bool showEmojiPopup;
   final bool darkMode;
   final double? popupWidth;
+  final String? highlightedEmoji;
+  final Duration? emojiPopupAnimationDuration;
 
-  const EmojiKeyboardPopup({
-    required this.position,
-    required this.onAction,
-    Key? key,
-    this.darkMode = false,
-    this.popupWidth,
-  }) : super(key: key);
+  const EmojiKeyboardPopup(
+      {required this.position,
+      required this.onAction,
+      required this.showEmojiPopup,
+      Key? key,
+      this.darkMode = false,
+      this.popupWidth,
+      this.highlightedEmoji,
+      this.emojiPopupAnimationDuration})
+      : super(key: key);
 
   @override
   EmojiBoardPopup createState() => EmojiBoardPopup();
@@ -59,6 +64,7 @@ class EmojiBoardPopup extends State<EmojiKeyboardPopup> {
 
   @override
   void initState() {
+    super.initState();
     darkMode = widget.darkMode;
 
     // Hardcoded selection of emojis that are useful for quick emoji reactions.
@@ -77,6 +83,7 @@ class EmojiBoardPopup extends State<EmojiKeyboardPopup> {
     recent.add(Emoji('😘', 1));
     recent.add(Emoji('😎', 1));
     recent.add(Emoji('🤷', 1));
+    recentEmojis = recent.map((emote) => emote.emoji).toList();
 
     storage.fetchAllEmojis().then((emojis) {
       if (emojis.isNotEmpty) {
@@ -84,11 +91,9 @@ class EmojiBoardPopup extends State<EmojiKeyboardPopup> {
         recent.addAll(emojis);
         recent.add(Emoji('', 1));
         recentEmojis = recent.map((emote) => emote.emoji).toList();
-        setState(() {});
       }
+      setState(() {});
     });
-
-    super.initState();
   }
 
   @override
@@ -101,20 +106,17 @@ class EmojiBoardPopup extends State<EmojiKeyboardPopup> {
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
-    double widgetWidth = screenWidth * 0.75;
+    double widgetWidth = 350;
     if (widget.popupWidth != null) {
       widgetWidth = widget.popupWidth!;
     }
-
     double left = widget.position.dx - (widgetWidth / 2);
     double top = widget.position.dy - (60 / 2) - 100;
-
     if (left < 0) {
       left = 0;
     } else if (left + widgetWidth > screenWidth) {
       left = screenWidth - widgetWidth;
     }
-
     if (top < 0) {
       top = 0;
     } else if (top + 60 > screenHeight) {
@@ -123,104 +125,112 @@ class EmojiBoardPopup extends State<EmojiKeyboardPopup> {
 
     return Stack(
       children: [
-        GestureDetector(
-          onTap: () => widget.onAction(const OutsideClicked()),
-          child: Container(
-            color: Colors.transparent,
-            width: screenWidth,
-            height: screenHeight,
+        if (widget.showEmojiPopup)
+          GestureDetector(
+            onTap: () => widget.onAction(const OutsideClicked()),
+            child: Container(
+              color: Colors.transparent,
+              width: screenWidth,
+              height: screenHeight,
+            ),
           ),
-        ),
         Positioned(
           left: left,
           top: top,
-          child: GestureDetector(
-            onTap: () {},
-            child: Container(
-              width: widgetWidth,
-              height: 50,
-              padding: const EdgeInsets.only(left: 2.0, right: 2.0),
-              decoration: BoxDecoration(
-                color: darkMode ? const Color(0xff373737) : Colors.grey,
-                borderRadius: BorderRadius.circular(50.0),
-              ),
-              child: Stack(
-                children: [
-                  ListView.builder(
-                    controller: _scrollController,
-                    scrollDirection: Axis.horizontal,
-                    itemCount: recentEmojis.length,
-                    itemBuilder: (context, index) {
-                      return AnimatedBuilder(
-                        animation: _scrollController,
-                        builder: (context, child) {
-                          // Fade in and out for emojis in the horizontal listview
-                          final itemPosition = index * 50.0;
-                          final scrollPosition = _scrollController.offset - 40;
-                          const fadeOutWidth = 40.0;
-
-                          final distanceFromCenter = (itemPosition -
-                                  scrollPosition -
-                                  (widgetWidth / 2))
-                              .abs();
-
-                          final opacity = 1.0 -
-                              ((distanceFromCenter -
-                                          (widgetWidth / 2 - fadeOutWidth))
-                                      .clamp(0.0, fadeOutWidth) /
-                                  fadeOutWidth);
-                          return Opacity(
-                            opacity: opacity.clamp(0.0, 1.0),
-                            child: child,
+          child: AnimatedContainer(
+            duration: widget.emojiPopupAnimationDuration ?? Duration.zero,
+            curve: Curves.easeInOut,
+            width: widget.showEmojiPopup ? widgetWidth : 0,
+            height: widget.showEmojiPopup ? 50 : 0,
+            decoration: BoxDecoration(
+              color: darkMode ? const Color(0xff373737) : Colors.grey,
+              borderRadius: BorderRadius.circular(50.0),
+            ),
+            child: widget.showEmojiPopup
+                ? Stack(
+                    children: [
+                      ListView.builder(
+                        controller: _scrollController,
+                        scrollDirection: Axis.horizontal,
+                        itemCount: recentEmojis.length,
+                        itemBuilder: (context, index) {
+                          final isHighlighted = recentEmojis[index] == widget.highlightedEmoji;
+                          return AnimatedBuilder(
+                            animation: _scrollController,
+                            builder: (context, child) {
+                              // Fade in and out for emojis in the horizontal listview
+                              final itemPosition = index * 50.0;
+                              final scrollPosition = _scrollController.offset - 40;
+                              const fadeOutWidth = 40.0;
+                              final distanceFromCenter =
+                                  (itemPosition - scrollPosition - (widgetWidth / 2)).abs();
+                              final opacity = 1.0 -
+                                  ((distanceFromCenter - (widgetWidth / 2 - fadeOutWidth))
+                                          .clamp(0.0, fadeOutWidth) /
+                                      fadeOutWidth);
+                              return Opacity(
+                                opacity: opacity.clamp(0.0, 1.0),
+                                child: child,
+                              );
+                            },
+                            child: Material(
+                              color: Colors.transparent,
+                              child: InkWell(
+                                onTap: () {
+                                  widget.onAction(EmojiSelected(recentEmojis[index]));
+                                },
+                                child: Container(
+                                  width: 50,
+                                  height: 50,
+                                  alignment: Alignment.center,
+                                  decoration: isHighlighted
+                                      ? BoxDecoration(
+                                          color: widget.darkMode
+                                              ? Colors.white.withOpacity(0.2)
+                                              : Colors.black.withOpacity(0.2),
+                                          borderRadius: BorderRadius.circular(25),
+                                        )
+                                      : null,
+                                  child: Container(
+                                    padding: const EdgeInsets.all(4),
+                                    child: FittedBox(
+                                      fit: BoxFit.fitWidth,
+                                      child: Text(recentEmojis[index],
+                                          style: const TextStyle(fontSize: 500)),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
                           );
                         },
-                        child: Material(
-                          color: Colors.transparent,
-                          child: InkWell(
-                            onTap: () {
-                              widget
-                                  .onAction(EmojiSelected(recentEmojis[index]));
-                            },
-                            child: Container(
-                              width: 50,
-                              height: 50,
-                              alignment: Alignment.center,
-                              child: Text(
-                                recentEmojis[index],
-                                style: const TextStyle(fontSize: 24),
+                      ),
+                      Positioned(
+                        right: -4,
+                        top: 0,
+                        bottom: 0,
+                        child: Align(
+                          child: Container(
+                            padding: const EdgeInsets.all(10),
+                            child: IconButton(
+                              icon: const Icon(Icons.add),
+                              color: Colors.white,
+                              iconSize: 16,
+                              padding: const EdgeInsets.all(4),
+                              onPressed: () {
+                                widget.onAction(const ButtonPressed());
+                              },
+                              style: IconButton.styleFrom(
+                                backgroundColor: const Color(0xff808080),
+                                shape: const CircleBorder(),
                               ),
                             ),
                           ),
                         ),
-                      );
-                    },
-                  ),
-                  Positioned(
-                    right: -4,
-                    top: 0,
-                    bottom: 0,
-                    child: Align(
-                      child: Container(
-                        padding: const EdgeInsets.all(10),
-                        child: IconButton(
-                          icon: const Icon(Icons.add),
-                          color: Colors.white,
-                          iconSize: 16,
-                          padding: const EdgeInsets.all(4),
-                          onPressed: () {
-                            widget.onAction(const ButtonPressed());
-                          },
-                          style: IconButton.styleFrom(
-                            backgroundColor: const Color(0xff808080),
-                            shape: const CircleBorder(),
-                          ),
-                        ),
                       ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
+                    ],
+                  )
+                : null,
           ),
         ),
       ],

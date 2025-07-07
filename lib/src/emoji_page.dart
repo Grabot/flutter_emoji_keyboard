@@ -26,8 +26,7 @@ class EmojiPage extends StatefulWidget {
       : super(key: key);
 
   final double emojiKeyboardHeight;
-  final void Function({required bool emojiScrollShowBottomBar})
-      emojiScrollShowBottomBar;
+  final void Function({required bool emojiScrollShowBottomBar}) emojiScrollShowBottomBar;
   final void Function(String, int) insertText;
   final List<String> recent;
   final void Function(int) switchedPage;
@@ -94,8 +93,8 @@ class EmojiPageState extends State<EmojiPage> {
           if (componentsMap.containsKey(smileyList[i])) {
             components.addAll(componentsMap[smileyList[i]]!);
           }
-          final List<dynamic>? availableEmojis = await platform
-              .invokeMethod('isAvailable', {'emojis': components});
+          final List<dynamic>? availableEmojis =
+              await platform.invokeMethod('isAvailable', {'emojis': components});
           if (availableEmojis != null) {
             // If none can be drawn than we don't set availability
             if (availableEmojis.isNotEmpty) {
@@ -145,10 +144,8 @@ class EmojiPageState extends State<EmojiPage> {
         if (recentStateKey.currentState != null) {
           // We know that all the emojis in 'recent' have been used before.
           // So we generate a list of 'true' values for the 'recent' emojis.
-          final List<bool> recentAvailable =
-              List.filled(widget.recent.length, true);
-          recentStateKey.currentState!
-              .forceUpdate(widget.recent, recentAvailable);
+          final List<bool> recentAvailable = List.filled(widget.recent.length, true);
+          recentStateKey.currentState!.forceUpdate(widget.recent, recentAvailable);
         }
       });
     } else {
@@ -168,8 +165,8 @@ class EmojiPageState extends State<EmojiPage> {
 
   /// Here we load the smiley emojis and filter out the ones we can't show
   Future<void> getAvailableSmileys() async {
-    final List<Object?>? smileEmojis = await platform
-        .invokeMethod('isAvailable', {'emojis': getEmojisString(smileysList)});
+    final List<Object?>? smileEmojis =
+        await platform.invokeMethod('isAvailable', {'emojis': getEmojisString(smileysList)});
     if (smileEmojis != null) {
       smileys = smileEmojis.map((item) => item?.toString() ?? '').toList();
     }
@@ -178,8 +175,8 @@ class EmojiPageState extends State<EmojiPage> {
 
   /// Here we load the animal emojis and filter out the ones we can't show
   Future<void> getAvailableAnimals() async {
-    final List<Object?>? animalEmojis = await platform
-        .invokeMethod('isAvailable', {'emojis': getEmojisString(animalsList)});
+    final List<Object?>? animalEmojis =
+        await platform.invokeMethod('isAvailable', {'emojis': getEmojisString(animalsList)});
     if (animalEmojis != null) {
       animals = animalEmojis.map((item) => item?.toString() ?? '').toList();
     }
@@ -187,8 +184,8 @@ class EmojiPageState extends State<EmojiPage> {
 
   /// Here we load the food emojis and filter out the ones we can't show
   Future<void> getAvailableFoods() async {
-    final List<Object?>? foodEmojis = await platform
-        .invokeMethod('isAvailable', {'emojis': getEmojisString(foodsList)});
+    final List<Object?>? foodEmojis =
+        await platform.invokeMethod('isAvailable', {'emojis': getEmojisString(foodsList)});
     if (foodEmojis != null) {
       foods = foodEmojis.map((item) => item?.toString() ?? '').toList();
     }
@@ -196,18 +193,17 @@ class EmojiPageState extends State<EmojiPage> {
 
   /// Here we load the activities emojis and filter out the ones we can't show
   Future<void> getAvailableActivities() async {
-    final List<Object?>? activitiesEmojis = await platform.invokeMethod(
-        'isAvailable', {'emojis': getEmojisString(activitiesList)});
+    final List<Object?>? activitiesEmojis =
+        await platform.invokeMethod('isAvailable', {'emojis': getEmojisString(activitiesList)});
     if (activitiesEmojis != null) {
-      activities =
-          activitiesEmojis.map((item) => item?.toString() ?? '').toList();
+      activities = activitiesEmojis.map((item) => item?.toString() ?? '').toList();
     }
   }
 
   /// Here we load the travels emojis and filter out the ones we can't show
   Future<void> getAvailableTravels() async {
-    final List<Object?>? travelEmojis = await platform
-        .invokeMethod('isAvailable', {'emojis': getEmojisString(travelList)});
+    final List<Object?>? travelEmojis =
+        await platform.invokeMethod('isAvailable', {'emojis': getEmojisString(travelList)});
     if (travelEmojis != null) {
       travel = travelEmojis.map((item) => item?.toString() ?? '').toList();
     }
@@ -215,8 +211,8 @@ class EmojiPageState extends State<EmojiPage> {
 
   /// Here we load the object emojis and filter out the ones we can't show
   Future<void> getAvailableObjects() async {
-    final List<Object?>? objectsEmojis = await platform
-        .invokeMethod('isAvailable', {'emojis': getEmojisString(objectsList)});
+    final List<Object?>? objectsEmojis =
+        await platform.invokeMethod('isAvailable', {'emojis': getEmojisString(objectsList)});
     if (objectsEmojis != null) {
       objects = objectsEmojis.map((item) => item?.toString() ?? '').toList();
     }
@@ -224,8 +220,8 @@ class EmojiPageState extends State<EmojiPage> {
 
   /// Here we load the symbols emojis and filter out the ones we can't show
   Future<void> getAvailableSymbols() async {
-    final List<Object?>? animalEmojis = await platform
-        .invokeMethod('isAvailable', {'emojis': getEmojisString(symbolsList)});
+    final List<Object?>? animalEmojis =
+        await platform.invokeMethod('isAvailable', {'emojis': getEmojisString(symbolsList)});
     if (animalEmojis != null) {
       symbols = animalEmojis.map((item) => item?.toString() ?? '').toList();
     }
@@ -233,8 +229,8 @@ class EmojiPageState extends State<EmojiPage> {
 
   /// Here we load the flags emojis and filter out the ones we can't show
   Future<void> getAvailableFlags() async {
-    final List<Object?>? flagEmojis = await platform
-        .invokeMethod('isAvailable', {'emojis': getEmojisString(flagsList)});
+    final List<Object?>? flagEmojis =
+        await platform.invokeMethod('isAvailable', {'emojis': getEmojisString(flagsList)});
     if (flagEmojis != null) {
       flags = flagEmojis.map((item) => item?.toString() ?? '').toList();
     }
@@ -253,10 +249,8 @@ class EmojiPageState extends State<EmojiPage> {
   /// It only sets this trigger if it detects any scrolling.
   void pageScrollListener() {
     if (pageController.hasClients) {
-      if (pageController.position.userScrollDirection ==
-              ScrollDirection.reverse ||
-          pageController.position.userScrollDirection ==
-              ScrollDirection.forward) {
+      if (pageController.position.userScrollDirection == ScrollDirection.reverse ||
+          pageController.position.userScrollDirection == ScrollDirection.forward) {
         widget.switchedPage(pageController.page!.round());
       }
     }
@@ -266,8 +260,9 @@ class EmojiPageState extends State<EmojiPage> {
   Widget build(BuildContext context) {
     // Here we build the emoji page. We have 8 categories and a recent tab for a total of 9 pages
     final double emojiSize = MediaQuery.of(context).size.width / 8;
-    return SizedBox(
-      height: widget.emojiKeyboardHeight - 50,
+    return Container(
+      padding: const EdgeInsets.only(top: 50),
+      height: widget.emojiKeyboardHeight,
       child: PageView(controller: pageController, children: [
         EmojiGrid(
             key: recentStateKey,

@@ -183,18 +183,7 @@ List<List<dynamic>> foodsList = [
   [
     '🪾',
     'leafless tree',
-    [
-      'bare',
-      'barren',
-      'branches',
-      'dead',
-      'drought',
-      'leafless',
-      'tree',
-      'trunk',
-      'winter',
-      'wood'
-    ]
+    ['bare', 'barren', 'branches', 'dead', 'drought', 'leafless', 'tree', 'trunk', 'winter', 'wood']
   ],
   [
     '🥜',
@@ -246,17 +235,7 @@ List<List<dynamic>> foodsList = [
   [
     '🫜',
     'root vegetable',
-    [
-      'beet',
-      'food',
-      'garden',
-      'radish',
-      'root',
-      'salad',
-      'turnip',
-      'vegetable',
-      'vegetarian'
-    ]
+    ['beet', 'food', 'garden', 'radish', 'root', 'salad', 'turnip', 'vegetable', 'vegetarian']
   ],
   [
     '🍞',
