@@ -1,3 +1,7 @@
+## [1.7.4] 27-07-2025
+
+Update package versions.
+
 ## [1.7.3] 07-07-2025
 
 Added animations to the keyboard and popup, which can be controlled using the corresponding 
