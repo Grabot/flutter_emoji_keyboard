@@ -218,7 +218,7 @@ class MyHomePageState extends State<MyHomePage> {
                   alignment: Alignment.bottomCenter,
                   child: EmojiKeyboard(
                     emojiController:
-                        emojiReactionIndex == -1 ? controller : null,
+                    emojiReactionIndex == -1 ? controller : null,
                     onEmojiChanged: onActionEmojiChanged,
                     showEmojiKeyboard: showEmojiKeyboard,
                     emojiKeyboardHeight: 440, // optional defaults to 350
@@ -238,7 +238,7 @@ class MyHomePageState extends State<MyHomePage> {
               highlightedEmoji: emojiReactionIndex == -1
                   ? null
                   : emojiReactions[
-                      emojiReactionIndex], // optional defaults to null
+              emojiReactionIndex], // optional defaults to null
               emojiPopupAnimationDuration: const Duration(
                   milliseconds: 400), // optional defaults to null
             ),

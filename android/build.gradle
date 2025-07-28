@@ -5,7 +5,7 @@ buildscript {
     ext.kotlin_version = '2.0.20'
     repositories {
         google()
-        jcenter()
+        mavenCentral()
     }
 
     dependencies {
@@ -17,7 +17,7 @@ buildscript {
 rootProject.allprojects {
     repositories {
         google()
-        jcenter()
+        mavenCentral()
     }
 }
 
@@ -25,8 +25,19 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 
 android {
-    namespace = "nl.emoji_keyboard_flutter"
+    if (project.android.hasProperty("namespace")) {
+        namespace = "nl.emoji_keyboard_flutter"
+    }
     compileSdkVersion 36
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_17.toString()
+    }
 
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
